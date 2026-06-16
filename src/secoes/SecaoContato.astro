@@ -1,0 +1,50 @@
+---
+import { perfil } from '../dados/perfil';
+import Secao from '../componentes/base/Secao.astro';
+import LinkContato from '../componentes/base/LinkContato.astro';
+
+type LinkPublico = {
+  href: string;
+  rotulo: string;
+  tipo: 'mail' | 'linkedin' | 'file';
+  externo?: boolean;
+  download?: boolean | string;
+};
+
+const links: LinkPublico[] = [];
+
+if (perfil.links.email) {
+  links.push({ href: `mailto:${perfil.links.email}`, rotulo: 'Email', tipo: 'mail' });
+}
+
+if (perfil.links.linkedin) {
+  links.push({ href: perfil.links.linkedin, rotulo: 'LinkedIn', tipo: 'linkedin', externo: true });
+}
+
+if (perfil.links.curriculo) {
+  links.push({ href: perfil.links.curriculo, rotulo: 'Resume', tipo: 'file', download: true });
+}
+---
+
+<Secao
+  id="contact"
+  titulo="Contact"
+  descricao="Direct contact, LinkedIn, and resume links will be added after review."
+  compacta
+>
+  {links.length > 0 && (
+    <div class="contato__links">
+      {links.map((link) => (
+        <LinkContato {...link} />
+      ))}
+    </div>
+  )}
+</Secao>
+
+<style>
+  .contato__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-5);
+  }
+</style>

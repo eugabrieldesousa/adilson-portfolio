@@ -1,0 +1,48 @@
+:root {
+  --cor-fundo: #f8f7f4;
+  --cor-fundo-elevado: #ffffff;
+  --cor-superficie: rgba(255, 255, 255, 0.82);
+  --cor-superficie-forte: #ffffff;
+  --cor-texto: #101010;
+  --cor-texto-suave: #565d63;
+  --cor-texto-minimo: #767b80;
+  --cor-borda: #d8d5cc;
+  --cor-borda-suave: rgba(16, 16, 16, 0.08);
+  --cor-textura: rgba(16, 16, 16, 0.055);
+  --cor-acento: #111111;
+  --cor-acento-suave: #2f3f4c;
+  --cor-cta: #b5632a;
+  --cor-cta-hover: #8f4d21;
+  --cor-cta-contraste: #ffffff;
+  --cor-foco: #1f6feb;
+
+  --fonte-corpo: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --fonte-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 0.75rem;
+  --espaco-4: 1rem;
+  --espaco-5: 1.25rem;
+  --espaco-6: 1.5rem;
+  --espaco-8: 2rem;
+  --espaco-10: 2.5rem;
+  --espaco-12: 3rem;
+  --espaco-16: 4rem;
+  --espaco-20: 5rem;
+  --espaco-24: 6rem;
+
+  --raio-pequeno: 4px;
+  --raio-medio: 8px;
+  --raio-retrato: 24px;
+  --raio-pilula: 999px;
+
+  --sombra-suave: 0 18px 60px rgba(16, 16, 16, 0.08);
+  --sombra-nav: 0 18px 48px rgba(16, 16, 16, 0.2);
+
+  --largura-conteudo: 1180px;
+  --largura-texto: 68ch;
+  --altura-nav: 72px;
+  --z-nav: 40;
+  --z-skip: 100;
+}

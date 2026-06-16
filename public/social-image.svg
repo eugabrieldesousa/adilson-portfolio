@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Adilson professional portfolio preview">
+  <rect width="1200" height="630" fill="#f8f7f4"/>
+  <path d="M0 120h1200M0 240h1200M0 360h1200M0 480h1200M180 0v630M360 0v630M540 0v630M720 0v630M900 0v630M1080 0v630" stroke="#dedbd3" stroke-width="1" opacity=".45"/>
+  <rect x="88" y="92" width="1024" height="446" rx="28" fill="#ffffff" stroke="#d8d5cc"/>
+  <text x="140" y="292" fill="#101010" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Arial, sans-serif" font-size="96" font-weight="700">Adilson</text>
+  <text x="145" y="362" fill="#555b60" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Arial, sans-serif" font-size="34" font-weight="500">Senior Technical and Portfolio Leader</text>
+</svg>

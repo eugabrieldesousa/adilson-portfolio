@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "organizacao": {
+      "type": "string"
+    },
+    "periodo": {
+      "type": "string"
+    },
+    "localizacao": {
+      "type": "string"
+    },
+    "resumo": {
+      "type": "string"
+    },
+    "destaques": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "competencias": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ordem": {
+      "default": 0,
+      "type": "number"
+    },
+    "rascunho": {
+      "default": true,
+      "type": "boolean"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "titulo"
+  ]
+}

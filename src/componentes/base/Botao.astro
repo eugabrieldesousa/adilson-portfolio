@@ -1,0 +1,86 @@
+---
+interface Props {
+  href: string;
+  variante?: 'primario' | 'secundario' | 'fantasma';
+  alvo?: '_blank' | '_self';
+  rel?: string;
+  ariaLabel?: string;
+  download?: boolean | string;
+}
+
+const {
+  href,
+  variante = 'primario',
+  alvo,
+  rel,
+  ariaLabel,
+  download
+} = Astro.props;
+---
+
+<a
+  class={`botao botao--${variante}`}
+  href={href}
+  target={alvo}
+  rel={rel}
+  aria-label={ariaLabel}
+  download={download}
+>
+  <slot />
+</a>
+
+<style>
+  .botao {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    padding: 0 var(--espaco-5);
+    border: 1px solid transparent;
+    border-radius: var(--raio-pilula);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .botao:hover {
+    text-decoration: none;
+  }
+
+  .botao--primario {
+    background: var(--cor-cta);
+    color: var(--cor-cta-contraste);
+  }
+
+  .botao--primario:hover {
+    background: var(--cor-cta-hover);
+  }
+
+  .botao--secundario {
+    border-color: var(--cor-acento);
+    background: var(--cor-acento);
+    color: var(--cor-fundo-elevado);
+  }
+
+  .botao--secundario:hover {
+    opacity: 0.86;
+  }
+
+  .botao--fantasma {
+    border-color: var(--cor-borda);
+    background: var(--cor-superficie);
+    color: var(--cor-texto);
+  }
+
+  .botao--fantasma:hover {
+    border-color: var(--cor-texto);
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+interface Props {
+  id: string;
+  titulo?: string;
+  descricao?: string;
+  compacta?: boolean;
+}
+
+const { id, titulo, descricao, compacta = false } = Astro.props;
+---
+
+<section id={id} class:list={['secao', { 'secao--compacta': compacta }]} aria-labelledby={titulo ? `${id}-titulo` : undefined}>
+  <div class="secao__interno">
+    {titulo && (
+      <header class="secao__cabecalho">
+        <p class="secao__marcador">Portfolio</p>
+        <h2 id={`${id}-titulo`}>{titulo}</h2>
+        {descricao && <p>{descricao}</p>}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .secao {
+    padding: var(--espaco-20) var(--espaco-5);
+  }
+
+  .secao--compacta {
+    padding-block: var(--espaco-16);
+  }
+
+  .secao__interno {
+    width: min(100%, var(--largura-conteudo));
+    margin-inline: auto;
+  }
+
+  .secao__cabecalho {
+    max-width: var(--largura-texto);
+    margin-bottom: var(--espaco-8);
+  }
+
+  .secao__marcador {
+    margin: 0 0 var(--espaco-2);
+    color: var(--cor-texto-minimo);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--fonte-display);
+    font-size: 2rem;
+    font-weight: 750;
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: var(--espaco-4) 0 0;
+    color: var(--cor-texto-suave);
+    font-size: 1.05rem;
+  }
+
+  @media (min-width: 768px) {
+    .secao {
+      padding-inline: var(--espaco-8);
+    }
+
+    h2 {
+      font-size: 2.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+import Icone from './Icone.astro';
+
+interface Props {
+  href: string;
+  rotulo: string;
+  tipo: 'mail' | 'linkedin' | 'file';
+  externo?: boolean;
+  download?: boolean | string;
+}
+
+const { href, rotulo, tipo, externo = false, download } = Astro.props;
+const rel = externo ? 'noreferrer' : undefined;
+const target = externo ? '_blank' : undefined;
+---
+
+<a class="link-contato" href={href} target={target} rel={rel} download={download}>
+  <Icone nome={tipo} />
+  <span>{rotulo}</span>
+</a>
+
+<style>
+  .link-contato {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: var(--espaco-2);
+    border-bottom: 1px solid transparent;
+    color: var(--cor-texto);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .link-contato:hover {
+    border-bottom-color: currentColor;
+  }
+</style>

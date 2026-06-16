@@ -1,0 +1,57 @@
+---
+import '../estilos/global.css';
+import { perfil } from '../dados/perfil';
+import { seo } from '../dados/seo';
+import Navegacao from '../componentes/layout/Navegacao.astro';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+}
+
+const titulo = Astro.props.titulo ?? seo.titulo;
+const descricao = Astro.props.descricao ?? seo.descricao;
+const imagemSocial = new URL(seo.imagemSocial, seo.urlBase).toString();
+const dadosEstruturados = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: perfil.nome,
+  jobTitle: perfil.titulo,
+  url: seo.urlBase,
+  description: descricao,
+  image: imagemSocial
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={seo.canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={seo.canonical} />
+    <meta property="og:image" content={imagemSocial} />
+    <meta property="og:image:alt" content="Adilson professional portfolio preview." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descricao} />
+    <meta name="twitter:image" content={imagemSocial} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Skip to main content</a>
+    <main id="conteudo" class="pagina">
+      <slot />
+    </main>
+    <Navegacao />
+  </body>
+</html>

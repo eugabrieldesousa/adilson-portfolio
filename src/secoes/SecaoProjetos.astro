@@ -1,0 +1,27 @@
+---
+import Secao from '../componentes/base/Secao.astro';
+import Cartao from '../componentes/base/Cartao.astro';
+---
+
+<Secao
+  id="projects"
+  titulo="Products and Projects"
+  descricao="Selected product launch work, portfolio initiatives, and patent records will be added after client review."
+>
+  <div class="projetos__grade">
+    <Cartao>
+      <p>Content is limited until company, product, project, and patent details are confirmed for publication.</p>
+    </Cartao>
+  </div>
+</Secao>
+
+<style>
+  .projetos__grade {
+    max-width: 760px;
+  }
+
+  p {
+    margin: 0;
+    color: var(--cor-texto-suave);
+  }
+</style>

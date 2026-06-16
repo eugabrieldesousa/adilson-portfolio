@@ -1,0 +1,58 @@
+---
+interface Props {
+  nome: 'home' | 'arrow-right' | 'mail' | 'linkedin' | 'file';
+  tamanho?: number;
+}
+
+const { nome, tamanho = 18 } = Astro.props;
+---
+
+<svg
+  class="icone"
+  width={tamanho}
+  height={tamanho}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {nome === 'home' && (
+    <>
+      <path d="m3 10 9-7 9 7" />
+      <path d="M5 10v10h14V10" />
+      <path d="M9 20v-6h6v6" />
+    </>
+  )}
+  {nome === 'arrow-right' && (
+    <>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </>
+  )}
+  {nome === 'mail' && (
+    <>
+      <rect width="18" height="14" x="3" y="5" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </>
+  )}
+  {nome === 'linkedin' && (
+    <>
+      <path d="M8 11v7" />
+      <path d="M8 8v.01" />
+      <path d="M12 18v-7" />
+      <path d="M12 14a3 3 0 0 1 6 0v4" />
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+    </>
+  )}
+  {nome === 'file' && (
+    <>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+      <path d="M14 2v6h6" />
+      <path d="M8 13h8" />
+      <path d="M8 17h5" />
+    </>
+  )}
+</svg>

@@ -1,0 +1,56 @@
+@import "./tokens.css";
+@import "./reset.css";
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-corpo);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  overflow-x: hidden;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  content: "";
+  background: var(--cor-fundo);
+}
+
+main {
+  min-height: 100dvh;
+}
+
+:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--cor-acento);
+  color: var(--cor-fundo-elevado);
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--espaco-4);
+  left: var(--espaco-4);
+  z-index: var(--z-skip);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-medio);
+  background: var(--cor-acento);
+  color: var(--cor-fundo-elevado);
+  font-weight: 700;
+  transform: translateY(-160%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.pagina {
+  padding-bottom: calc(var(--altura-nav) + var(--espaco-10) + env(safe-area-inset-bottom));
+}

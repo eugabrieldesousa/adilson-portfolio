@@ -1,0 +1,28 @@
+---
+import { perfil } from '../dados/perfil';
+import Secao from '../componentes/base/Secao.astro';
+import Etiqueta from '../componentes/base/Etiqueta.astro';
+
+const competencias = [
+  'Technical leadership',
+  'Portfolio execution',
+  'Product launches',
+  'Materials knowledge',
+  'Multicultural work'
+];
+---
+
+<Secao id="about" titulo="About" descricao={perfil.bioCurta}>
+  <div class="sobre__competencias" aria-label="Professional focus areas">
+    {competencias.map((competencia) => <Etiqueta texto={competencia} />)}
+  </div>
+</Secao>
+
+<style>
+  .sobre__competencias {
+    display: flex;
+    max-width: 760px;
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+  }
+</style>

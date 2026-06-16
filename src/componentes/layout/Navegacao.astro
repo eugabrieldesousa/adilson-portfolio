@@ -1,0 +1,104 @@
+---
+import { navegacao } from '../../dados/navegacao';
+import Icone from '../base/Icone.astro';
+---
+
+<header class="cabecalho-site">
+  <nav class="navegacao" aria-label="Primary navigation">
+    <ul class="navegacao__lista">
+      {navegacao.map((item) => (
+        <li>
+          <a class="navegacao__link" href={item.href}>
+            {'icone' in item && item.icone && <Icone nome={item.icone} tamanho={18} />}
+            <span>{item.rotulo}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .cabecalho-site {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--espaco-4) + env(safe-area-inset-bottom));
+    left: 0;
+    z-index: var(--z-nav);
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--espaco-4);
+    pointer-events: none;
+  }
+
+  .navegacao {
+    max-width: min(100%, 620px);
+    min-height: var(--altura-nav);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--raio-pilula);
+    background: var(--cor-acento);
+    box-shadow: var(--sombra-nav);
+    color: var(--cor-fundo-elevado);
+    pointer-events: auto;
+  }
+
+  .navegacao__lista {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    height: 100%;
+    margin: 0;
+    padding: var(--espaco-2);
+    list-style: none;
+  }
+
+  .navegacao__link {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    border-radius: var(--raio-pilula);
+    padding: 0 var(--espaco-4);
+    color: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .navegacao__link:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 520px) {
+    .cabecalho-site {
+      padding-inline: var(--espaco-3);
+    }
+
+    .navegacao {
+      width: 100%;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+
+    .navegacao::-webkit-scrollbar {
+      display: none;
+    }
+
+    .navegacao__lista {
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .navegacao__link {
+      gap: var(--espaco-1);
+      padding-inline: var(--espaco-2);
+      font-size: 0.78rem;
+    }
+  }
+</style>

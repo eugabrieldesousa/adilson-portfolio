@@ -1,0 +1,25 @@
+---
+interface Props {
+  destaque?: boolean;
+}
+
+const { destaque = false } = Astro.props;
+---
+
+<article class:list={['cartao', { 'cartao--destaque': destaque }]}>
+  <slot />
+</article>
+
+<style>
+  .cartao {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    padding: var(--espaco-6);
+    background: var(--cor-superficie);
+    box-shadow: var(--sombra-suave);
+  }
+
+  .cartao--destaque {
+    border-color: var(--cor-acento);
+  }
+</style>
