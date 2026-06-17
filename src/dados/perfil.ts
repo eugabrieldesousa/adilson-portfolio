@@ -20,8 +20,8 @@ export const perfil: Perfil = {
     'Technical leadership, portfolio execution, product launch experience, and materials-focused project delivery.',
   bioCurta:
     'Adilson presents a career profile focused on technical leadership, strategic project delivery, portfolio execution, multicultural work, and materials knowledge.',
-  retratoArquivo: '',
-  retratoAlt: 'Professional portrait of Adilson.',
+  retratoArquivo: 'retrato.png',
+  retratoAlt: 'Professional portrait of Adilson for his online portfolio.',
   localizacao: '',
   links: {
     email: '',

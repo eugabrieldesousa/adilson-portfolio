@@ -2,6 +2,9 @@
 import '../estilos/global.css';
 import { perfil } from '../dados/perfil';
 import { seo } from '../dados/seo';
+import AnimacoesAOS from '../componentes/layout/AnimacoesAOS.astro';
+import FundoFog from '../componentes/layout/FundoFog.astro';
+import IntroAbertura from '../componentes/layout/IntroAbertura.astro';
 import Navegacao from '../componentes/layout/Navegacao.astro';
 
 interface Props {
@@ -48,6 +51,9 @@ const dadosEstruturados = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)}></script>
   </head>
   <body>
+    <FundoFog />
+    <IntroAbertura />
+    <AnimacoesAOS />
     <a class="skip-link" href="#conteudo">Skip to main content</a>
     <main id="conteudo" class="pagina">
       <slot />

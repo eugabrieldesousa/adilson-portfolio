@@ -1,23 +1,36 @@
 :root {
-  --cor-fundo: #f8f7f4;
+  --cor-fundo: #f5f5f7;
   --cor-fundo-elevado: #ffffff;
-  --cor-superficie: rgba(255, 255, 255, 0.82);
+  --cor-superficie: rgba(255, 255, 255, 0.78);
   --cor-superficie-forte: #ffffff;
-  --cor-texto: #101010;
-  --cor-texto-suave: #565d63;
-  --cor-texto-minimo: #767b80;
-  --cor-borda: #d8d5cc;
-  --cor-borda-suave: rgba(16, 16, 16, 0.08);
-  --cor-textura: rgba(16, 16, 16, 0.055);
-  --cor-acento: #111111;
-  --cor-acento-suave: #2f3f4c;
-  --cor-cta: #b5632a;
-  --cor-cta-hover: #8f4d21;
+  --cor-texto: #1d1d1f;
+  --cor-texto-suave: #515154;
+  --cor-texto-minimo: #6e6e73;
+  --cor-borda: #d2d2d7;
+  --cor-borda-suave: rgba(29, 29, 31, 0.1);
+  --cor-textura: rgba(0, 102, 204, 0.05);
+  --cor-acento: #0066cc;
+  --cor-acento-hover: #004f9e;
+  --cor-acento-suave: #e8f2ff;
+  --cor-nav: rgba(29, 29, 31, 0.58);
+  --cor-nav-borda: rgba(255, 255, 255, 0.24);
+  --cor-nav-hover: rgba(255, 255, 255, 0.12);
+  --cor-nav-ativo: rgba(255, 255, 255, 0.22);
+  --cor-nav-ativo-texto: #ffffff;
+  --cor-cta: #0066cc;
+  --cor-cta-hover: #004f9e;
   --cor-cta-contraste: #ffffff;
-  --cor-foco: #1f6feb;
+  --cor-foco: #0071e3;
+  --cor-fog-base: #f5f5f7;
+  --cor-fog-highlight: #ffffff;
+  --cor-fog-midtone: #ffffff;
+  --cor-fog-lowlight: #0066cc;
+  --cor-fog-veu: rgba(245, 245, 247, 0.04);
+  --opacidade-fog: 1;
+  --desfoque-fog: 0px;
 
-  --fonte-corpo: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  --fonte-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --fonte-corpo: "SF Pro Text", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fonte-display: "SF Pro Display", "SF Pro Text", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --espaco-1: 0.25rem;
   --espaco-2: 0.5rem;
@@ -37,12 +50,15 @@
   --raio-retrato: 24px;
   --raio-pilula: 999px;
 
-  --sombra-suave: 0 18px 60px rgba(16, 16, 16, 0.08);
-  --sombra-nav: 0 18px 48px rgba(16, 16, 16, 0.2);
+  --sombra-suave: 0 14px 42px rgba(29, 29, 31, 0.08);
+  --sombra-retrato: 0 18px 38px rgba(29, 29, 31, 0.055), 0 4px 12px rgba(29, 29, 31, 0.035);
+  --sombra-nav: 0 18px 48px rgba(29, 29, 31, 0.26);
 
   --largura-conteudo: 1180px;
   --largura-texto: 68ch;
   --altura-nav: 72px;
+  --z-fundo: 0;
   --z-nav: 40;
   --z-skip: 100;
+  --z-intro: 200;
 }

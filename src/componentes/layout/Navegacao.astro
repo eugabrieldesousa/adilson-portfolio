@@ -8,7 +8,12 @@ import Icone from '../base/Icone.astro';
     <ul class="navegacao__lista">
       {navegacao.map((item) => (
         <li>
-          <a class="navegacao__link" href={item.href}>
+          <a
+            class:list={['navegacao__link', { 'navegacao__link--ativo': item.href === '#home' }]}
+            href={item.href}
+            data-nav-link={item.href}
+            aria-current={item.href === '#home' ? 'location' : undefined}
+          >
             {'icone' in item && item.icone && <Icone nome={item.icone} tamanho={18} />}
             <span>{item.rotulo}</span>
           </a>
@@ -32,17 +37,34 @@ import Icone from '../base/Icone.astro';
   }
 
   .navegacao {
+    position: relative;
     max-width: min(100%, 620px);
     min-height: var(--altura-nav);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--cor-nav-borda);
     border-radius: var(--raio-pilula);
-    background: var(--cor-acento);
+    background: var(--cor-nav);
     box-shadow: var(--sombra-nav);
-    color: var(--cor-fundo-elevado);
+    color: rgba(255, 255, 255, 0.76);
     pointer-events: auto;
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    outline-offset: -2px;
+  }
+
+  .navegacao::before {
+    position: absolute;
+    inset: 1px;
+    content: "";
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 44%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
+    pointer-events: none;
   }
 
   .navegacao__lista {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--espaco-1);
@@ -62,8 +84,8 @@ import Icone from '../base/Icone.astro';
     border-radius: var(--raio-pilula);
     padding: 0 var(--espaco-4);
     color: inherit;
-    font-size: 0.92rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 600;
     line-height: 1;
     text-decoration: none;
     transition:
@@ -72,7 +94,16 @@ import Icone from '../base/Icone.astro';
   }
 
   .navegacao__link:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--cor-nav-hover);
+    color: var(--cor-fundo-elevado);
+  }
+
+  .navegacao__link--ativo {
+    background: var(--cor-nav-ativo);
+    color: var(--cor-nav-ativo-texto);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 8px 22px rgba(0, 0, 0, 0.16);
   }
 
   @media (max-width: 520px) {
@@ -98,7 +129,68 @@ import Icone from '../base/Icone.astro';
     .navegacao__link {
       gap: var(--espaco-1);
       padding-inline: var(--espaco-2);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
     }
   }
 </style>
+
+<script is:inline>
+  const linksNavegacao = Array.from(document.querySelectorAll('[data-nav-link]'));
+  const secoesNavegacao = linksNavegacao
+    .map((link) => {
+      const alvo = document.querySelector(link.getAttribute('href'));
+      return alvo ? { link, alvo } : null;
+    })
+    .filter(Boolean);
+  let navRaf = 0;
+
+  const ativarLink = (id) => {
+    linksNavegacao.forEach((link) => {
+      const ativo = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('navegacao__link--ativo', ativo);
+
+      if (ativo) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  };
+
+  const atualizarNavegacao = () => {
+    navRaf = 0;
+
+    if (window.scrollY <= 24) {
+      ativarLink('home');
+      return;
+    }
+
+    const linhaAtiva = window.scrollY + window.innerHeight * 0.45;
+    let idAtivo = 'home';
+
+    secoesNavegacao.forEach(({ alvo }) => {
+      if (alvo.offsetTop <= linhaAtiva) {
+        idAtivo = alvo.id;
+      }
+    });
+
+    ativarLink(idAtivo);
+  };
+
+  const agendarAtualizacao = () => {
+    if (navRaf) return;
+    navRaf = window.requestAnimationFrame(atualizarNavegacao);
+  };
+
+  linksNavegacao.forEach((link) => {
+    link.addEventListener('click', () => {
+      const id = link.getAttribute('href')?.replace('#', '');
+      if (id) ativarLink(id);
+    });
+  });
+
+  window.addEventListener('scroll', agendarAtualizacao, { passive: true });
+  window.addEventListener('resize', agendarAtualizacao);
+  window.addEventListener('hashchange', agendarAtualizacao);
+  atualizarNavegacao();
+</script>

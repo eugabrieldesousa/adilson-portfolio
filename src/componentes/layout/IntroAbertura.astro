@@ -1,0 +1,202 @@
+---
+const saudacoes = [
+  'Hello',
+  'Ol\u00e1',
+  'Hola',
+  'Bonjour',
+  'Ciao',
+  'Hallo',
+  '\u3053\u3093\u306b\u3061\u306f',
+  '\uc548\ub155\ud558\uc138\uc694'
+];
+---
+
+<div class="intro-abertura" aria-label="Opening greeting sequence" role="status">
+  <div class="intro-abertura__centro" aria-hidden="true">
+    {saudacoes.map((saudacao) => <span class="intro-abertura__texto">{saudacao}</span>)}
+  </div>
+  <span class="intro-abertura__leitor">Opening greeting sequence</span>
+</div>
+
+<script is:inline>
+  document.documentElement.classList.add('intro-ativa');
+  let introEstaAtiva = true;
+
+  const elementosBloqueadosIntro = () =>
+    document.querySelectorAll('main, .cabecalho-site, .skip-link');
+
+  const definirBloqueioIntro = (bloqueado) => {
+    elementosBloqueadosIntro().forEach((elemento) => {
+      if (bloqueado) {
+        elemento.setAttribute('inert', '');
+      } else {
+        elemento.removeAttribute('inert');
+      }
+    });
+  };
+
+  const bloquearQuandoDisponivel = () => {
+    if (introEstaAtiva) definirBloqueioIntro(true);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bloquearQuandoDisponivel, { once: true });
+  } else {
+    bloquearQuandoDisponivel();
+  }
+
+  window.setTimeout(() => {
+    introEstaAtiva = false;
+    document.documentElement.classList.remove('intro-ativa');
+    definirBloqueioIntro(false);
+    window.dispatchEvent(new CustomEvent('intro:complete'));
+  }, 3000);
+</script>
+
+<style>
+  .intro-abertura {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-intro);
+    display: grid;
+    place-items: center;
+    background: #000000;
+    color: #ffffff;
+    pointer-events: all;
+    animation: intro-sair 420ms ease 2.72s forwards;
+  }
+
+  .intro-abertura__centro {
+    position: relative;
+    display: grid;
+    min-width: min(84vw, 520px);
+    min-height: 1.2em;
+    place-items: center;
+    overflow: hidden;
+    font-family: var(--fonte-display);
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .intro-abertura__texto {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    filter: blur(8px);
+    animation: intro-palavra 3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .intro-abertura__texto:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  .intro-abertura__texto:nth-child(2) {
+    animation-delay: 375ms;
+  }
+
+  .intro-abertura__texto:nth-child(3) {
+    animation-delay: 750ms;
+  }
+
+  .intro-abertura__texto:nth-child(4) {
+    animation-delay: 1125ms;
+  }
+
+  .intro-abertura__texto:nth-child(5) {
+    animation-delay: 1500ms;
+  }
+
+  .intro-abertura__texto:nth-child(6) {
+    animation-delay: 1875ms;
+  }
+
+  .intro-abertura__texto:nth-child(7) {
+    animation-delay: 2250ms;
+  }
+
+  .intro-abertura__texto:nth-child(8) {
+    animation-delay: 2625ms;
+  }
+
+  .intro-abertura__leitor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @keyframes intro-palavra {
+    0%,
+    7% {
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+      filter: blur(8px);
+    }
+
+    12%,
+    20% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    26%,
+    100% {
+      opacity: 0;
+      transform: translateY(-14px) scale(1.01);
+      filter: blur(8px);
+    }
+  }
+
+  @keyframes intro-sair {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .intro-abertura__centro {
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-abertura {
+      animation: intro-sair-reduzido 1ms linear 3s forwards;
+    }
+
+    .intro-abertura__texto {
+      transform: none;
+      filter: none;
+      animation: intro-palavra-reduzida 3s linear both;
+    }
+
+    @keyframes intro-palavra-reduzida {
+      0%,
+      10%,
+      22%,
+      100% {
+        opacity: 0;
+      }
+
+      12%,
+      20% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes intro-sair-reduzido {
+      to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+  }
+</style>
