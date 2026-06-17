@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="titulo">
+  <title id="titulo">Innovation document and device illustration</title>
+  <defs>
+    <linearGradient id="fundo" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbfbfd"/>
+      <stop offset="1" stop-color="#eef4fb"/>
+    </linearGradient>
+    <filter id="sombra" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#1d1d1f" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="960" height="620" fill="url(#fundo)"/>
+  <g filter="url(#sombra)" transform="translate(256 110)">
+    <rect x="54" y="0" width="318" height="410" rx="30" fill="#ffffff"/>
+    <rect x="92" y="66" width="178" height="18" rx="9" fill="#0066cc"/>
+    <rect x="92" y="118" width="228" height="12" rx="6" fill="#c4d3df"/>
+    <rect x="92" y="150" width="178" height="12" rx="6" fill="#d4e0e9"/>
+    <rect x="92" y="214" width="226" height="92" rx="18" fill="#edf6ff"/>
+    <path d="M126 262h158" stroke="#0066cc" stroke-width="10" stroke-linecap="round" opacity=".28"/>
+    <rect x="268" y="188" width="164" height="270" rx="34" fill="#17181b"/>
+    <rect x="280" y="200" width="140" height="246" rx="24" fill="#eaf6ff"/>
+    <circle cx="350" cy="410" r="12" fill="#c7d8e5"/>
+    <path d="M316 270h68M316 302h48M316 334h76" stroke="#0066cc" stroke-width="10" stroke-linecap="round" opacity=".55"/>
+  </g>
+</svg>

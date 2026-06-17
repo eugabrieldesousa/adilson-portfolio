@@ -1,6 +1,7 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import { perfil } from '../dados/perfil';
-import Secao from '../componentes/base/Secao.astro';
 import Etiqueta from '../componentes/base/Etiqueta.astro';
 
 const competencias = [
@@ -10,19 +11,232 @@ const competencias = [
   'Materials knowledge',
   'Multicultural work'
 ];
+
+const imagens = import.meta.glob<{ default: ImageMetadata }>('/src/assets/imagens/*.{jpg,jpeg,png,webp,avif}', {
+  eager: true
+});
+
+const chaveRetrato = perfil.retratoArquivo ? `/src/assets/imagens/${perfil.retratoArquivo}` : '';
+const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 ---
 
-<Secao id="about" titulo="About" descricao={perfil.bioCurta}>
-  <div class="sobre__competencias" aria-label="Professional focus areas">
-    {competencias.map((competencia) => <Etiqueta texto={competencia} />)}
+<section id="about" class="sobre" aria-labelledby="about-titulo">
+  <div class="sobre__interno" data-aos="fade-up">
+    <div class="sobre__visual">
+      <div class="sobre__retrato">
+        {retrato ? (
+          <Image
+            src={retrato}
+            alt={perfil.retratoAlt}
+            loading="lazy"
+            decoding="async"
+            widths={[360, 520, 720, 920]}
+            sizes="(min-width: 1024px) 44vw, (min-width: 768px) 46vw, 100vw"
+            class="sobre__imagem"
+          />
+        ) : (
+          <div class="sobre__retrato-vazio" aria-hidden="true"></div>
+        )}
+      </div>
+    </div>
+
+    <div class="sobre__conteudo">
+      <p class="sobre__marcador">About</p>
+      <h2 id="about-titulo">Technical leadership with portfolio discipline.</h2>
+      <p class="sobre__resumo">{perfil.bioCurta}</p>
+
+      <div class="sobre__divisor" aria-hidden="true"></div>
+
+      <div class="sobre__foco">
+        <p class="sobre__rotulo">Professional focus</p>
+        <ul class="sobre__competencias" aria-label="Professional focus areas">
+          {
+            competencias.map((competencia, indice) => (
+              <li>
+                <Etiqueta texto={competencia} variante="competencia" indice={String(indice + 1).padStart(2, '0')} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
   </div>
-</Secao>
+</section>
 
 <style>
+  .sobre {
+    position: relative;
+    display: grid;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: center;
+    overflow: hidden;
+    padding: var(--espaco-8) var(--espaco-5) calc(var(--altura-nav) + var(--espaco-5) + env(safe-area-inset-bottom));
+    background: var(--cor-fundo-elevado);
+  }
+
+  .sobre__interno {
+    display: grid;
+    width: min(100%, var(--largura-conteudo));
+    align-items: center;
+    margin-inline: auto;
+    gap: var(--espaco-5);
+  }
+
+  .sobre__visual {
+    position: relative;
+    min-height: 220px;
+  }
+
+  .sobre__visual::before {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    content: "";
+    background:
+      linear-gradient(90deg, var(--cor-fundo-elevado) 0%, transparent 14%, transparent 84%, var(--cor-fundo-elevado) 100%),
+      linear-gradient(180deg, var(--cor-fundo-elevado) 0%, transparent 12%, transparent 70%, var(--cor-fundo-elevado) 100%);
+    opacity: 0.74;
+    pointer-events: none;
+  }
+
+  .sobre__visual::after {
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    left: 8%;
+    z-index: 3;
+    height: 1px;
+    content: "";
+    background: linear-gradient(90deg, transparent, var(--cor-borda), transparent);
+  }
+
+  .sobre__retrato {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    background: transparent;
+    -webkit-mask-image: linear-gradient(180deg, var(--cor-texto) 72%, transparent 100%);
+    mask-image: linear-gradient(180deg, var(--cor-texto) 72%, transparent 100%);
+  }
+
+  .sobre__imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 16%;
+    filter: saturate(0.92) contrast(1.03);
+    mix-blend-mode: multiply;
+  }
+
+  .sobre__retrato-vazio {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(30deg, transparent 47%, var(--cor-borda-suave) 48%, var(--cor-borda-suave) 49%, transparent 50%),
+      var(--cor-superficie);
+    background-size: 96px 56px;
+  }
+
+  .sobre__conteudo {
+    min-width: 0;
+    max-width: 680px;
+  }
+
+  .sobre__marcador,
+  .sobre__rotulo {
+    margin: 0;
+    color: var(--cor-texto-minimo);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    max-width: 10ch;
+    margin: var(--espaco-3) 0 0;
+    font-family: var(--fonte-display);
+    font-size: 2.18rem;
+    font-weight: 650;
+    line-height: 0.98;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .sobre__resumo {
+    max-width: 62ch;
+    margin: var(--espaco-4) 0 0;
+    color: var(--cor-texto-suave);
+    font-size: 0.98rem;
+  }
+
+  .sobre__divisor {
+    width: min(100%, 420px);
+    height: 1px;
+    margin-block: var(--espaco-5);
+    background: linear-gradient(90deg, var(--cor-borda), transparent);
+  }
+
   .sobre__competencias {
-    display: flex;
-    max-width: 760px;
-    flex-wrap: wrap;
-    gap: var(--espaco-3);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-2);
+    max-width: 680px;
+    margin: var(--espaco-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sobre__competencias li {
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .sobre__competencias {
+      gap: var(--espaco-3);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .sobre {
+      padding-inline: var(--espaco-8);
+      padding-block: var(--espaco-12) calc(var(--altura-nav) + var(--espaco-8) + env(safe-area-inset-bottom));
+    }
+
+    .sobre__interno {
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1fr);
+      gap: var(--espaco-10);
+    }
+
+    .sobre__visual {
+      min-height: min(68svh, 620px);
+      align-self: stretch;
+    }
+
+    .sobre__retrato {
+      -webkit-mask-image: linear-gradient(90deg, var(--cor-texto) 70%, transparent 100%);
+      mask-image: linear-gradient(90deg, var(--cor-texto) 70%, transparent 100%);
+    }
+
+    .sobre__imagem {
+      object-position: 52% 12%;
+    }
+
+    h2 {
+      font-size: 3.8rem;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .sobre__interno {
+      grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1fr);
+      gap: var(--espaco-16);
+    }
+
+    h2 {
+      font-size: 4.5rem;
+    }
   }
 </style>

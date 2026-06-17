@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="titulo">
+  <title id="titulo">Floating laptop roadmap illustration</title>
+  <defs>
+    <linearGradient id="fundo" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f9fbfd"/>
+      <stop offset="1" stop-color="#e5f0f7"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7fbff"/>
+      <stop offset=".55" stop-color="#c7d8e5"/>
+      <stop offset="1" stop-color="#eef6fb"/>
+    </linearGradient>
+    <filter id="sombra" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="30" stdDeviation="26" flood-color="#1d1d1f" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="960" height="620" fill="url(#fundo)"/>
+  <g filter="url(#sombra)" transform="translate(172 152) rotate(-7 310 160)">
+    <path d="M82 42h442c30 0 54 24 54 54v214H28V96c0-30 24-54 54-54Z" fill="#b8d3e3"/>
+    <path d="M70 60h464c12 0 22 10 22 22v204H48V82c0-12 10-22 22-22Z" fill="#112235"/>
+    <rect x="76" y="88" width="452" height="168" rx="10" fill="#eaf6ff"/>
+    <path d="M0 310h606l74 86H74L0 310Z" fill="url(#metal)"/>
+    <path d="M164 336h340l34 36H198l-34-36Z" fill="#9db6c8" opacity=".45"/>
+    <rect x="116" y="116" width="116" height="18" rx="9" fill="#0066cc"/>
+    <rect x="116" y="158" width="328" height="12" rx="6" fill="#8eb7d9"/>
+    <rect x="116" y="188" width="238" height="12" rx="6" fill="#b5cadb"/>
+  </g>
+</svg>

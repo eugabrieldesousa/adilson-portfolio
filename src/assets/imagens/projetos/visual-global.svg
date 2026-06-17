@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="titulo">
+  <title id="titulo">Global collaboration sphere illustration</title>
+  <defs>
+    <linearGradient id="fundo" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f9fbff"/>
+      <stop offset="1" stop-color="#e7f2ff"/>
+    </linearGradient>
+    <radialGradient id="esfera" cx=".35" cy=".28" r=".78">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".5" stop-color="#cce8ff"/>
+      <stop offset="1" stop-color="#6ea8dc"/>
+    </radialGradient>
+    <filter id="sombra" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#1d1d1f" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="960" height="620" fill="url(#fundo)"/>
+  <g filter="url(#sombra)" transform="translate(300 118)">
+    <circle cx="180" cy="190" r="176" fill="url(#esfera)"/>
+    <ellipse cx="180" cy="190" rx="176" ry="64" fill="none" stroke="#ffffff" stroke-width="8" opacity=".74"/>
+    <ellipse cx="180" cy="190" rx="76" ry="176" fill="none" stroke="#ffffff" stroke-width="8" opacity=".68"/>
+    <path d="M38 90c84 54 198 54 284 0" fill="none" stroke="#ffffff" stroke-width="8" opacity=".58"/>
+    <path d="M38 290c84-54 198-54 284 0" fill="none" stroke="#ffffff" stroke-width="8" opacity=".58"/>
+    <circle cx="78" cy="126" r="14" fill="#0066cc"/>
+    <circle cx="244" cy="104" r="14" fill="#0066cc"/>
+    <circle cx="270" cy="266" r="14" fill="#0066cc"/>
+  </g>
+</svg>

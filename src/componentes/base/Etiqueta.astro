@@ -1,25 +1,62 @@
 ---
 interface Props {
   texto: string;
+  indice?: string | number;
+  variante?: 'padrao' | 'competencia';
 }
 
-const { texto } = Astro.props;
+const { texto, indice, variante = 'padrao' } = Astro.props;
 ---
 
-<span class="etiqueta">{texto}</span>
+<span class:list={['etiqueta', `etiqueta--${variante}`]}>
+  {indice !== undefined && <span class="etiqueta__indice" aria-hidden="true">{indice}</span>}
+  <span>{texto}</span>
+</span>
 
 <style>
   .etiqueta {
     display: inline-flex;
-    min-height: 32px;
+    min-height: 36px;
     align-items: center;
+    gap: var(--espaco-2);
     border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-pilula);
+    border-radius: var(--raio-medio);
     padding: var(--espaco-1) var(--espaco-3);
     background: var(--cor-superficie);
     color: var(--cor-texto);
     font-size: 0.86rem;
     font-weight: 500;
     line-height: 1.2;
+  }
+
+  .etiqueta--competencia {
+    width: 100%;
+    min-height: 44px;
+    border-color: color-mix(in srgb, var(--cor-acento) 24%, var(--cor-borda));
+    padding: var(--espaco-2) var(--espaco-3);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--cor-acento) 8%, transparent), transparent 68%),
+      color-mix(in srgb, var(--cor-superficie-forte) 86%, transparent);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--cor-acento) 10%, transparent);
+  }
+
+  .etiqueta__indice {
+    color: var(--cor-acento);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  @media (max-width: 420px) {
+    .etiqueta--competencia {
+      gap: var(--espaco-1);
+      min-height: 38px;
+      padding-inline: var(--espaco-2);
+      font-size: 0.78rem;
+    }
+
+    .etiqueta__indice {
+      font-size: 0.68rem;
+    }
   }
 </style>

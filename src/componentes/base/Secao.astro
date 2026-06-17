@@ -3,17 +3,23 @@ interface Props {
   id: string;
   titulo?: string;
   descricao?: string;
+  marcador?: string;
   compacta?: boolean;
+  fundoSolido?: boolean;
 }
 
-const { id, titulo, descricao, compacta = false } = Astro.props;
+const { id, titulo, descricao, marcador = 'Portfolio', compacta = false, fundoSolido = false } = Astro.props;
 ---
 
-<section id={id} class:list={['secao', { 'secao--compacta': compacta }]} aria-labelledby={titulo ? `${id}-titulo` : undefined}>
+<section
+  id={id}
+  class:list={['secao', { 'secao--compacta': compacta, 'secao--fundo-solido': fundoSolido }]}
+  aria-labelledby={titulo ? `${id}-titulo` : undefined}
+>
   <div class="secao__interno" data-aos="fade-up">
     {titulo && (
       <header class="secao__cabecalho">
-        <p class="secao__marcador">Portfolio</p>
+        <p class="secao__marcador">{marcador}</p>
         <h2 id={`${id}-titulo`}>{titulo}</h2>
         {descricao && <p>{descricao}</p>}
       </header>
@@ -29,6 +35,10 @@ const { id, titulo, descricao, compacta = false } = Astro.props;
 
   .secao--compacta {
     padding-block: var(--espaco-16);
+  }
+
+  .secao--fundo-solido {
+    background: var(--cor-fundo-elevado);
   }
 
   .secao__interno {

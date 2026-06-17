@@ -1,28 +1,302 @@
 ---
+import { getCollection } from 'astro:content';
 import Secao from '../componentes/base/Secao.astro';
-import Cartao from '../componentes/base/Cartao.astro';
+import visualLancamento from '../assets/imagens/projetos/visual-lancamento.svg?url';
+import visualRoadmap from '../assets/imagens/projetos/visual-roadmap.svg?url';
+import visualMateriais from '../assets/imagens/projetos/visual-materiais.svg?url';
+import visualPmo from '../assets/imagens/projetos/visual-pmo.svg?url';
+import visualGlobal from '../assets/imagens/projetos/visual-global.svg?url';
+import visualInovacao from '../assets/imagens/projetos/visual-inovacao.svg?url';
+
+const visuais = [
+  {
+    imagem: visualLancamento,
+    alt: 'Minimal smartphone product interface illustration.',
+    fundo: '#0b5cff',
+    texto: '#ffffff',
+    suave: 'rgba(255, 255, 255, 0.78)'
+  },
+  {
+    imagem: visualRoadmap,
+    alt: 'Floating laptop roadmap illustration.',
+    fundo: '#eef7fc',
+    texto: 'var(--cor-texto)',
+    suave: 'var(--cor-texto-suave)'
+  },
+  {
+    imagem: visualMateriais,
+    alt: 'Layered material samples illustration.',
+    fundo: '#eaf7fb',
+    texto: 'var(--cor-texto)',
+    suave: 'var(--cor-texto-suave)'
+  },
+  {
+    imagem: visualPmo,
+    alt: 'Executive project control display illustration.',
+    fundo: '#f4f4f6',
+    texto: 'var(--cor-texto)',
+    suave: 'var(--cor-texto-suave)'
+  },
+  {
+    imagem: visualGlobal,
+    alt: 'Global collaboration sphere illustration.',
+    fundo: '#eef6ff',
+    texto: 'var(--cor-texto)',
+    suave: 'var(--cor-texto-suave)'
+  },
+  {
+    imagem: visualInovacao,
+    alt: 'Innovation document and device illustration.',
+    fundo: '#f7f7f9',
+    texto: 'var(--cor-texto)',
+    suave: 'var(--cor-texto-suave)'
+  }
+];
+
+const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho)).sort(
+  (atual, proxima) => atual.data.ordem - proxima.data.ordem
+);
 ---
 
 <Secao
   id="projects"
   titulo="Products and Projects"
-  descricao="Selected product launch work, portfolio initiatives, and patent records will be added after client review."
+  marcador="Selected Work"
+  descricao="A visual preview of selected initiatives. Full project content will be expanded after review."
+  fundoSolido
 >
-  <div class="projetos__grade">
-    <Cartao>
-      <p>Content is limited until company, product, project, and patent details are confirmed for publication.</p>
-    </Cartao>
+  <div class="projetos" data-projetos-grade>
+    {
+      projetos.map(({ data }, indice) => {
+        const visual = visuais[indice % visuais.length];
+
+        return (
+          <button
+            class="projetos__cartao"
+            type="button"
+            data-projeto-alert={data.titulo}
+            aria-label={`Open details for ${data.titulo}`}
+            style={`--projeto-fundo: ${visual.fundo}; --projeto-texto: ${visual.texto}; --projeto-suave: ${visual.suave};`}
+          >
+            <span class="projetos__texto">
+              <span class="projetos__titulo">{data.titulo}</span>
+              <span class="projetos__subtitulo">{data.organizacao ?? 'Project'}</span>
+              <span class="projetos__acao" aria-hidden="true">View</span>
+            </span>
+
+            <span class="projetos__visual">
+              <img src={visual.imagem} alt={visual.alt} loading="lazy" decoding="async" />
+            </span>
+          </button>
+        );
+      })
+    }
   </div>
 </Secao>
 
 <style>
-  .projetos__grade {
-    max-width: 760px;
+  :global(#projects) {
+    position: relative;
+    isolation: isolate;
+    background: var(--cor-fundo-elevado);
+    background-color: var(--cor-fundo-elevado);
   }
 
-  p {
-    margin: 0;
-    color: var(--cor-texto-suave);
-    font-size: 1rem;
+  :global(#projects)::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background: var(--cor-fundo-elevado);
+  }
+
+  .projetos {
+    display: grid;
+    width: calc(100vw - 20px);
+    margin-left: calc(50% - 50vw + 10px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .projetos__cartao {
+    position: relative;
+    display: grid;
+    min-height: 560px;
+    min-width: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--raio-medio);
+    padding: clamp(1.75rem, 4vw, 4rem) var(--espaco-5) 0;
+    background: var(--projeto-fundo);
+    color: var(--projeto-texto);
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+    isolation: isolate;
+    transform: translateY(0);
+    transition:
+      box-shadow 220ms ease,
+      transform 220ms ease;
+  }
+
+  .projetos__cartao::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.6), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 52%);
+    opacity: 0.76;
+    pointer-events: none;
+  }
+
+  .projetos__cartao:hover,
+  .projetos__cartao:focus-visible {
+    box-shadow: 0 26px 70px rgba(29, 29, 31, 0.14);
+    transform: translateY(-4px);
+  }
+
+  .projetos__texto {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: var(--espaco-2);
+    min-width: 0;
+  }
+
+  .projetos__titulo {
+    max-width: 14ch;
+    font-family: var(--fonte-display);
+    font-size: clamp(2.15rem, 8vw, 3.8rem);
+    font-weight: 650;
+    line-height: 0.98;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .projetos__subtitulo {
+    max-width: 28ch;
+    color: var(--projeto-suave);
+    font-size: clamp(1rem, 2.4vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .projetos__acao {
+    display: inline-grid;
+    min-height: 42px;
+    align-items: center;
+    margin-top: var(--espaco-3);
+    border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+    border-radius: var(--raio-pilula);
+    padding: 0 var(--espaco-5);
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    color: currentColor;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .projetos__visual {
+    position: relative;
+    display: grid;
+    min-height: 300px;
+    align-items: end;
+    margin: var(--espaco-6) calc(var(--espaco-5) * -1) 0;
+  }
+
+  .projetos__visual img {
+    display: block;
+    width: min(100%, 760px);
+    max-width: none;
+    height: auto;
+    justify-self: center;
+    transform: translateY(4%) scale(1);
+    transform-origin: center bottom;
+    transition: transform 260ms ease;
+  }
+
+  .projetos__cartao:hover .projetos__visual img,
+  .projetos__cartao:focus-visible .projetos__visual img {
+    transform: translateY(0) scale(1.025);
+  }
+
+  @media (min-width: 768px) {
+    .projetos {
+      width: calc(100vw - 24px);
+      margin-left: calc(50% - 50vw + 12px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .projetos__cartao {
+      min-height: min(72svh, 680px);
+      padding-inline: var(--espaco-8);
+    }
+
+    .projetos__visual {
+      min-height: 340px;
+      margin-inline: calc(var(--espaco-8) * -1);
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .projetos {
+      width: calc(100vw - 32px);
+      margin-left: calc(50% - 50vw + 16px);
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .projetos__cartao {
+      min-height: 520px;
+      padding-inline: var(--espaco-4);
+    }
+
+    .projetos__visual {
+      min-height: 280px;
+      margin-inline: calc(var(--espaco-4) * -1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .projetos__cartao,
+    .projetos__visual img {
+      transition: none;
+    }
+
+    .projetos__cartao:hover,
+    .projetos__cartao:focus-visible,
+    .projetos__cartao:hover .projetos__visual img,
+    .projetos__cartao:focus-visible .projetos__visual img {
+      transform: none;
+    }
   }
 </style>
+
+<script>
+  const prepararAlertasProjetos = () => {
+    const botoes = document.querySelectorAll<HTMLButtonElement>('[data-projeto-alert]');
+
+    botoes.forEach((botao) => {
+      if (botao.dataset.projetoPreparado === 'true') return;
+      botao.dataset.projetoPreparado = 'true';
+
+      botao.addEventListener('click', () => {
+        const titulo = botao.dataset.projetoAlert ?? 'Project';
+        window.alert(`${titulo}: project details will be available soon.`);
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', prepararAlertasProjetos, { once: true });
+  } else {
+    prepararAlertasProjetos();
+  }
+
+  document.addEventListener('astro:after-swap', prepararAlertasProjetos);
+</script>
