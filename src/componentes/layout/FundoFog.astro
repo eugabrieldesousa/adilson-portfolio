@@ -1,0 +1,163 @@
+<div class="fundo-fog" aria-hidden="true" data-fundo-fog>
+  <div class="fundo-fog__vanta" data-fundo-fog-alvo></div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+  import FOG from 'vanta/dist/vanta.fog.min';
+
+  type EfeitoVanta = {
+    destroy: () => void;
+    resize?: () => void;
+  };
+
+  type FabricaFog = (opcoes: Record<string, unknown>) => EfeitoVanta;
+
+  const preferenciaMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const criarFog = FOG as unknown as FabricaFog;
+  let efeitoFog: EfeitoVanta | undefined;
+  let tentativaIniciada = false;
+
+  const lerCorToken = (nome: string, fallback: number) => {
+    const valor = window.getComputedStyle(document.documentElement).getPropertyValue(nome).trim();
+    const hex = valor.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+    const rgb = valor.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+
+    if (hex) {
+      const cor = hex[1].length === 3
+        ? hex[1].split('').map((parte) => parte + parte).join('')
+        : hex[1];
+
+      return Number.parseInt(cor, 16);
+    }
+
+    if (rgb) {
+      const [, r, g, b] = rgb;
+      return (Number(r) << 16) + (Number(g) << 8) + Number(b);
+    }
+
+    return fallback;
+  };
+
+  const navegadorSuportaWebGL = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      return Boolean(
+        window.WebGLRenderingContext &&
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  const destruirFog = () => {
+    efeitoFog?.destroy();
+    efeitoFog = undefined;
+    document.querySelector<HTMLElement>('[data-fundo-fog]')?.classList.remove('fundo-fog--ativo');
+  };
+
+  const iniciarFog = () => {
+    const fundoFog = document.querySelector<HTMLElement>('[data-fundo-fog]');
+    const alvoFog = document.querySelector<HTMLElement>('[data-fundo-fog-alvo]');
+
+    if (!fundoFog || !alvoFog || efeitoFog || tentativaIniciada) return;
+    tentativaIniciada = true;
+
+    if (preferenciaMovimento.matches || !navegadorSuportaWebGL()) return;
+
+    try {
+      efeitoFog = criarFog({
+        el: alvoFog,
+        THREE,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        scale: 2,
+        scaleMobile: 4,
+        backgroundAlpha: 1,
+        baseColor: lerCorToken('--cor-fog-base', 0xf5f5f7),
+        highlightColor: lerCorToken('--cor-fog-highlight', 0xffffff),
+        midtoneColor: lerCorToken('--cor-fog-midtone', 0xffffff),
+        lowlightColor: lerCorToken('--cor-fog-lowlight', 0x0066cc),
+        blurFactor: 0.34,
+        speed: 0.55,
+        zoom: 1.04
+      });
+
+      fundoFog.classList.add('fundo-fog--ativo');
+    } catch {
+      destruirFog();
+    }
+  };
+
+  const iniciarQuandoDocumentoEstiverPronto = () => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', iniciarFog, { once: true });
+    } else {
+      iniciarFog();
+    }
+  };
+
+  preferenciaMovimento.addEventListener('change', () => {
+    tentativaIniciada = false;
+
+    if (preferenciaMovimento.matches) {
+      destruirFog();
+    } else {
+      iniciarFog();
+    }
+  });
+
+  window.addEventListener('pagehide', destruirFog);
+  iniciarQuandoDocumentoEstiverPronto();
+</script>
+
+<style>
+  .fundo-fog {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-fundo);
+    overflow: hidden;
+    background: var(--cor-fundo);
+    pointer-events: none;
+  }
+
+  .fundo-fog::after {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    content: "";
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(245, 245, 247, 0.06)),
+      var(--cor-fog-veu);
+  }
+
+  .fundo-fog__vanta {
+    position: absolute;
+    inset: -8%;
+    z-index: 1;
+    opacity: 0;
+    filter: blur(var(--desfoque-fog)) saturate(122%) contrast(116%);
+    transform: scale(1.04);
+    transition: opacity 600ms ease;
+  }
+
+  .fundo-fog--ativo .fundo-fog__vanta {
+    opacity: var(--opacidade-fog);
+  }
+
+  .fundo-fog__vanta :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fundo-fog__vanta {
+      opacity: 0 !important;
+      transition: none;
+    }
+  }
+</style>
