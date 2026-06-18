@@ -11,10 +11,11 @@ type LinkPublico = {
   download?: boolean | string;
 };
 
-const links: LinkPublico[] = [];
+const contatosDiretos: LinkPublico[] = [];
+const linksSecundarios: LinkPublico[] = [];
 
 if (perfil.links.email) {
-  links.push({
+  contatosDiretos.push({
     href: `mailto:${perfil.links.email}`,
     rotulo: perfil.links.email,
     detalhe: 'Email',
@@ -23,7 +24,7 @@ if (perfil.links.email) {
 }
 
 if (perfil.links.telefone) {
-  links.push({
+  contatosDiretos.push({
     href: `tel:${perfil.links.telefone.replace(/[^\d+]/g, '')}`,
     rotulo: perfil.links.telefone,
     detalhe: 'Phone',
@@ -32,7 +33,7 @@ if (perfil.links.telefone) {
 }
 
 if (perfil.links.linkedin) {
-  links.push({
+  linksSecundarios.push({
     href: perfil.links.linkedin,
     rotulo: 'LinkedIn',
     detalhe: 'Professional profile',
@@ -42,7 +43,7 @@ if (perfil.links.linkedin) {
 }
 
 if (perfil.links.curriculo) {
-  links.push({
+  linksSecundarios.push({
     href: perfil.links.curriculo,
     rotulo: 'Resume',
     detalhe: 'Download PDF',
@@ -53,23 +54,38 @@ if (perfil.links.curriculo) {
 ---
 
 <section id="contact" class="contato" aria-labelledby="contact-title">
+  <span class="contato__elemento contato__elemento--esquerda" aria-hidden="true"></span>
+  <span class="contato__elemento contato__elemento--direita" aria-hidden="true"></span>
+
   <div class="contato__interno" data-aos="fade-up">
     <header class="contato__cabecalho">
       <p class="contato__marcador">Contact</p>
-      <h2 id="contact-title">Connect around what comes next.</h2>
+      <h2 id="contact-title">Connect on product and engineering leadership.</h2>
       <p class="contato__descricao">
-        Professional conversations focused on product portfolios, technical leadership, materials engineering, and cross-functional delivery.
+        Professional conversations focused on product portfolio strategy, materials engineering, cost governance, technical leadership, and global execution.
       </p>
-      {perfil.contatoDemonstrativo && (
-        <span class="contato__aviso">Sample contact details</span>
-      )}
     </header>
 
-    {links.length > 0 && (
+    {linksSecundarios.length > 0 && (
       <div class="contato__links">
-        {links.map((link) => (
+        {linksSecundarios.map((link) => (
           <LinkContato {...link} variante="claro" />
         ))}
+      </div>
+    )}
+
+    {contatosDiretos.length > 0 && (
+      <div class="contato__faixa" aria-label="Direct contact details">
+        <div class="contato__faixa-cabecalho">
+          <span>Direct contact</span>
+          <strong>Email and phone</strong>
+        </div>
+
+        <div class="contato__faixa-links">
+          {contatosDiretos.map((link) => (
+            <LinkContato {...link} variante="claro" />
+          ))}
+        </div>
       </div>
     )}
   </div>
@@ -101,6 +117,45 @@ if (perfil.links.curriculo) {
     content: "";
     opacity: 0.55;
     pointer-events: none;
+  }
+
+  .contato__elemento {
+    position: absolute;
+    z-index: 0;
+    width: clamp(8rem, 16vw, 14rem);
+    aspect-ratio: 1;
+    border: 1px solid var(--cor-contato-borda);
+    border-radius: var(--raio-medio);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 60%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 24px 70px rgba(0, 44, 104, 0.16);
+    opacity: 0.55;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    animation: contato-flutuar 7s ease-in-out infinite;
+  }
+
+  .contato__elemento::after {
+    position: absolute;
+    inset: 20%;
+    border: 1px solid var(--cor-contato-borda);
+    border-radius: 50%;
+    content: "";
+  }
+
+  .contato__elemento--esquerda {
+    top: 18%;
+    left: clamp(-7rem, -5vw, -3rem);
+    transform: rotate(18deg);
+  }
+
+  .contato__elemento--direita {
+    right: clamp(-6rem, -4vw, -2rem);
+    bottom: 20%;
+    animation-delay: -3.5s;
+    transform: rotate(-14deg);
   }
 
   .contato__interno {
@@ -143,26 +198,70 @@ if (perfil.links.curriculo) {
     line-height: 1.5;
   }
 
-  .contato__aviso {
-    display: inline-flex;
-    min-height: 30px;
-    align-items: center;
-    margin-top: var(--espaco-6);
-    border: 1px solid var(--cor-contato-borda);
-    border-radius: var(--raio-pilula);
-    padding-inline: var(--espaco-4);
-    background: rgba(0, 44, 104, 0.16);
-    color: var(--cor-contato-texto-suave);
-    font-size: 0.76rem;
-    font-weight: 700;
-  }
-
   .contato__links {
     display: grid;
     width: min(100%, 820px);
     margin: var(--espaco-12) auto 0;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--espaco-4);
+  }
+
+  .contato__faixa {
+    display: grid;
+    width: min(100%, 980px);
+    margin: clamp(var(--espaco-12), 7vw, var(--espaco-20)) auto 0;
+    gap: var(--espaco-6);
+    border: 1px solid var(--cor-contato-borda);
+    border-radius: var(--raio-contato);
+    padding: clamp(var(--espaco-5), 4vw, var(--espaco-8));
+    background: color-mix(in srgb, var(--cor-contato) 70%, var(--cor-contato-profunda));
+    box-shadow:
+      0 24px 70px rgba(0, 44, 104, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  .contato__faixa-cabecalho {
+    display: grid;
+    align-content: center;
+    gap: var(--espaco-2);
+    text-align: left;
+  }
+
+  .contato__faixa-cabecalho span {
+    color: var(--cor-contato-texto-suave);
+    font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .contato__faixa-cabecalho strong {
+    max-width: 16ch;
+    font-family: var(--fonte-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 620;
+    line-height: 1.05;
+  }
+
+  .contato__faixa-links {
+    display: grid;
+    min-width: 0;
+    gap: var(--espaco-3);
+  }
+
+  .contato__faixa-links :global(.link-contato--claro) {
+    min-height: 96px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @keyframes contato-flutuar {
+    0%,
+    100% {
+      translate: 0 -6px;
+    }
+
+    50% {
+      translate: 0 8px;
+    }
   }
 
   @media (min-width: 768px) {
@@ -173,11 +272,20 @@ if (perfil.links.curriculo) {
     .contato__links {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .contato__faixa {
+      grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.6fr);
+      align-items: stretch;
+    }
+
+    .contato__faixa-links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .contato::after {
-      display: none;
+    .contato__elemento {
+      animation: none;
     }
   }
 </style>

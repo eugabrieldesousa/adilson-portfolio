@@ -143,38 +143,4 @@ const saudacoes = [
       font-size: 4.5rem;
     }
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .intro-abertura {
-      animation: intro-sair-reduzido 1ms linear 3s forwards;
-    }
-
-    .intro-abertura__texto {
-      transform: none;
-      filter: none;
-      animation: intro-palavra-reduzida 3s linear both;
-    }
-
-    @keyframes intro-palavra-reduzida {
-      0%,
-      10%,
-      22%,
-      100% {
-        opacity: 0;
-      }
-
-      12%,
-      20% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes intro-sair-reduzido {
-      to {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-    }
-  }
 </style>

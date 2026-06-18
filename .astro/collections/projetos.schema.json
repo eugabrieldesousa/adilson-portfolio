@@ -39,11 +39,112 @@
       "default": true,
       "type": "boolean"
     },
+    "tema": {
+      "default": "azul",
+      "type": "string",
+      "enum": [
+        "azul",
+        "claro",
+        "preto"
+      ]
+    },
+    "temaModal": {
+      "type": "string",
+      "enum": [
+        "azul",
+        "claro",
+        "preto"
+      ]
+    },
+    "imagemCard": {
+      "type": "string"
+    },
+    "imagemCardAlt": {
+      "type": "string"
+    },
+    "alturaImagemCard": {
+      "type": "integer",
+      "minimum": 160,
+      "maximum": 900
+    },
+    "tituloModal": {
+      "type": "string"
+    },
+    "resumoModal": {
+      "type": "string"
+    },
+    "midiaModal": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tipo": {
+              "type": "string",
+              "const": "imagem"
+            },
+            "imagem": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tipo",
+            "imagem",
+            "alt"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tipo": {
+              "type": "string",
+              "const": "video"
+            },
+            "src": {
+              "type": "string",
+              "pattern": "^\\/.+\\.(mp4|webm)$"
+            },
+            "poster": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tipo",
+            "src",
+            "poster",
+            "alt"
+          ]
+        }
+      ]
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "string",
+          "pattern": "^#[A-Za-z][\\w:.-]*$"
+        }
+      ]
+    },
+    "rotuloLink": {
+      "type": "string"
+    },
     "$schema": {
       "type": "string"
     }
   },
   "required": [
-    "titulo"
+    "titulo",
+    "imagemCard",
+    "imagemCardAlt",
+    "midiaModal"
   ]
 }

@@ -1,6 +1,14 @@
 ---
 interface Props {
-  nome: 'home' | 'arrow-right' | 'mail' | 'phone' | 'linkedin' | 'file';
+  nome:
+    | 'home'
+    | 'arrow-right'
+    | 'mail'
+    | 'phone'
+    | 'linkedin'
+    | 'file'
+    | 'close'
+    | 'external-link';
   tamanho?: number;
 }
 
@@ -56,6 +64,19 @@ const { nome, tamanho = 18 } = Astro.props;
       <path d="M14 2v6h6" />
       <path d="M8 13h8" />
       <path d="M8 17h5" />
+    </>
+  )}
+  {nome === 'close' && (
+    <>
+      <path d="m6 6 12 12" />
+      <path d="m18 6-12 12" />
+    </>
+  )}
+  {nome === 'external-link' && (
+    <>
+      <path d="M15 3h6v6" />
+      <path d="m10 14 11-11" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
     </>
   )}
 </svg>

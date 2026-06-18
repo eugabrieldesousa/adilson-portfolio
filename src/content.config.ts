@@ -21,7 +21,33 @@ const experiencias = defineCollection({
 
 const projetos = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projetos' }),
-  schema: camposCurriculo
+  schema: ({ image }) =>
+    camposCurriculo.extend({
+      tema: z.enum(['azul', 'claro', 'preto']).default('azul'),
+      temaModal: z.enum(['azul', 'claro', 'preto']).optional(),
+      imagemCard: image(),
+      imagemCardAlt: z.string(),
+      alturaImagemCard: z.number().int().min(160).max(900).optional(),
+      tituloModal: z.string().optional(),
+      resumoModal: z.string().optional(),
+      midiaModal: z.discriminatedUnion('tipo', [
+        z.object({
+          tipo: z.literal('imagem'),
+          imagem: image(),
+          alt: z.string()
+        }),
+        z.object({
+          tipo: z.literal('video'),
+          src: z.string().regex(/^\/.+\.(mp4|webm)$/i),
+          poster: image(),
+          alt: z.string()
+        })
+      ]),
+      url: z
+        .union([z.url(), z.string().regex(/^#[A-Za-z][\w:.-]*$/)])
+        .optional(),
+      rotuloLink: z.string().optional()
+    })
 });
 
 const patentes = defineCollection({

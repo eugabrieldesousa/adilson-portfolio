@@ -3,14 +3,12 @@ import 'aos/dist/aos.css';
 ---
 
 <script>
+  import AOS from 'aos';
+
   let aosIniciado = false;
+  let temporizadorFallback: number | undefined;
 
-  const movimentoReduzido = () =>
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const iniciarAOS = async () => {
-    const { default: AOS } = await import('aos');
-
+  const iniciarAOS = () => {
     if (aosIniciado) {
       AOS.refreshHard();
       return;
@@ -22,16 +20,26 @@ import 'aos/dist/aos.css';
       easing: 'ease-out-cubic',
       offset: 80,
       once: true,
-      mirror: false,
-      disable: movimentoReduzido
+      mirror: false
     });
 
     window.setTimeout(() => AOS.refreshHard(), 80);
   };
 
   const iniciarAposIntro = () => {
+    window.clearTimeout(temporizadorFallback);
+
     if (document.documentElement.classList.contains('intro-ativa')) {
-      window.addEventListener('intro:complete', iniciarAOS, { once: true });
+      let iniciado = false;
+      const iniciar = () => {
+        if (iniciado) return;
+        iniciado = true;
+        window.clearTimeout(temporizadorFallback);
+        iniciarAOS();
+      };
+
+      window.addEventListener('intro:complete', iniciar, { once: true });
+      temporizadorFallback = window.setTimeout(iniciar, 3600);
       return;
     }
 
@@ -45,13 +53,5 @@ import 'aos/dist/aos.css';
 <style is:global>
   [data-aos] {
     will-change: transform, opacity;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-aos] {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
   }
 </style>

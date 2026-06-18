@@ -13,6 +13,7 @@
   --cor-acento-hover: #004f9e;
   --cor-acento-suave: #e8f2ff;
   --cor-contato: #0672e8;
+  --cor-contato-profunda: #002f66;
   --cor-contato-texto: #ffffff;
   --cor-contato-texto-suave: rgba(255, 255, 255, 0.76);
   --cor-contato-borda: rgba(255, 255, 255, 0.26);
@@ -31,6 +32,24 @@
   --cor-cta: #0066cc;
   --cor-cta-hover: #004f9e;
   --cor-cta-contraste: #ffffff;
+  --cor-projeto-azul-inicio: #0a37da;
+  --cor-projeto-azul-meio: #0b58ff;
+  --cor-projeto-azul-fim: #4b7dff;
+  --cor-projeto-azul-texto: #ffffff;
+  --cor-projeto-azul-suave: rgba(255, 255, 255, 0.82);
+  --cor-projeto-azul-borda: rgba(255, 255, 255, 0.28);
+  --cor-projeto-azul-superficie: rgba(255, 255, 255, 0.14);
+  --cor-projeto-claro: #ffffff;
+  --cor-projeto-claro-texto: #1d1d1f;
+  --cor-projeto-claro-suave: #515154;
+  --cor-projeto-claro-borda: rgba(29, 29, 31, 0.14);
+  --cor-projeto-claro-superficie: rgba(29, 29, 31, 0.06);
+  --cor-projeto-preto: #050505;
+  --cor-projeto-preto-texto: #ffffff;
+  --cor-projeto-preto-suave: rgba(255, 255, 255, 0.78);
+  --cor-projeto-preto-borda: rgba(255, 255, 255, 0.24);
+  --cor-projeto-preto-superficie: rgba(255, 255, 255, 0.12);
+  --cor-modal-scrim: rgba(0, 0, 0, 0.58);
   --cor-foco: #0071e3;
   --cor-fog-base: #f5f5f7;
   --cor-fog-highlight: #ffffff;
@@ -73,5 +92,6 @@
   --z-fundo: 0;
   --z-nav: 40;
   --z-skip: 100;
+  --z-modal: 160;
   --z-intro: 200;
 }

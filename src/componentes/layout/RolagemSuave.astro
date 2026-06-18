@@ -7,13 +7,11 @@ import 'lenis/dist/lenis.css';
 </div>
 
 <script>
-  import type Lenis from 'lenis';
+  import Lenis from 'lenis';
 
   let lenisAtual: Lenis | undefined;
   let removerEventoRolagem: (() => void) | undefined;
-
-  const movimentoReduzido = () =>
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let temporizadorFallback: number | undefined;
 
   const atualizarProgresso = (progresso: number) => {
     document.documentElement.style.setProperty(
@@ -31,12 +29,18 @@ import 'lenis/dist/lenis.css';
     atualizarProgresso(0);
   };
 
-  const iniciarRolagem = async () => {
+  const pausarRolagem = () => {
+    lenisAtual?.stop();
+  };
+
+  const retomarRolagem = () => {
+    if (!document.documentElement.classList.contains('modal-projeto-ativa')) {
+      lenisAtual?.start();
+    }
+  };
+
+  const iniciarRolagem = () => {
     destruirRolagem();
-
-    if (movimentoReduzido()) return;
-
-    const { default: Lenis } = await import('lenis');
 
     lenisAtual = new Lenis({
       autoRaf: true,
@@ -55,11 +59,26 @@ import 'lenis/dist/lenis.css';
     removerEventoRolagem = () => lenisAtual?.off('scroll', aoRolar);
     atualizarProgresso(lenisAtual.progress);
     document.documentElement.classList.add('lenis-ativo');
+
+    if (document.documentElement.classList.contains('modal-projeto-ativa')) {
+      lenisAtual.stop();
+    }
   };
 
   const iniciarAposIntro = () => {
+    window.clearTimeout(temporizadorFallback);
+
     if (document.documentElement.classList.contains('intro-ativa')) {
-      window.addEventListener('intro:complete', iniciarRolagem, { once: true });
+      let iniciado = false;
+      const iniciar = () => {
+        if (iniciado) return;
+        iniciado = true;
+        window.clearTimeout(temporizadorFallback);
+        iniciarRolagem();
+      };
+
+      window.addEventListener('intro:complete', iniciar, { once: true });
+      temporizadorFallback = window.setTimeout(iniciar, 3600);
       return;
     }
 
@@ -67,7 +86,12 @@ import 'lenis/dist/lenis.css';
   };
 
   iniciarAposIntro();
-  document.addEventListener('astro:before-swap', destruirRolagem);
+  document.addEventListener('rolagem-suave:parar', pausarRolagem);
+  document.addEventListener('rolagem-suave:iniciar', retomarRolagem);
+  document.addEventListener('astro:before-swap', () => {
+    window.clearTimeout(temporizadorFallback);
+    destruirRolagem();
+  });
   document.addEventListener('astro:after-swap', iniciarAposIntro);
 </script>
 
@@ -108,7 +132,7 @@ import 'lenis/dist/lenis.css';
     transform-origin: top;
   }
 
-  @media (max-width: 899px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  @media (max-width: 899px), (pointer: coarse) {
     .indicador-rolagem {
       display: none;
     }

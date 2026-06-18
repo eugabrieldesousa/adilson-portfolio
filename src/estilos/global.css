@@ -91,12 +91,6 @@ section[id] {
   scroll-margin-top: var(--espaco-6);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 :focus-visible {
   outline: 3px solid var(--cor-foco);
   outline-offset: 4px;

@@ -1,88 +1,89 @@
 ---
-import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
 import Secao from '../componentes/base/Secao.astro';
-import visualLancamento from '../assets/imagens/projetos/visual-lancamento.svg?url';
-import visualRoadmap from '../assets/imagens/projetos/visual-roadmap.svg?url';
-import visualMateriais from '../assets/imagens/projetos/visual-materiais.svg?url';
-import visualPmo from '../assets/imagens/projetos/visual-pmo.svg?url';
-import visualGlobal from '../assets/imagens/projetos/visual-global.svg?url';
+import ModalProjeto from '../componentes/portfolio/ModalProjeto.astro';
 
-const visuais = [
-  {
-    imagem: visualLancamento,
-    alt: 'Minimal smartphone product interface illustration.',
-    fundo: '#0b5cff',
-    texto: '#ffffff',
-    suave: 'rgba(255, 255, 255, 0.78)'
-  },
-  {
-    imagem: visualRoadmap,
-    alt: 'Floating laptop roadmap illustration.',
-    fundo: '#eef7fc',
-    texto: 'var(--cor-texto)',
-    suave: 'var(--cor-texto-suave)'
-  },
-  {
-    imagem: visualMateriais,
-    alt: 'Layered material samples illustration.',
-    fundo: '#eaf7fb',
-    texto: 'var(--cor-texto)',
-    suave: 'var(--cor-texto-suave)'
-  },
-  {
-    imagem: visualPmo,
-    alt: 'Executive project control display illustration.',
-    fundo: '#f4f4f6',
-    texto: 'var(--cor-texto)',
-    suave: 'var(--cor-texto-suave)'
-  },
-  {
-    imagem: visualGlobal,
-    alt: 'Global collaboration sphere illustration.',
-    fundo: '#eef6ff',
-    texto: 'var(--cor-texto)',
-    suave: 'var(--cor-texto-suave)'
-  }
-];
-
-const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho)).sort(
+const entradasProjetos = (await getCollection('projetos', ({ data }) => !data.rascunho)).sort(
   (atual, proxima) => atual.data.ordem - proxima.data.ordem
 );
+
+const projetos = await Promise.all(
+  entradasProjetos.map(async (projeto) => ({
+    ...projeto,
+    Conteudo: (await render(projeto)).Content
+  }))
+);
+
+const alturaBaseImagemCard = 500;
 ---
 
 <Secao
   id="projects"
-  titulo="Selected areas of impact"
-  marcador="Products and programs"
-  descricao="Representative work across launch governance, portfolio roadmaps, materials engineering, cost discipline, and global delivery."
+  titulo="Selected product and engineering programs"
+  marcador="Product portfolio"
+  descricao="Representative work across refrigeration, water purification, air conditioning, portfolio strategy, materials engineering, cost governance, and global delivery."
   alinhamento="centro"
   fundoSolido
 >
-  <div class="projetos">
+  <div class="projetos" data-projetos>
     {
-      projetos.map(({ data }, indice) => {
-        const visual = visuais[indice % visuais.length];
+      projetos.map(({ id, data, Conteudo }) => {
+        const modalId = `modal-projeto-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+        const alturaImagemCard = data.alturaImagemCard ?? alturaBaseImagemCard;
+        const deslocamentoImagemCard = alturaBaseImagemCard - alturaImagemCard;
+        const respiroImagemCard = Math.abs(deslocamentoImagemCard);
+        const margemImagemCard = -respiroImagemCard;
+        const alturaExtraImagemCard = respiroImagemCard * 2;
 
         return (
-          <article
-            class="projetos__cartao"
-            style={`--projeto-fundo: ${visual.fundo}; --projeto-texto: ${visual.texto}; --projeto-suave: ${visual.suave};`}
-          >
-            <span class="projetos__texto">
-              {data.periodo && <span class="projetos__subtitulo">{data.periodo}</span>}
-              <h3 class="projetos__titulo">{data.titulo}</h3>
-              {data.resumo && <span class="projetos__resumo">{data.resumo}</span>}
-              {data.competencias.length > 0 && (
-                <ul class="projetos__competencias" aria-label={`Focus areas for ${data.titulo}`}>
-                  {data.competencias.map((competencia) => <li>{competencia}</li>)}
-                </ul>
-              )}
-            </span>
+          <>
+            <article
+              class={`projetos__cartao projetos__cartao--${data.tema}`}
+              style={`--altura-imagem-card: ${alturaImagemCard}px; --deslocamento-imagem-card: ${deslocamentoImagemCard}px; --margem-imagem-card: ${margemImagemCard}px; --altura-extra-imagem-card: ${alturaExtraImagemCard}px;`}
+            >
+              <div
+                class="projetos__visual"
+              >
+                <Image
+                  src={data.imagemCard}
+                  alt={data.imagemCardAlt}
+                  widths={[480, 720, 960]}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  format="webp"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
 
-            <span class="projetos__visual">
-              <img src={visual.imagem} alt={visual.alt} loading="lazy" decoding="async" />
-            </span>
-          </article>
+              <div class="projetos__texto">
+                <h3 class="projetos__titulo">{data.titulo}</h3>
+
+                <button
+                  class="projetos__acao"
+                  type="button"
+                  aria-label={`View details for ${data.titulo}`}
+                  aria-controls={modalId}
+                  aria-haspopup="dialog"
+                  data-modal-abrir={modalId}
+                >
+                  View
+                </button>
+              </div>
+            </article>
+
+            <ModalProjeto
+              id={modalId}
+              titulo={data.tituloModal ?? data.titulo}
+              resumo={data.resumoModal ?? data.resumo}
+              midia={data.midiaModal}
+              tema={data.temaModal ?? data.tema}
+              url={data.url}
+              rotuloLink={data.rotuloLink}
+            >
+              <Conteudo />
+            </ModalProjeto>
+          </>
         );
       })
     }
@@ -93,10 +94,9 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
   :global(#projects) {
     position: relative;
     isolation: isolate;
-    background: var(--cor-fundo-elevado);
-    background-color: var(--cor-fundo-elevado);
-    padding-block: clamp(var(--espaco-12), 5vw, var(--espaco-16));
     overflow: hidden;
+    padding-block: clamp(var(--espaco-12), 5vw, var(--espaco-16));
+    background: var(--cor-fundo-elevado);
   }
 
   :global(#projects)::before {
@@ -105,26 +105,8 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     z-index: -1;
     content: "";
     background:
-      radial-gradient(circle at 50% 4%, rgba(0, 113, 227, 0.1), transparent 25rem),
+      radial-gradient(circle at 50% 3%, rgba(0, 113, 227, 0.09), transparent 25rem),
       var(--cor-fundo-elevado);
-  }
-
-  :global(#projects)::after {
-    position: absolute;
-    top: 2rem;
-    left: 50%;
-    z-index: -1;
-    width: min(74vw, 760px);
-    height: 220px;
-    content: "";
-    background-image:
-      linear-gradient(var(--cor-textura) 1px, transparent 1px),
-      linear-gradient(90deg, var(--cor-textura) 1px, transparent 1px);
-    background-size: 28px 28px;
-    mask-image: radial-gradient(ellipse at center, black, transparent 72%);
-    opacity: 0.7;
-    transform: translateX(-50%);
-    pointer-events: none;
   }
 
   :global(#projects .secao__cabecalho) {
@@ -155,118 +137,123 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
   }
 
   .projetos__cartao {
+    --projeto-fundo: var(--cor-projeto-azul-meio);
+    --projeto-texto: var(--cor-projeto-azul-texto);
+    --projeto-botao-fundo: var(--cor-projeto-azul-texto);
+    --projeto-botao-texto: var(--cor-projeto-claro-texto);
     position: relative;
     display: grid;
-    min-height: 500px;
+    width: 100%;
     min-width: 0;
+    aspect-ratio: 8 / 9;
     overflow: hidden;
-    border: 0;
     border-radius: var(--raio-medio);
-    padding: clamp(1.75rem, 4vw, 3rem) var(--espaco-5) 0;
     background: var(--projeto-fundo);
     color: var(--projeto-texto);
     text-align: center;
-    isolation: isolate;
-    transform: translateY(0);
-    transition:
-      box-shadow 220ms ease,
-      transform 220ms ease;
   }
 
-  .projetos__cartao::before {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    content: "";
-    background:
-      radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.6), transparent 32%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 52%);
-    opacity: 0.76;
-    pointer-events: none;
+  .projetos__cartao--claro {
+    --projeto-fundo: var(--cor-projeto-claro);
+    --projeto-texto: var(--cor-projeto-claro-texto);
+    --projeto-botao-fundo: var(--cor-projeto-claro-texto);
+    --projeto-botao-texto: var(--cor-projeto-claro);
   }
 
-  .projetos__cartao:hover {
-    box-shadow: 0 26px 70px rgba(29, 29, 31, 0.14);
-    transform: translateY(-4px);
+  .projetos__cartao--preto {
+    --projeto-fundo: var(--cor-projeto-preto);
+    --projeto-texto: var(--cor-projeto-preto-texto);
+    --projeto-botao-fundo: var(--cor-projeto-preto-texto);
+    --projeto-botao-texto: var(--cor-projeto-preto);
   }
 
   .projetos__texto {
-    position: relative;
+    position: absolute;
+    inset: clamp(2rem, 4.5vw, 3.5rem) var(--espaco-5) auto;
     z-index: 2;
-    display: grid;
+    display: flex;
+    min-height: clamp(150px, 25%, 210px);
+    flex-direction: column;
+    align-items: center;
     justify-items: center;
-    gap: var(--espaco-3);
-    min-width: 0;
+    gap: var(--espaco-2);
+    pointer-events: none;
   }
 
   .projetos__titulo {
-    max-width: 14ch;
+    display: -webkit-box;
+    width: 100%;
+    height: 2.12em;
     margin: 0;
+    max-width: 22ch;
+    min-height: 2.12em;
+    max-height: 2.12em;
+    flex: 0 0 2.12em;
+    overflow: hidden;
     font-family: var(--fonte-display);
-    font-size: clamp(2rem, 8vw, 3.35rem);
+    font-size: clamp(2rem, 8vw, 3.5rem);
     font-weight: 650;
-    line-height: 0.98;
+    line-height: 1.04;
     letter-spacing: var(--tracking-titulo);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     text-wrap: balance;
   }
 
-  .projetos__subtitulo {
-    max-width: 28ch;
-    color: var(--projeto-suave);
-    font-size: 0.78rem;
-    font-weight: 700;
-    line-height: 1.25;
-    text-transform: uppercase;
-  }
-
-  .projetos__resumo {
-    max-width: 48ch;
-    color: var(--projeto-suave);
-    font-size: 0.96rem;
-    line-height: 1.55;
-  }
-
-  .projetos__competencias {
-    display: flex;
-    flex-wrap: wrap;
+  .projetos__acao {
+    display: inline-flex;
+    min-width: 88px;
+    min-height: 48px;
+    align-items: center;
     justify-content: center;
-    gap: var(--espaco-2);
-    margin: var(--espaco-2) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .projetos__competencias li {
-    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    border: 0;
     border-radius: var(--raio-pilula);
-    padding: 0.35rem 0.65rem;
-    color: var(--projeto-suave);
-    font-size: 0.72rem;
-    font-weight: 650;
-    line-height: 1.2;
+    padding: 0 var(--espaco-5);
+    background: var(--projeto-botao-fundo);
+    color: var(--projeto-botao-texto);
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+    transition:
+      background-color 220ms ease,
+      box-shadow 220ms ease,
+      opacity 220ms ease;
   }
 
   .projetos__visual {
-    position: relative;
-    display: grid;
-    min-height: 300px;
-    align-items: end;
-    margin: var(--espaco-6) calc(var(--espaco-5) * -1) 0;
-  }
-
-  .projetos__visual img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     display: block;
-    width: min(100%, 760px);
-    max-width: none;
-    height: auto;
-    justify-self: center;
-    transform: translateY(4%) scale(1);
-    transform-origin: center bottom;
-    transition: transform 260ms ease;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: transparent;
+    pointer-events: none;
   }
 
-  .projetos__cartao:hover .projetos__visual img {
-    transform: translateY(0) scale(1.025);
+  .projetos__visual :global(img) {
+    display: block;
+    position: absolute;
+    inset: var(--margem-imagem-card, 0px) 0;
+    width: 100%;
+    height: calc(100% + var(--altura-extra-imagem-card, 0px));
+    object-fit: cover;
+    object-position: center center;
+    transform: translateY(var(--deslocamento-imagem-card, 0px));
+  }
+
+  .projetos__acao:hover,
+  .projetos__acao:focus-visible {
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--projeto-texto) 18%, transparent);
+    opacity: 0.82;
+  }
+
+  .projetos__acao:active {
+    opacity: 0.7;
   }
 
   @media (min-width: 768px) {
@@ -278,22 +265,11 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     }
 
     .projetos__cartao {
-      min-height: 420px;
-      padding-top: var(--espaco-8);
-      padding-inline: var(--espaco-8);
+      aspect-ratio: 8 / 9;
     }
 
     .projetos__titulo {
-      font-size: clamp(1.75rem, 3.6vw, 2.7rem);
-    }
-
-    .projetos__subtitulo {
-      font-size: 1rem;
-    }
-
-    .projetos__visual {
-      min-height: 220px;
-      margin-inline: calc(var(--espaco-8) * -1);
+      font-size: clamp(2rem, 4vw, 3rem);
     }
   }
 
@@ -302,40 +278,21 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
       width: calc(100vw - 32px);
       margin-left: calc(50% - 50vw + 16px);
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
     }
 
     .projetos__cartao {
-      min-height: clamp(310px, 36vh, 350px);
-      padding: var(--espaco-6) var(--espaco-5) 0;
+      aspect-ratio: 8 / 9;
+    }
+
+    .projetos__texto {
+      inset: var(--espaco-8) var(--espaco-5) auto;
+      min-height: 150px;
     }
 
     .projetos__titulo {
-      max-width: 16ch;
-      font-size: clamp(1.35rem, 1.75vw, 1.8rem);
-      line-height: 1.04;
+      font-size: clamp(1.65rem, 2.5vw, 2.45rem);
     }
 
-    .projetos__subtitulo {
-      font-size: 0.88rem;
-    }
-
-    .projetos__resumo {
-      font-size: 0.84rem;
-    }
-
-    .projetos__competencias {
-      display: none;
-    }
-
-    .projetos__visual {
-      min-height: 145px;
-      margin: var(--espaco-3) calc(var(--espaco-5) * -1) 0;
-    }
-
-    .projetos__visual img {
-      width: min(100%, 430px);
-    }
   }
 
   @media (min-width: 1440px) {
@@ -343,42 +300,158 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
       gap: 14px;
     }
 
-    .projetos__cartao {
-      min-height: clamp(330px, 37vh, 390px);
-      padding-top: var(--espaco-8);
+    .projetos__texto {
+      inset: var(--espaco-10) var(--espaco-8) auto;
+      min-height: 170px;
     }
 
     .projetos__titulo {
-      font-size: clamp(1.65rem, 1.7vw, 2rem);
-    }
-
-    .projetos__visual {
-      min-height: 165px;
+      font-size: clamp(2rem, 2.15vw, 2.8rem);
     }
   }
 
   @media (max-width: 420px) {
-    .projetos__cartao {
-      min-height: 520px;
-      padding-inline: var(--espaco-4);
-    }
-
-    .projetos__visual {
-      min-height: 280px;
-      margin-inline: calc(var(--espaco-4) * -1);
+    .projetos__texto {
+      inset-inline: var(--espaco-4);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .projetos__cartao,
-    .projetos__visual img {
+    .projetos__acao {
       transition: none;
-    }
-
-    .projetos__cartao:hover,
-    .projetos__cartao:hover .projetos__visual img,
-    .projetos__visual img {
-      transform: none;
     }
   }
 </style>
+
+<script>
+  const iniciarModaisProjetos = () => {
+    const raiz = document.querySelector<HTMLElement>('[data-projetos]');
+
+    if (!raiz || raiz.dataset.modaisInicializadas === 'true') {
+      return;
+    }
+
+    raiz.dataset.modaisInicializadas = 'true';
+
+    let gatilhoAtual: HTMLElement | null = null;
+    let temporizadorFechamento: number | undefined;
+    const movimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const concluirFechamento = (dialogo: HTMLDialogElement) => {
+      window.clearTimeout(temporizadorFechamento);
+      dialogo.classList.remove('modal-projeto--fechando');
+      dialogo.querySelectorAll<HTMLVideoElement>('[data-modal-video]').forEach((video) => {
+        video.pause();
+      });
+
+      if (dialogo.open) {
+        dialogo.close();
+      }
+    };
+
+    const fecharModal = (dialogo: HTMLDialogElement, animar = true) => {
+      if (!dialogo.open || dialogo.classList.contains('modal-projeto--fechando')) {
+        return;
+      }
+
+      if (!animar || movimentoReduzido.matches) {
+        concluirFechamento(dialogo);
+        return;
+      }
+
+      dialogo.classList.add('modal-projeto--fechando');
+      temporizadorFechamento = window.setTimeout(() => concluirFechamento(dialogo), 170);
+    };
+
+    const abrirModal = (id: string, gatilho: HTMLElement) => {
+      const dialogo = document.getElementById(id);
+
+      if (!(dialogo instanceof HTMLDialogElement)) {
+        return;
+      }
+
+      gatilhoAtual = gatilho;
+      document.documentElement.classList.add('modal-projeto-ativa');
+      document.dispatchEvent(new CustomEvent('rolagem-suave:parar'));
+      dialogo.showModal();
+
+      window.requestAnimationFrame(() => {
+        const painel = dialogo.querySelector<HTMLElement>('[data-modal-painel]');
+        const conteudo = dialogo.querySelector<HTMLElement>('[data-modal-conteudo]');
+
+        if (painel) {
+          painel.scrollTop = 0;
+        }
+
+        if (conteudo) {
+          conteudo.scrollTop = 0;
+        }
+
+        if (!movimentoReduzido.matches) {
+          dialogo.querySelectorAll<HTMLVideoElement>('[data-modal-video]').forEach((video) => {
+            void video.play().catch(() => undefined);
+          });
+        }
+
+        dialogo.querySelector<HTMLElement>('[data-modal-fechar]')?.focus();
+      });
+    };
+
+    raiz.addEventListener('click', (evento) => {
+      const alvo = evento.target;
+
+      if (!(alvo instanceof Element)) {
+        return;
+      }
+
+      const gatilho = alvo.closest<HTMLElement>('[data-modal-abrir]');
+
+      if (gatilho) {
+        const modalId = gatilho.dataset.modalAbrir;
+
+        if (modalId) {
+          abrirModal(modalId, gatilho);
+        }
+
+        return;
+      }
+
+      const dialogo = alvo.closest<HTMLDialogElement>('[data-modal-projeto]');
+
+      if (!dialogo) {
+        return;
+      }
+
+      if (alvo.closest('[data-modal-fechar]')) {
+        fecharModal(dialogo);
+        return;
+      }
+
+      if (alvo.closest('[data-modal-link]')) {
+        fecharModal(dialogo, false);
+        return;
+      }
+
+      if (alvo === dialogo) {
+        fecharModal(dialogo);
+      }
+    });
+
+    raiz.querySelectorAll<HTMLDialogElement>('[data-modal-projeto]').forEach((dialogo) => {
+      dialogo.addEventListener('cancel', (evento) => {
+        evento.preventDefault();
+        fecharModal(dialogo);
+      });
+
+      dialogo.addEventListener('close', () => {
+        document.documentElement.classList.remove('modal-projeto-ativa');
+        document.dispatchEvent(new CustomEvent('rolagem-suave:iniciar'));
+        gatilhoAtual?.focus();
+        gatilhoAtual = null;
+      });
+    });
+  };
+
+  iniciarModaisProjetos();
+  document.addEventListener('astro:after-swap', iniciarModaisProjetos);
+</script>
