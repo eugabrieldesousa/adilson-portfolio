@@ -10,9 +10,9 @@ const experiencias = (await getCollection('experiencias', ({ data }) => !data.ra
 
 <Secao
   id="experience"
-  titulo="Experience"
-  marcador="Career"
-  descricao="A career timeline across product portfolio leadership, materials engineering, product development, and technical research."
+  titulo="Experience built across strategy and engineering"
+  marcador="Career progression"
+  descricao="A progression from laboratory research and product development to materials leadership and North American portfolio management."
 >
   <div class="experiencia" data-experiencia-timeline>
     <div class="experiencia__linha" aria-hidden="true">
@@ -70,7 +70,7 @@ const experiencias = (await getCollection('experiencias', ({ data }) => !data.ra
     background: var(--cor-borda);
   }
 
-  .experiencia__linha span {
+  .experiencia__linha > span {
     position: absolute;
     inset: 0;
     display: block;
@@ -155,7 +155,7 @@ const experiencias = (await getCollection('experiencias', ({ data }) => !data.ra
     font-size: 1.28rem;
     font-weight: 650;
     line-height: 1.13;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-titulo);
     text-wrap: balance;
   }
 
@@ -225,7 +225,7 @@ const experiencias = (await getCollection('experiencias', ({ data }) => !data.ra
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .experiencia__linha span,
+    .experiencia__linha > span,
     .experiencia__item,
     .experiencia__cartao,
     .experiencia__marcador {
@@ -300,11 +300,35 @@ const experiencias = (await getCollection('experiencias', ({ data }) => !data.ra
     ScrollTrigger.refresh();
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', iniciarTimelineExperiencia, { once: true });
-  } else {
-    iniciarTimelineExperiencia();
-  }
+  const iniciarAposIntro = () => {
+    const observarExperiencia = () => {
+      const alvo = document.querySelector('[data-experiencia-timeline]');
 
-  document.addEventListener('astro:after-swap', iniciarTimelineExperiencia);
+      if (!alvo || !('IntersectionObserver' in window)) {
+        iniciarTimelineExperiencia();
+        return;
+      }
+
+      const observador = new IntersectionObserver(
+        (entradas) => {
+          if (!entradas.some((entrada) => entrada.isIntersecting)) return;
+          observador.disconnect();
+          iniciarTimelineExperiencia();
+        },
+        { rootMargin: '35% 0px' }
+      );
+
+      observador.observe(alvo);
+    };
+
+    if (document.documentElement.classList.contains('intro-ativa')) {
+      window.addEventListener('intro:complete', observarExperiencia, { once: true });
+      return;
+    }
+
+    observarExperiencia();
+  };
+
+  iniciarAposIntro();
+  document.addEventListener('astro:after-swap', iniciarAposIntro);
 </script>

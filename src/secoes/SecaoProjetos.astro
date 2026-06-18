@@ -6,7 +6,6 @@ import visualRoadmap from '../assets/imagens/projetos/visual-roadmap.svg?url';
 import visualMateriais from '../assets/imagens/projetos/visual-materiais.svg?url';
 import visualPmo from '../assets/imagens/projetos/visual-pmo.svg?url';
 import visualGlobal from '../assets/imagens/projetos/visual-global.svg?url';
-import visualInovacao from '../assets/imagens/projetos/visual-inovacao.svg?url';
 
 const visuais = [
   {
@@ -43,13 +42,6 @@ const visuais = [
     fundo: '#eef6ff',
     texto: 'var(--cor-texto)',
     suave: 'var(--cor-texto-suave)'
-  },
-  {
-    imagem: visualInovacao,
-    alt: 'Innovation document and device illustration.',
-    fundo: '#f7f7f9',
-    texto: 'var(--cor-texto)',
-    suave: 'var(--cor-texto-suave)'
   }
 ];
 
@@ -60,34 +52,37 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
 
 <Secao
   id="projects"
-  titulo="Products and Projects"
-  marcador="Selected Work"
-  descricao="A visual preview of selected initiatives. Full project content will be expanded after review."
+  titulo="Selected areas of impact"
+  marcador="Products and programs"
+  descricao="Representative work across launch governance, portfolio roadmaps, materials engineering, cost discipline, and global delivery."
+  alinhamento="centro"
   fundoSolido
 >
-  <div class="projetos" data-projetos-grade>
+  <div class="projetos">
     {
       projetos.map(({ data }, indice) => {
         const visual = visuais[indice % visuais.length];
 
         return (
-          <button
+          <article
             class="projetos__cartao"
-            type="button"
-            data-projeto-alert={data.titulo}
-            aria-label={`Open details for ${data.titulo}`}
             style={`--projeto-fundo: ${visual.fundo}; --projeto-texto: ${visual.texto}; --projeto-suave: ${visual.suave};`}
           >
             <span class="projetos__texto">
-              <span class="projetos__titulo">{data.titulo}</span>
-              <span class="projetos__subtitulo">{data.organizacao ?? 'Project'}</span>
-              <span class="projetos__acao" aria-hidden="true">View</span>
+              {data.periodo && <span class="projetos__subtitulo">{data.periodo}</span>}
+              <h3 class="projetos__titulo">{data.titulo}</h3>
+              {data.resumo && <span class="projetos__resumo">{data.resumo}</span>}
+              {data.competencias.length > 0 && (
+                <ul class="projetos__competencias" aria-label={`Focus areas for ${data.titulo}`}>
+                  {data.competencias.map((competencia) => <li>{competencia}</li>)}
+                </ul>
+              )}
             </span>
 
             <span class="projetos__visual">
               <img src={visual.imagem} alt={visual.alt} loading="lazy" decoding="async" />
             </span>
-          </button>
+          </article>
         );
       })
     }
@@ -100,6 +95,8 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     isolation: isolate;
     background: var(--cor-fundo-elevado);
     background-color: var(--cor-fundo-elevado);
+    padding-block: clamp(var(--espaco-12), 5vw, var(--espaco-16));
+    overflow: hidden;
   }
 
   :global(#projects)::before {
@@ -107,7 +104,46 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     inset: 0;
     z-index: -1;
     content: "";
-    background: var(--cor-fundo-elevado);
+    background:
+      radial-gradient(circle at 50% 4%, rgba(0, 113, 227, 0.1), transparent 25rem),
+      var(--cor-fundo-elevado);
+  }
+
+  :global(#projects)::after {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    z-index: -1;
+    width: min(74vw, 760px);
+    height: 220px;
+    content: "";
+    background-image:
+      linear-gradient(var(--cor-textura) 1px, transparent 1px),
+      linear-gradient(90deg, var(--cor-textura) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 72%);
+    opacity: 0.7;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  :global(#projects .secao__cabecalho) {
+    max-width: 760px;
+    margin-bottom: clamp(var(--espaco-10), 6vw, var(--espaco-16));
+  }
+
+  :global(#projects .secao__cabecalho h2) {
+    margin-top: var(--espaco-4);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 650;
+    line-height: 0.96;
+    text-wrap: balance;
+  }
+
+  :global(#projects .secao__cabecalho > p:last-child) {
+    max-width: 56ch;
+    margin: var(--espaco-5) auto 0;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
   }
 
   .projetos {
@@ -121,16 +157,14 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
   .projetos__cartao {
     position: relative;
     display: grid;
-    min-height: 560px;
+    min-height: 500px;
     min-width: 0;
     overflow: hidden;
     border: 0;
     border-radius: var(--raio-medio);
-    padding: clamp(1.75rem, 4vw, 4rem) var(--espaco-5) 0;
+    padding: clamp(1.75rem, 4vw, 3rem) var(--espaco-5) 0;
     background: var(--projeto-fundo);
     color: var(--projeto-texto);
-    cursor: pointer;
-    font: inherit;
     text-align: center;
     isolation: isolate;
     transform: translateY(0);
@@ -151,8 +185,7 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     pointer-events: none;
   }
 
-  .projetos__cartao:hover,
-  .projetos__cartao:focus-visible {
+  .projetos__cartao:hover {
     box-shadow: 0 26px 70px rgba(29, 29, 31, 0.14);
     transform: translateY(-4px);
   }
@@ -162,41 +195,55 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     z-index: 2;
     display: grid;
     justify-items: center;
-    gap: var(--espaco-2);
+    gap: var(--espaco-3);
     min-width: 0;
   }
 
   .projetos__titulo {
     max-width: 14ch;
+    margin: 0;
     font-family: var(--fonte-display);
-    font-size: clamp(2.15rem, 8vw, 3.8rem);
+    font-size: clamp(2rem, 8vw, 3.35rem);
     font-weight: 650;
     line-height: 0.98;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-titulo);
     text-wrap: balance;
   }
 
   .projetos__subtitulo {
     max-width: 28ch;
     color: var(--projeto-suave);
-    font-size: clamp(1rem, 2.4vw, 1.35rem);
-    font-weight: 500;
+    font-size: 0.78rem;
+    font-weight: 700;
     line-height: 1.25;
+    text-transform: uppercase;
   }
 
-  .projetos__acao {
-    display: inline-grid;
-    min-height: 42px;
-    align-items: center;
-    margin-top: var(--espaco-3);
-    border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  .projetos__resumo {
+    max-width: 48ch;
+    color: var(--projeto-suave);
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .projetos__competencias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--espaco-2);
+    margin: var(--espaco-2) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .projetos__competencias li {
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
     border-radius: var(--raio-pilula);
-    padding: 0 var(--espaco-5);
-    background: color-mix(in srgb, currentColor 10%, transparent);
-    color: currentColor;
-    font-size: 0.95rem;
-    font-weight: 700;
-    line-height: 1;
+    padding: 0.35rem 0.65rem;
+    color: var(--projeto-suave);
+    font-size: 0.72rem;
+    font-weight: 650;
+    line-height: 1.2;
   }
 
   .projetos__visual {
@@ -218,8 +265,7 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     transition: transform 260ms ease;
   }
 
-  .projetos__cartao:hover .projetos__visual img,
-  .projetos__cartao:focus-visible .projetos__visual img {
+  .projetos__cartao:hover .projetos__visual img {
     transform: translateY(0) scale(1.025);
   }
 
@@ -232,21 +278,82 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     }
 
     .projetos__cartao {
-      min-height: min(72svh, 680px);
+      min-height: 420px;
+      padding-top: var(--espaco-8);
       padding-inline: var(--espaco-8);
     }
 
+    .projetos__titulo {
+      font-size: clamp(1.75rem, 3.6vw, 2.7rem);
+    }
+
+    .projetos__subtitulo {
+      font-size: 1rem;
+    }
+
     .projetos__visual {
-      min-height: 340px;
+      min-height: 220px;
       margin-inline: calc(var(--espaco-8) * -1);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .projetos {
+      width: calc(100vw - 32px);
+      margin-left: calc(50% - 50vw + 16px);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .projetos__cartao {
+      min-height: clamp(310px, 36vh, 350px);
+      padding: var(--espaco-6) var(--espaco-5) 0;
+    }
+
+    .projetos__titulo {
+      max-width: 16ch;
+      font-size: clamp(1.35rem, 1.75vw, 1.8rem);
+      line-height: 1.04;
+    }
+
+    .projetos__subtitulo {
+      font-size: 0.88rem;
+    }
+
+    .projetos__resumo {
+      font-size: 0.84rem;
+    }
+
+    .projetos__competencias {
+      display: none;
+    }
+
+    .projetos__visual {
+      min-height: 145px;
+      margin: var(--espaco-3) calc(var(--espaco-5) * -1) 0;
+    }
+
+    .projetos__visual img {
+      width: min(100%, 430px);
     }
   }
 
   @media (min-width: 1440px) {
     .projetos {
-      width: calc(100vw - 32px);
-      margin-left: calc(50% - 50vw + 16px);
       gap: 14px;
+    }
+
+    .projetos__cartao {
+      min-height: clamp(330px, 37vh, 390px);
+      padding-top: var(--espaco-8);
+    }
+
+    .projetos__titulo {
+      font-size: clamp(1.65rem, 1.7vw, 2rem);
+    }
+
+    .projetos__visual {
+      min-height: 165px;
     }
   }
 
@@ -269,34 +376,9 @@ const projetos = (await getCollection('projetos', ({ data }) => !data.rascunho))
     }
 
     .projetos__cartao:hover,
-    .projetos__cartao:focus-visible,
     .projetos__cartao:hover .projetos__visual img,
-    .projetos__cartao:focus-visible .projetos__visual img {
+    .projetos__visual img {
       transform: none;
     }
   }
 </style>
-
-<script>
-  const prepararAlertasProjetos = () => {
-    const botoes = document.querySelectorAll<HTMLButtonElement>('[data-projeto-alert]');
-
-    botoes.forEach((botao) => {
-      if (botao.dataset.projetoPreparado === 'true') return;
-      botao.dataset.projetoPreparado = 'true';
-
-      botao.addEventListener('click', () => {
-        const titulo = botao.dataset.projetoAlert ?? 'Project';
-        window.alert(`${titulo}: project details will be available soon.`);
-      });
-    });
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', prepararAlertasProjetos, { once: true });
-  } else {
-    prepararAlertasProjetos();
-  }
-
-  document.addEventListener('astro:after-swap', prepararAlertasProjetos);
-</script>

@@ -3,9 +3,6 @@
 </div>
 
 <script>
-  import * as THREE from 'three';
-  import FOG from 'vanta/dist/vanta.fog.min';
-
   type EfeitoVanta = {
     destroy: () => void;
     resize?: () => void;
@@ -14,7 +11,6 @@
   type FabricaFog = (opcoes: Record<string, unknown>) => EfeitoVanta;
 
   const preferenciaMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const criarFog = FOG as unknown as FabricaFog;
   let efeitoFog: EfeitoVanta | undefined;
   let tentativaIniciada = false;
 
@@ -57,7 +53,7 @@
     document.querySelector<HTMLElement>('[data-fundo-fog]')?.classList.remove('fundo-fog--ativo');
   };
 
-  const iniciarFog = () => {
+  const iniciarFog = async () => {
     const fundoFog = document.querySelector<HTMLElement>('[data-fundo-fog]');
     const alvoFog = document.querySelector<HTMLElement>('[data-fundo-fog-alvo]');
 
@@ -67,6 +63,12 @@
     if (preferenciaMovimento.matches || !navegadorSuportaWebGL()) return;
 
     try {
+      const [THREE, { default: FOG }] = await Promise.all([
+        import('three'),
+        import('vanta/dist/vanta.fog.min')
+      ]);
+      const criarFog = FOG as unknown as FabricaFog;
+
       efeitoFog = criarFog({
         el: alvoFog,
         THREE,
@@ -93,12 +95,21 @@
     }
   };
 
-  const iniciarQuandoDocumentoEstiverPronto = () => {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', iniciarFog, { once: true });
-    } else {
-      iniciarFog();
+  const iniciarAposIntro = () => {
+    const iniciarQuandoOcioso = () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => iniciarFog(), { timeout: 1200 });
+      } else {
+        globalThis.setTimeout(iniciarFog, 240);
+      }
+    };
+
+    if (document.documentElement.classList.contains('intro-ativa')) {
+      window.addEventListener('intro:complete', iniciarQuandoOcioso, { once: true });
+      return;
     }
+
+    iniciarQuandoOcioso();
   };
 
   preferenciaMovimento.addEventListener('change', () => {
@@ -112,7 +123,7 @@
   });
 
   window.addEventListener('pagehide', destruirFog);
-  iniciarQuandoDocumentoEstiverPronto();
+  iniciarAposIntro();
 </script>
 
 <style>
@@ -121,7 +132,10 @@
     inset: 0;
     z-index: var(--z-fundo);
     overflow: hidden;
-    background: var(--cor-fundo);
+    background:
+      radial-gradient(circle at 78% 18%, rgba(0, 102, 204, 0.11), transparent 24rem),
+      radial-gradient(circle at 16% 76%, rgba(83, 135, 174, 0.08), transparent 30rem),
+      var(--cor-fundo);
     pointer-events: none;
   }
 

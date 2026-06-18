@@ -1,7 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Adilson professional portfolio preview">
-  <rect width="1200" height="630" fill="#f5f5f7"/>
-  <path d="M0 120h1200M0 240h1200M0 360h1200M0 480h1200M180 0v630M360 0v630M540 0v630M720 0v630M900 0v630M1080 0v630" stroke="#d2d2d7" stroke-width="1" opacity=".38"/>
-  <rect x="88" y="92" width="1024" height="446" rx="28" fill="#ffffff" stroke="#d2d2d7"/>
-  <text x="140" y="292" fill="#1d1d1f" font-family="'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="88" font-weight="700">Adilson</text>
-  <text x="145" y="362" fill="#515154" font-family="'SF Pro Text', 'SF Pro Icons', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="32" font-weight="400">Senior Technical and Portfolio Leader</text>
+  <defs>
+    <radialGradient id="glow" cx="78%" cy="12%" r="72%">
+      <stop offset="0" stop-color="#d9ebff"/>
+      <stop offset=".52" stop-color="#f5f5f7"/>
+      <stop offset="1" stop-color="#fff"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M0 126h1200M0 252h1200M0 378h1200M0 504h1200M160 0v630M320 0v630M480 0v630M640 0v630M800 0v630M960 0v630M1120 0v630" stroke="#1d1d1f" stroke-width="1" opacity=".045"/>
+  <text x="104" y="118" fill="#0066cc" font-family="'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif" font-size="22" font-weight="700">PORTFOLIO · ENGINEERING · PRODUCT LEADERSHIP</text>
+  <text x="96" y="342" fill="#1d1d1f" font-family="'SF Pro Display', 'Helvetica Neue', 'Segoe UI', sans-serif" font-size="142" font-weight="700" letter-spacing="-6">Adilson</text>
+  <text x="104" y="414" fill="#515154" font-family="'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif" font-size="35" font-weight="500">Senior Product Portfolio and Technical Leader</text>
+  <rect x="104" y="492" width="108" height="8" rx="4" fill="#0066cc"/>
 </svg>

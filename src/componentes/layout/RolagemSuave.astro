@@ -1,0 +1,116 @@
+---
+import 'lenis/dist/lenis.css';
+---
+
+<div class="indicador-rolagem" aria-hidden="true">
+  <span class="indicador-rolagem__progresso"></span>
+</div>
+
+<script>
+  import type Lenis from 'lenis';
+
+  let lenisAtual: Lenis | undefined;
+  let removerEventoRolagem: (() => void) | undefined;
+
+  const movimentoReduzido = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const atualizarProgresso = (progresso: number) => {
+    document.documentElement.style.setProperty(
+      '--progresso-rolagem',
+      String(Math.min(1, Math.max(0, progresso)))
+    );
+  };
+
+  const destruirRolagem = () => {
+    removerEventoRolagem?.();
+    removerEventoRolagem = undefined;
+    lenisAtual?.destroy();
+    lenisAtual = undefined;
+    document.documentElement.classList.remove('lenis-ativo');
+    atualizarProgresso(0);
+  };
+
+  const iniciarRolagem = async () => {
+    destruirRolagem();
+
+    if (movimentoReduzido()) return;
+
+    const { default: Lenis } = await import('lenis');
+
+    lenisAtual = new Lenis({
+      autoRaf: true,
+      smoothWheel: true,
+      syncTouch: false,
+      anchors: true,
+      stopInertiaOnNavigate: true,
+      overscroll: true
+    });
+
+    const aoRolar = (lenis: Lenis) => {
+      atualizarProgresso(lenis.progress);
+    };
+
+    lenisAtual.on('scroll', aoRolar);
+    removerEventoRolagem = () => lenisAtual?.off('scroll', aoRolar);
+    atualizarProgresso(lenisAtual.progress);
+    document.documentElement.classList.add('lenis-ativo');
+  };
+
+  const iniciarAposIntro = () => {
+    if (document.documentElement.classList.contains('intro-ativa')) {
+      window.addEventListener('intro:complete', iniciarRolagem, { once: true });
+      return;
+    }
+
+    iniciarRolagem();
+  };
+
+  iniciarAposIntro();
+  document.addEventListener('astro:before-swap', destruirRolagem);
+  document.addEventListener('astro:after-swap', iniciarAposIntro);
+</script>
+
+<style>
+  .indicador-rolagem {
+    position: fixed;
+    top: 18vh;
+    right: 10px;
+    bottom: 18vh;
+    z-index: calc(var(--z-nav) - 1);
+    width: 7px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: var(--raio-pilula);
+    background: var(--cor-scroll-trilho);
+    box-shadow:
+      0 8px 24px rgba(29, 29, 31, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(16px) saturate(150%);
+    transition: opacity 220ms ease;
+  }
+
+  :global(html.lenis-ativo) .indicador-rolagem {
+    opacity: 1;
+  }
+
+  .indicador-rolagem__progresso {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 24%),
+      var(--cor-scroll-thumb);
+    box-shadow: 0 0 16px rgba(0, 102, 204, 0.4);
+    transform: scaleY(var(--progresso-rolagem, 0));
+    transform-origin: top;
+  }
+
+  @media (max-width: 899px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .indicador-rolagem {
+      display: none;
+    }
+  }
+</style>

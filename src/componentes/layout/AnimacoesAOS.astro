@@ -3,15 +3,14 @@ import 'aos/dist/aos.css';
 ---
 
 <script>
-  // @ts-ignore AOS does not ship TypeScript declarations.
-  import AOS from 'aos';
-
   let aosIniciado = false;
 
   const movimentoReduzido = () =>
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const iniciarAOS = () => {
+  const iniciarAOS = async () => {
+    const { default: AOS } = await import('aos');
+
     if (aosIniciado) {
       AOS.refreshHard();
       return;
@@ -30,14 +29,17 @@ import 'aos/dist/aos.css';
     window.setTimeout(() => AOS.refreshHard(), 80);
   };
 
-  if (document.documentElement.classList.contains('intro-ativa')) {
-    window.addEventListener('intro:complete', iniciarAOS, { once: true });
-    window.setTimeout(() => {
-      if (!aosIniciado) iniciarAOS();
-    }, 3600);
-  } else {
+  const iniciarAposIntro = () => {
+    if (document.documentElement.classList.contains('intro-ativa')) {
+      window.addEventListener('intro:complete', iniciarAOS, { once: true });
+      return;
+    }
+
     iniciarAOS();
-  }
+  };
+
+  iniciarAposIntro();
+  document.addEventListener('astro:after-swap', iniciarAposIntro);
 </script>
 
 <style is:global>

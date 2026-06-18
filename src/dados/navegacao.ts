@@ -3,5 +3,5 @@ export const navegacao = [
   { rotulo: 'About', href: '#about' },
   { rotulo: 'Experience', href: '#experience' },
   { rotulo: 'Projects', href: '#projects' },
-  { rotulo: 'Contact', href: '#contact' }
+  { rotulo: 'Connect', href: '#contact' }
 ] as const;

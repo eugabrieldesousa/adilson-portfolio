@@ -1,5 +1,7 @@
 /// <reference types="astro/client" />
 
+declare module 'aos';
+
 declare module 'vanta/dist/vanta.fog.min' {
   type EfeitoVanta = {
     destroy: () => void;

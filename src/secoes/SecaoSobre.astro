@@ -5,11 +5,11 @@ import { perfil } from '../dados/perfil';
 import Etiqueta from '../componentes/base/Etiqueta.astro';
 
 const competencias = [
+  'Product portfolio management',
   'Technical leadership',
-  'Portfolio execution',
-  'Product launches',
-  'Materials knowledge',
-  'Multicultural work'
+  'Cross-functional execution',
+  'Materials engineering',
+  'Global stakeholder alignment'
 ];
 
 const imagens = import.meta.glob<{ default: ImageMetadata }>('/src/assets/imagens/*.{jpg,jpeg,png,webp,avif}', {
@@ -42,13 +42,13 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
     <div class="sobre__conteudo">
       <p class="sobre__marcador">About</p>
-      <h2 id="about-titulo">Technical leadership with portfolio discipline.</h2>
+      <h2 id="about-titulo">Engineering depth. Portfolio perspective.</h2>
       <p class="sobre__resumo">{perfil.bioCurta}</p>
 
       <div class="sobre__divisor" aria-hidden="true"></div>
 
       <div class="sobre__foco">
-        <p class="sobre__rotulo">Professional focus</p>
+        <p class="sobre__rotulo">Core capabilities</p>
         <ul class="sobre__competencias" aria-label="Professional focus areas">
           {
             competencias.map((competencia, indice) => (
@@ -161,7 +161,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     font-size: 2.18rem;
     font-weight: 650;
     line-height: 0.98;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-titulo);
     text-wrap: balance;
   }
 

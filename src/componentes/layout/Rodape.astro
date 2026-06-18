@@ -1,0 +1,156 @@
+---
+import { perfil } from '../../dados/perfil';
+
+const anoAtual = new Date().getFullYear();
+type LinkRodape = {
+  href: string;
+  rotulo: string;
+  externo?: boolean;
+};
+
+const links: LinkRodape[] = [];
+
+if (perfil.links.email) {
+  links.push({ href: `mailto:${perfil.links.email}`, rotulo: perfil.links.email });
+}
+
+if (perfil.links.telefone) {
+  links.push({
+    href: `tel:${perfil.links.telefone.replace(/[^\d+]/g, '')}`,
+    rotulo: perfil.links.telefone
+  });
+}
+
+if (perfil.links.linkedin) {
+  links.push({ href: perfil.links.linkedin, rotulo: 'LinkedIn', externo: true });
+}
+
+if (perfil.links.curriculo) {
+  links.push({ href: perfil.links.curriculo, rotulo: 'Resume' });
+}
+---
+
+<footer class="rodape">
+  <div class="rodape__interno">
+    <div class="rodape__identidade">
+      <strong>{perfil.nome}</strong>
+      <span>{perfil.titulo}</span>
+      {perfil.contatoDemonstrativo && <small>Sample contact details</small>}
+    </div>
+
+    {links.length > 0 && (
+      <nav aria-label="Footer links">
+        <ul class="rodape__links">
+          {links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.externo ? '_blank' : undefined}
+                rel={link.externo ? 'noreferrer' : undefined}
+              >
+                {link.rotulo}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <div class="rodape__base">
+      <small>&copy; {anoAtual} {perfil.nome}. Professional portfolio.</small>
+      <a href="#home">Back to top <span aria-hidden="true">&uarr;</span></a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    padding: var(--espaco-12) var(--espaco-5)
+      calc(var(--altura-nav) + var(--espaco-10) + env(safe-area-inset-bottom));
+    background: var(--cor-rodape);
+    color: var(--cor-rodape-texto);
+  }
+
+  .rodape__interno {
+    display: grid;
+    width: min(100%, var(--largura-conteudo));
+    margin-inline: auto;
+    gap: var(--espaco-10);
+  }
+
+  .rodape__identidade {
+    display: grid;
+    gap: var(--espaco-1);
+  }
+
+  .rodape__identidade strong {
+    font-family: var(--fonte-display);
+    font-size: 1.25rem;
+    font-weight: 650;
+  }
+
+  .rodape__identidade span,
+  .rodape__identidade small,
+  .rodape__base {
+    color: var(--cor-rodape-texto-suave);
+  }
+
+  .rodape__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rodape__links a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .rodape a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .rodape a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .rodape__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    border-top: 1px solid var(--cor-rodape-borda);
+    padding-top: var(--espaco-6);
+    font-size: 0.88rem;
+  }
+
+  .rodape__base a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: var(--espaco-2);
+    margin-block: calc((44px - 1.4em) / -2);
+    color: var(--cor-rodape-texto);
+  }
+
+  @media (min-width: 768px) {
+    .rodape {
+      padding-inline: var(--espaco-8);
+    }
+
+    .rodape__interno {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .rodape__base {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

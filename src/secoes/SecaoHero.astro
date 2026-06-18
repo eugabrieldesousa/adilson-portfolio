@@ -9,27 +9,29 @@ const imagens = import.meta.glob<{ default: ImageMetadata }>('/src/assets/imagen
   eager: true
 });
 
-const chaveRetrato = perfil.retratoArquivo ? `/src/assets/imagens/${perfil.retratoArquivo}` : '';
+const chaveRetrato = perfil.retratoHeroArquivo
+  ? `/src/assets/imagens/${perfil.retratoHeroArquivo}`
+  : '';
 const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 ---
 
 <section id="home" class="hero" aria-labelledby="hero-title">
   <div class="hero__interno">
     <div class="hero__texto" data-aos="fade-up" data-aos-delay="80">
-      <p class="hero__marcador">Professional Portfolio</p>
+      <p class="hero__marcador">Portfolio · Engineering · Product Leadership</p>
       <h1 id="hero-title">{perfil.nome}</h1>
       <p class="hero__titulo">{perfil.titulo}</p>
       <p class="hero__resumo">{perfil.resumoHero}</p>
       <div class="hero__acoes" aria-label="Primary actions">
-        <Botao href="#contact" variante="primario">
-          Contact
+        <Botao href="#experience" variante="primario">
+          Explore Experience
           <Icone nome="arrow-right" tamanho={17} />
         </Botao>
-        <Botao href="#projects" variante="fantasma">View Work</Botao>
+        <Botao href="#projects" variante="fantasma">View Selected Work</Botao>
       </div>
     </div>
 
-    <div class="hero__visual" aria-label="Professional portrait area" data-aos="fade-up" data-aos-delay="180">
+    <div class="hero__visual" data-aos="fade-up" data-aos-delay="180">
       <div class="hero__retrato">
         {retrato ? (
           <Image
@@ -56,8 +58,6 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     display: grid;
     min-height: 100vh;
     min-height: 100svh;
-    height: 100vh;
-    height: 100svh;
     align-items: center;
     padding: var(--espaco-8) var(--espaco-5) calc(var(--altura-nav) + var(--espaco-6) + env(safe-area-inset-bottom));
     overflow: hidden;
@@ -87,18 +87,18 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   h1 {
     margin: 0;
     font-family: var(--fonte-display);
-    font-size: 3.25rem;
-    font-weight: 700;
+    font-size: clamp(4rem, 17vw, 6rem);
+    font-weight: 680;
     line-height: 0.98;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-display);
     overflow-wrap: break-word;
   }
 
   .hero__titulo {
     margin: var(--espaco-5) 0 0;
     color: var(--cor-texto);
-    font-size: 1.06rem;
-    font-weight: 600;
+    font-size: clamp(1.08rem, 3vw, 1.28rem);
+    font-weight: 620;
     line-height: 1.35;
     overflow-wrap: break-word;
   }
@@ -107,7 +107,8 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     max-width: 48ch;
     margin: var(--espaco-4) 0 0;
     color: var(--cor-texto-suave);
-    font-size: 1rem;
+    font-size: clamp(1rem, 2vw, 1.12rem);
+    line-height: 1.6;
     overflow-wrap: break-word;
   }
 
@@ -181,7 +182,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h1 {
-      font-size: 5.25rem;
+      font-size: clamp(5.5rem, 12vw, 7.5rem);
     }
 
     .hero__titulo {
@@ -202,7 +203,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h1 {
-      font-size: 6.5rem;
+      font-size: clamp(6.5rem, 9vw, 8.75rem);
     }
 
     .hero__visual {

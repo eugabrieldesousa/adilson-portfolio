@@ -2,7 +2,7 @@
 titulo: Cost and PMO Initiatives
 organizacao: Operations
 periodo: Execution control
-resumo: Program-level coordination focused on cost discipline, planning routines, project controls, and value creation.
+resumo: Program coordination focused on cost governance, planning routines, project controls, and disciplined execution.
 competencias:
   - PMO
   - Cost management

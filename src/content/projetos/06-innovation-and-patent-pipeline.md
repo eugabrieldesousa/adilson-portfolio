@@ -8,5 +8,5 @@ competencias:
   - Patent support
   - Technical documentation
 ordem: 6
-rascunho: false
+rascunho: true
 ---

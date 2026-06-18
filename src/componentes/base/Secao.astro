@@ -6,14 +6,30 @@ interface Props {
   marcador?: string;
   compacta?: boolean;
   fundoSolido?: boolean;
+  alinhamento?: 'inicio' | 'centro';
 }
 
-const { id, titulo, descricao, marcador = 'Portfolio', compacta = false, fundoSolido = false } = Astro.props;
+const {
+  id,
+  titulo,
+  descricao,
+  marcador = 'Portfolio',
+  compacta = false,
+  fundoSolido = false,
+  alinhamento = 'inicio'
+} = Astro.props;
 ---
 
 <section
   id={id}
-  class:list={['secao', { 'secao--compacta': compacta, 'secao--fundo-solido': fundoSolido }]}
+  class:list={[
+    'secao',
+    {
+      'secao--compacta': compacta,
+      'secao--fundo-solido': fundoSolido,
+      'secao--centro': alinhamento === 'centro'
+    }
+  ]}
   aria-labelledby={titulo ? `${id}-titulo` : undefined}
 >
   <div class="secao__interno" data-aos="fade-up">
@@ -51,6 +67,22 @@ const { id, titulo, descricao, marcador = 'Portfolio', compacta = false, fundoSo
     margin-bottom: var(--espaco-8);
   }
 
+  .secao--centro .secao__cabecalho {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .secao--centro .secao__marcador {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    border: 1px solid color-mix(in srgb, var(--cor-acento) 20%, transparent);
+    border-radius: var(--raio-pilula);
+    padding-inline: var(--espaco-4);
+    background: var(--cor-acento-suave);
+    color: var(--cor-acento);
+  }
+
   .secao__marcador {
     margin: 0 0 var(--espaco-2);
     color: var(--cor-texto-minimo);
@@ -63,9 +95,9 @@ const { id, titulo, descricao, marcador = 'Portfolio', compacta = false, fundoSo
     margin: 0;
     font-family: var(--fonte-display);
     font-size: 1.85rem;
-    font-weight: 600;
+    font-weight: 650;
     line-height: 1.1;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-titulo);
   }
 
   p {

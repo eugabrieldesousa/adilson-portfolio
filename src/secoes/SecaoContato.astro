@@ -1,12 +1,12 @@
 ---
 import { perfil } from '../dados/perfil';
-import Secao from '../componentes/base/Secao.astro';
 import LinkContato from '../componentes/base/LinkContato.astro';
 
 type LinkPublico = {
   href: string;
   rotulo: string;
-  tipo: 'mail' | 'linkedin' | 'file';
+  detalhe: string;
+  tipo: 'mail' | 'phone' | 'linkedin' | 'file';
   externo?: boolean;
   download?: boolean | string;
 };
@@ -14,37 +14,170 @@ type LinkPublico = {
 const links: LinkPublico[] = [];
 
 if (perfil.links.email) {
-  links.push({ href: `mailto:${perfil.links.email}`, rotulo: 'Email', tipo: 'mail' });
+  links.push({
+    href: `mailto:${perfil.links.email}`,
+    rotulo: perfil.links.email,
+    detalhe: 'Email',
+    tipo: 'mail'
+  });
+}
+
+if (perfil.links.telefone) {
+  links.push({
+    href: `tel:${perfil.links.telefone.replace(/[^\d+]/g, '')}`,
+    rotulo: perfil.links.telefone,
+    detalhe: 'Phone',
+    tipo: 'phone'
+  });
 }
 
 if (perfil.links.linkedin) {
-  links.push({ href: perfil.links.linkedin, rotulo: 'LinkedIn', tipo: 'linkedin', externo: true });
+  links.push({
+    href: perfil.links.linkedin,
+    rotulo: 'LinkedIn',
+    detalhe: 'Professional profile',
+    tipo: 'linkedin',
+    externo: true
+  });
 }
 
 if (perfil.links.curriculo) {
-  links.push({ href: perfil.links.curriculo, rotulo: 'Resume', tipo: 'file', download: true });
+  links.push({
+    href: perfil.links.curriculo,
+    rotulo: 'Resume',
+    detalhe: 'Download PDF',
+    tipo: 'file',
+    download: true
+  });
 }
 ---
 
-<Secao
-  id="contact"
-  titulo="Contact"
-  descricao="Direct contact, LinkedIn, and resume links will be added after review."
-  compacta
->
-  {links.length > 0 && (
-    <div class="contato__links">
-      {links.map((link) => (
-        <LinkContato {...link} />
-      ))}
-    </div>
-  )}
-</Secao>
+<section id="contact" class="contato" aria-labelledby="contact-title">
+  <div class="contato__interno" data-aos="fade-up">
+    <header class="contato__cabecalho">
+      <p class="contato__marcador">Contact</p>
+      <h2 id="contact-title">Connect around what comes next.</h2>
+      <p class="contato__descricao">
+        Professional conversations focused on product portfolios, technical leadership, materials engineering, and cross-functional delivery.
+      </p>
+      {perfil.contatoDemonstrativo && (
+        <span class="contato__aviso">Sample contact details</span>
+      )}
+    </header>
+
+    {links.length > 0 && (
+      <div class="contato__links">
+        {links.map((link) => (
+          <LinkContato {...link} variante="claro" />
+        ))}
+      </div>
+    )}
+  </div>
+</section>
 
 <style>
+  .contato {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(var(--espaco-20), 10vw, 8rem) var(--espaco-5);
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.2), transparent 30rem),
+      var(--cor-contato);
+    background-size: 64px 64px, 64px 64px, auto, auto;
+    color: var(--cor-contato-texto);
+    isolation: isolate;
+  }
+
+  .contato::after {
+    position: absolute;
+    right: -8rem;
+    bottom: -12rem;
+    width: 30rem;
+    height: 30rem;
+    border: 1px solid var(--cor-contato-borda);
+    border-radius: 50%;
+    content: "";
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .contato__interno {
+    position: relative;
+    z-index: 1;
+    width: min(100%, var(--largura-conteudo));
+    margin-inline: auto;
+  }
+
+  .contato__cabecalho {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .contato__marcador {
+    margin: 0 0 var(--espaco-4);
+    color: var(--cor-contato-texto-suave);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    max-width: 13ch;
+    margin: 0;
+    font-family: var(--fonte-display);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 650;
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
+  }
+
+  .contato__descricao {
+    max-width: 52ch;
+    margin: var(--espaco-8) 0 0;
+    color: var(--cor-contato-texto-suave);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    line-height: 1.5;
+  }
+
+  .contato__aviso {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    margin-top: var(--espaco-6);
+    border: 1px solid var(--cor-contato-borda);
+    border-radius: var(--raio-pilula);
+    padding-inline: var(--espaco-4);
+    background: rgba(0, 44, 104, 0.16);
+    color: var(--cor-contato-texto-suave);
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+
   .contato__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espaco-5);
+    display: grid;
+    width: min(100%, 820px);
+    margin: var(--espaco-12) auto 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espaco-4);
+  }
+
+  @media (min-width: 768px) {
+    .contato {
+      padding-inline: var(--espaco-8);
+    }
+
+    .contato__links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contato::after {
+      display: none;
+    }
   }
 </style>

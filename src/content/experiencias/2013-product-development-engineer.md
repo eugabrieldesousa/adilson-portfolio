@@ -3,7 +3,7 @@ titulo: Product Development Engineer
 organizacao: Whirlpool Corporation
 periodo: Jan 2013 - Jan 2017
 localizacao: Joinville, Santa Catarina, Brazil
-resumo: Served as technical leader for new product development, coordinating R&D interfaces with PMO, manufacturing, marketing, service, quality, and related teams.
+resumo: Led technical workstreams for new product development, coordinating R&D with PMO, manufacturing, marketing, service, quality, and other cross-functional teams.
 competencias:
   - Product development
   - Technical leadership

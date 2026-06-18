@@ -2,7 +2,7 @@
 titulo: Materials Engineering Programs
 organizacao: Engineering
 periodo: Technical delivery
-resumo: Applied materials knowledge supporting product development, manufacturing readiness, and technical decision-making.
+resumo: Materials expertise applied to product development, manufacturing readiness, and evidence-based technical decisions.
 competencias:
   - Materials knowledge
   - Engineering analysis

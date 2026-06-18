@@ -12,6 +12,17 @@
   --cor-acento: #0066cc;
   --cor-acento-hover: #004f9e;
   --cor-acento-suave: #e8f2ff;
+  --cor-contato: #0672e8;
+  --cor-contato-texto: #ffffff;
+  --cor-contato-texto-suave: rgba(255, 255, 255, 0.76);
+  --cor-contato-borda: rgba(255, 255, 255, 0.26);
+  --cor-contato-superficie: rgba(255, 255, 255, 0.14);
+  --cor-scroll-trilho: rgba(255, 255, 255, 0.42);
+  --cor-scroll-thumb: rgba(0, 102, 204, 0.82);
+  --cor-rodape: #003b7d;
+  --cor-rodape-texto: #ffffff;
+  --cor-rodape-texto-suave: rgba(255, 255, 255, 0.68);
+  --cor-rodape-borda: rgba(255, 255, 255, 0.16);
   --cor-nav: rgba(29, 29, 31, 0.58);
   --cor-nav-borda: rgba(255, 255, 255, 0.24);
   --cor-nav-hover: rgba(255, 255, 255, 0.12);
@@ -28,9 +39,10 @@
   --cor-fog-veu: rgba(245, 245, 247, 0.04);
   --opacidade-fog: 1;
   --desfoque-fog: 0px;
-
-  --fonte-corpo: "SF Pro Text", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --fonte-display: "SF Pro Display", "SF Pro Text", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fonte-corpo: "SF Pro Text", "Helvetica Neue", "Segoe UI Variable Text", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --fonte-display: "SF Pro Display", "Helvetica Neue", "Segoe UI Variable Display", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --tracking-display: -0.045em;
+  --tracking-titulo: -0.025em;
 
   --espaco-1: 0.25rem;
   --espaco-2: 0.5rem;
@@ -48,6 +60,7 @@
   --raio-pequeno: 4px;
   --raio-medio: 8px;
   --raio-retrato: 24px;
+  --raio-contato: 18px;
   --raio-pilula: 999px;
 
   --sombra-suave: 0 14px 42px rgba(29, 29, 31, 0.08);

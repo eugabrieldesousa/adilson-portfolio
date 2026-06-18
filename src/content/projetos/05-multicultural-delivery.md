@@ -2,7 +2,7 @@
 titulo: Multicultural Delivery
 organizacao: Leadership
 periodo: Global collaboration
-resumo: Cross-cultural project execution connecting technical teams, business stakeholders, and implementation priorities.
+resumo: Cross-cultural program delivery connecting technical teams, business stakeholders, and implementation priorities across regions.
 competencias:
   - Multicultural work
   - Technical leadership

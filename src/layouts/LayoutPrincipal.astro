@@ -6,6 +6,7 @@ import AnimacoesAOS from '../componentes/layout/AnimacoesAOS.astro';
 import FundoFog from '../componentes/layout/FundoFog.astro';
 import IntroAbertura from '../componentes/layout/IntroAbertura.astro';
 import Navegacao from '../componentes/layout/Navegacao.astro';
+import RolagemSuave from '../componentes/layout/RolagemSuave.astro';
 
 interface Props {
   titulo?: string;
@@ -22,7 +23,14 @@ const dadosEstruturados = {
   jobTitle: perfil.titulo,
   url: seo.urlBase,
   description: descricao,
-  image: imagemSocial
+  image: imagemSocial,
+  ...(perfil.localizacao && {
+    homeLocation: {
+      '@type': 'Place',
+      name: perfil.localizacao
+    }
+  }),
+  ...(perfil.links.linkedin && { sameAs: [perfil.links.linkedin] })
 };
 ---
 
@@ -34,26 +42,34 @@ const dadosEstruturados = {
     <meta name="generator" content={Astro.generator} />
     <title>{titulo}</title>
     <meta name="description" content={descricao} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={seo.canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content={`${perfil.nome} Professional Portfolio`} />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descricao} />
     <meta property="og:url" content={seo.canonical} />
     <meta property="og:image" content={imagemSocial} />
-    <meta property="og:image:alt" content="Adilson professional portfolio preview." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={seo.imagemSocialAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titulo} />
     <meta name="twitter:description" content={descricao} />
     <meta name="twitter:image" content={imagemSocial} />
+    <meta name="twitter:image:alt" content={seo.imagemSocialAlt} />
+    <meta name="theme-color" content="#f5f5f7" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)}></script>
   </head>
   <body>
     <FundoFog />
     <IntroAbertura />
     <AnimacoesAOS />
+    <RolagemSuave />
     <a class="skip-link" href="#conteudo">Skip to main content</a>
     <main id="conteudo" class="pagina">
       <slot />

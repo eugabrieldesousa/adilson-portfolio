@@ -4,9 +4,10 @@ const urlBase = 'https://adilson-portfolio.vercel.app';
 
 export const seo = {
   urlBase,
-  titulo: `${perfil.nome} | ${perfil.titulo}`,
+  titulo: `${perfil.nome} | Product Portfolio & Technical Leadership`,
   descricao:
-    'Professional portfolio and online resume for Adilson, focused on technical leadership, portfolio execution, product launches, and materials knowledge.',
-  imagemSocial: '/social-image.svg',
-  canonical: urlBase
+    'Adilson is a senior product portfolio and technical leader with experience in materials engineering, product development, and global program execution.',
+  imagemSocial: '/social-image.jpg',
+  imagemSocialAlt: `${perfil.nome} — ${perfil.titulo}`,
+  canonical: `${urlBase}/`
 } as const;

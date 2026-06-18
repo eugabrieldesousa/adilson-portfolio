@@ -3,11 +3,14 @@ interface Perfil {
   titulo: string;
   resumoHero: string;
   bioCurta: string;
+  retratoHeroArquivo: string;
   retratoArquivo: string;
   retratoAlt: string;
   localizacao: string;
+  contatoDemonstrativo: boolean;
   links: {
     email: string;
+    telefone: string;
     linkedin: string;
     curriculo: string;
   };
@@ -15,16 +18,19 @@ interface Perfil {
 
 export const perfil: Perfil = {
   nome: 'Adilson',
-  titulo: 'Senior Technical and Portfolio Leader',
+  titulo: 'Senior Product Portfolio and Technical Leader',
   resumoHero:
-    'Technical leadership, portfolio execution, product launch experience, and materials-focused project delivery.',
+    'Connecting portfolio strategy, engineering depth, and cross-functional execution from product development through market launch.',
   bioCurta:
-    'Adilson presents a career profile focused on technical leadership, strategic project delivery, portfolio execution, multicultural work, and materials knowledge.',
+    'A multidisciplinary career spanning product portfolio management, materials engineering, product development, and technical research. Adilson brings structure to complex programs, aligns global stakeholders, and translates technical priorities into disciplined execution.',
+  retratoHeroArquivo: 'retrato-hero.png',
   retratoArquivo: 'retrato.png',
   retratoAlt: 'Professional portrait of Adilson for his online portfolio.',
   localizacao: '',
+  contatoDemonstrativo: false,
   links: {
     email: '',
+    telefone: '',
     linkedin: '',
     curriculo: ''
   }

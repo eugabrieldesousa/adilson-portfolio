@@ -11,7 +11,27 @@ body {
   letter-spacing: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
+}
+
+html {
+  --progresso-rolagem: 0;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--cor-acento) rgba(29, 29, 31, 0.08);
+  scrollbar-width: thin;
+}
+
+@media (min-width: 900px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.lenis-ativo {
+    scrollbar-width: none;
+  }
+
+  html.lenis-ativo::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 html.intro-ativa,
@@ -26,6 +46,26 @@ html.intro-ativa .skip-link {
   user-select: none;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(29, 29, 31, 0.06);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--raio-pilula);
+  background: var(--cor-acento);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-acento-hover);
+  background-clip: padding-box;
+}
+
 body::before {
   position: fixed;
   inset: 0;
@@ -38,6 +78,23 @@ main {
   position: relative;
   z-index: 1;
   min-height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+strong {
+  font-optical-sizing: auto;
+}
+
+section[id] {
+  scroll-margin-top: var(--espaco-6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 :focus-visible {
@@ -69,5 +126,5 @@ main {
 }
 
 .pagina {
-  padding-bottom: calc(var(--altura-nav) + var(--espaco-10) + env(safe-area-inset-bottom));
+  padding-bottom: 0;
 }
