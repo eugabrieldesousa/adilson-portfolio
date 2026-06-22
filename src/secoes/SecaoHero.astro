@@ -3,7 +3,6 @@ import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import { perfil } from '../dados/perfil';
 import Botao from '../componentes/base/Botao.astro';
-import Icone from '../componentes/base/Icone.astro';
 
 const imagens = import.meta.glob<{ default: ImageMetadata }>('/src/assets/imagens/*.{jpg,jpeg,png,webp,avif}', {
   eager: true
@@ -18,17 +17,15 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 <section id="home" class="hero" aria-labelledby="hero-title">
   <div class="hero__interno">
     <div class="hero__texto" data-aos="fade-up" data-aos-delay="80">
-      <p class="hero__marcador">Product Portfolio · Materials Engineering · Technical Leadership</p>
+      <p class="hero__marcador">Portfolio &amp; Product Development Leader | Engineer | Expert in Materials Science</p>
       <h1 id="hero-title">{perfil.nome}</h1>
       <p class="hero__titulo">{perfil.titulo}</p>
       <p class="hero__resumo">{perfil.resumoHero}</p>
       <div class="hero__acoes" aria-label="Primary actions">
-        <Botao href="#experience" variante="primario">
-          Explore Experience
-          <Icone nome="arrow-right" tamanho={17} />
-        </Botao>
+        <Botao href="#experience" variante="primario">Explore Experience</Botao>
         <Botao href="#projects" variante="fantasma">View Selected Work</Botao>
       </div>
+      <div class="hero__continuidade" aria-hidden="true"></div>
     </div>
 
     <div class="hero__visual" data-aos="fade-up" data-aos-delay="180">
@@ -49,7 +46,6 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
       </div>
     </div>
   </div>
-
 </section>
 
 <style>
@@ -77,27 +73,31 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   }
 
   .hero__marcador {
+    max-width: 28ch;
     margin: 0 0 var(--espaco-5);
     color: var(--cor-texto-minimo);
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
+    overflow-wrap: break-word;
   }
 
   h1 {
     margin: 0;
     font-family: var(--fonte-display);
-    font-size: clamp(4rem, 17vw, 6rem);
+    max-width: 7.6ch;
+    font-size: 3.05rem;
     font-weight: 680;
     line-height: 0.98;
-    letter-spacing: var(--tracking-display);
+    letter-spacing: 0;
     overflow-wrap: break-word;
+    text-wrap: balance;
   }
 
   .hero__titulo {
     margin: var(--espaco-5) 0 0;
     color: var(--cor-texto);
-    font-size: clamp(1.08rem, 3vw, 1.28rem);
+    font-size: 1.08rem;
     font-weight: 620;
     line-height: 1.35;
     overflow-wrap: break-word;
@@ -107,16 +107,29 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     max-width: 48ch;
     margin: var(--espaco-4) 0 0;
     color: var(--cor-texto-suave);
-    font-size: clamp(1rem, 2vw, 1.12rem);
+    font-size: 1rem;
     line-height: 1.6;
     overflow-wrap: break-word;
   }
 
   .hero__acoes {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
+    align-items: flex-start;
     gap: var(--espaco-3);
     margin-top: var(--espaco-8);
+  }
+
+  .hero__acoes :global(.botao) {
+    width: min(100%, 240px);
+  }
+
+  .hero__continuidade {
+    width: 72px;
+    height: 1px;
+    margin-top: var(--espaco-5);
+    background: linear-gradient(90deg, var(--cor-acento), transparent);
   }
 
   .hero__visual {
@@ -182,11 +195,29 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h1 {
-      font-size: clamp(5.5rem, 12vw, 7.5rem);
+      max-width: none;
+      font-size: 5.5rem;
     }
 
     .hero__titulo {
       font-size: 1.25rem;
+    }
+
+    .hero__resumo {
+      font-size: 1.08rem;
+    }
+
+    .hero__marcador {
+      max-width: 52ch;
+    }
+
+    .hero__acoes {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .hero__acoes :global(.botao) {
+      width: auto;
     }
 
     .hero__retrato {
@@ -203,7 +234,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h1 {
-      font-size: clamp(6.5rem, 9vw, 8.75rem);
+      font-size: 6.75rem;
     }
 
     .hero__visual {

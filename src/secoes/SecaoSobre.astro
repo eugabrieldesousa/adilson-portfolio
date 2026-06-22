@@ -2,14 +2,14 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import { perfil } from '../dados/perfil';
-import Etiqueta from '../componentes/base/Etiqueta.astro';
 
 const competencias = [
-  'Product portfolio management',
-  'Technical leadership',
-  'Cross-functional execution',
-  'Materials engineering',
-  'Global stakeholder alignment'
+  'Leadership',
+  'Portfolio Management',
+  'Innovation',
+  'Engineering',
+  'Project Execution',
+  'Value Creation'
 ];
 
 const imagens = import.meta.glob<{ default: ImageMetadata }>('/src/assets/imagens/*.{jpg,jpeg,png,webp,avif}', {
@@ -42,22 +42,25 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
     <div class="sobre__conteudo">
       <p class="sobre__marcador">About</p>
-      <h2 id="about-titulo">Product portfolio leadership grounded in materials engineering.</h2>
-      <p class="sobre__resumo">{perfil.bioCurta}</p>
+      <h2 id="about-titulo">Transforming Strategy into Results Through Leadership, Innovation, Execution, and Value Creation</h2>
+      <div class="sobre__resumo">
+        {perfil.bioSobre.map((paragrafo) => <p>{paragrafo}</p>)}
+      </div>
 
       <div class="sobre__divisor" aria-hidden="true"></div>
 
       <div class="sobre__foco">
         <p class="sobre__rotulo">Core capabilities</p>
-        <ul class="sobre__competencias" aria-label="Professional focus areas">
+        <p class="sobre__competencias" aria-label="Professional focus areas">
           {
             competencias.map((competencia, indice) => (
-              <li>
-                <Etiqueta texto={competencia} variante="competencia" indice={String(indice + 1).padStart(2, '0')} />
-              </li>
+              <>
+                <span>{competencia}</span>
+                {indice < competencias.length - 1 && <span aria-hidden="true"> &bull; </span>}
+              </>
             ))
           }
-        </ul>
+        </p>
       </div>
     </div>
   </div>
@@ -155,12 +158,12 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   }
 
   h2 {
-    max-width: 10ch;
+    max-width: 16ch;
     margin: var(--espaco-3) 0 0;
     font-family: var(--fonte-display);
-    font-size: 2.18rem;
+    font-size: 2rem;
     font-weight: 650;
-    line-height: 0.98;
+    line-height: 1.02;
     letter-spacing: var(--tracking-titulo);
     text-wrap: balance;
   }
@@ -172,6 +175,14 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     font-size: 0.98rem;
   }
 
+  .sobre__resumo p {
+    margin: 0;
+  }
+
+  .sobre__resumo p + p {
+    margin-top: var(--espaco-4);
+  }
+
   .sobre__divisor {
     width: min(100%, 420px);
     height: 1px;
@@ -180,23 +191,12 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   }
 
   .sobre__competencias {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--espaco-2);
-    max-width: 680px;
+    max-width: 48ch;
     margin: var(--espaco-4) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .sobre__competencias li {
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .sobre__competencias {
-      gap: var(--espaco-3);
-    }
+    color: var(--cor-texto);
+    font-size: 1.06rem;
+    font-weight: 700;
+    line-height: 1.45;
   }
 
   @media (min-width: 768px) {
@@ -225,7 +225,8 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h2 {
-      font-size: 3.8rem;
+      max-width: 16ch;
+      font-size: 2.75rem;
     }
   }
 
@@ -236,7 +237,8 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h2 {
-      font-size: 4.5rem;
+      max-width: 16ch;
+      font-size: 3.05rem;
     }
   }
 </style>

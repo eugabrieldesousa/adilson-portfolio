@@ -2,7 +2,7 @@ interface Perfil {
   nome: string;
   titulo: string;
   resumoHero: string;
-  bioCurta: string;
+  bioSobre: string[];
   retratoHeroArquivo: string;
   retratoArquivo: string;
   retratoAlt: string;
@@ -16,12 +16,14 @@ interface Perfil {
 }
 
 export const perfil: Perfil = {
-  nome: 'Adilson',
-  titulo: 'Senior Product Portfolio and Technical Leader',
+  nome: 'Adilson Salcher',
+  titulo: 'Turning Strategy into Execution',
   resumoHero:
-    'Senior leader connecting product portfolio strategy, materials engineering, cost governance, and cross-functional execution from product development through launch.',
-  bioCurta:
-    'A multidisciplinary career spanning product portfolio management, materials engineering, product development, cost governance, and technical research. Adilson aligns global stakeholders and translates engineering and category priorities into disciplined execution.',
+    'Leading cross-functional teams to deliver product innovation, portfolio value creation, and cost transformation from concept through launch.',
+  bioSobre: [
+    'I am a Portfolio and Product Development Leader with expertise in Materials Science, Program Management, and Cost Transformation. Throughout my career, I have led cross-functional teams in different countries (Brazil, China, India, Europe and US) in the development and launch of innovative consumer products, driving value creation through strategic portfolio management, product innovation, and project management systems.',
+    'My experience spans product development, materials engineering, supplier collaboration, manufacturing readiness, and portfolio governance. I specialize in translating business strategy into executable programs that deliver measurable results.'
+  ],
   retratoHeroArquivo: 'retrato-hero.png',
   retratoArquivo: 'retrato.png',
   retratoAlt: 'Professional portrait of Adilson for his online portfolio.',
