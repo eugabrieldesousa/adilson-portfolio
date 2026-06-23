@@ -237,10 +237,15 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
   @media (min-width: 1024px) {
     .hero__interno {
-      grid-template-columns: minmax(520px, 640px) minmax(330px, 390px);
+      width: min(100%, 1260px);
+      grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.85fr);
       align-items: center;
       justify-content: center;
-      gap: clamp(var(--espaco-10), 4vw, var(--espaco-16));
+      gap: clamp(var(--espaco-6), 3vw, var(--espaco-10));
+    }
+
+    .hero__texto {
+      max-width: 720px;
     }
 
     h1 {
@@ -253,7 +258,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     .hero__retrato {
-      width: min(100%, 390px);
+      width: min(100%, 500px);
     }
   }
 
