@@ -1,11 +1,11 @@
 ---
-titulo: Refrigeration Product Development
+titulo: "Project Leadership: Water Purification, Air Conditioning & Small Appliances"
 organizacao: Product Engineering
-periodo: Cross-functional development
-resumo: Cross-functional refrigeration product development connecting R&D, manufacturing, quality, service, marketing, and project management.
+periodo: Multi-category leadership
+resumo: Project leadership across water purification, air conditioning, and small appliances, connecting product development with technical and cross-functional execution.
 competencias:
-  - Refrigeration development
-  - Technical leadership
+  - Multi-category projects
+  - Project leadership
   - Cross-functional execution
 tema: azul
 alturaImagemCard: 500
@@ -23,14 +23,14 @@ rascunho: false
 
 ## Program focus
 
-- Refrigeration product development
-- Technical workstream leadership
-- Cross-functional execution
+- Water purification, air conditioning, and small appliances
+- Product development and project leadership
+- Technical and cross-functional execution
 
 ## Leadership contribution
 
-Technical leadership connects R&D with manufacturing, quality, service, marketing, and project management.
+Project leadership connects product development with engineering, manufacturing, quality, service, marketing, and project management stakeholders.
 
 ## Execution approach
 
-Engineering requirements and cross-functional priorities are coordinated from product development through implementation readiness.
+Engineering requirements and cross-functional priorities are coordinated from concept development through implementation readiness.

@@ -1,12 +1,12 @@
 ---
-titulo: Water Purification Cost PMO
-organizacao: Cost and PMO
-periodo: Cost governance
-resumo: Cost and PMO routines for water purification initiatives, combining planning discipline, project controls, cost governance, and execution visibility.
+titulo: New Product Innovation & Market Introduction
+organizacao: Product Innovation
+periodo: Market introduction
+resumo: New product innovation and market introduction connecting product development, engineering coordination, operational readiness, and cross-functional execution.
 competencias:
-  - Cost governance
-  - Project controls
-  - Execution visibility
+  - Product innovation
+  - Market introduction
+  - Operational readiness
 tema: claro
 alturaImagemCard: 450
 imagemCard: ../../assets/imagens/projetos/brastemp.png
@@ -23,14 +23,14 @@ rascunho: false
 
 ## Program focus
 
-- Cost governance
-- PMO planning routines
-- Project controls and execution visibility
+- New product innovation
+- Development and market introduction
+- Operational and cross-functional readiness
 
 ## Leadership contribution
 
-Cost and program coordination translates category priorities into structured reviews, ownership, and decision visibility.
+Program coordination connects product concepts with engineering workstreams, implementation priorities, and readiness decisions.
 
 ## Execution approach
 
-Planning routines connect cost actions, schedules, risks, and cross-functional commitments.
+Structured planning connects technical activities, schedules, risks, stakeholders, and launch preparation.

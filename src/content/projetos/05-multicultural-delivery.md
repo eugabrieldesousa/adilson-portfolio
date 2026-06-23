@@ -1,12 +1,12 @@
 ---
-titulo: Global Air Conditioning Delivery
+titulo: Project Management & Development
 organizacao: Global Programs
-periodo: Multicultural delivery
-resumo: Multicultural delivery for air conditioning programs, aligning technical teams, business stakeholders, suppliers, and regional implementation priorities.
+periodo: Project development
+resumo: Project management and development aligning technical teams, business stakeholders, suppliers, schedules, risks, and regional implementation priorities.
 competencias:
-  - Global program delivery
-  - Supplier alignment
-  - Cross-cultural leadership
+  - Project management
+  - Program development
+  - Cross-functional delivery
 tema: preto
 alturaImagemCard: 500
 imagemCard: ../../assets/imagens/projetos/ar.png
@@ -23,14 +23,14 @@ rascunho: false
 
 ## Program focus
 
-- Multicultural program delivery
+- Project planning and development
 - Technical and business stakeholder alignment
 - Supplier and regional coordination
 
 ## Leadership contribution
 
-Cross-cultural leadership creates shared priorities across technical teams, business stakeholders, suppliers, and regions.
+Project leadership creates shared priorities across technical teams, business stakeholders, suppliers, and regional contributors.
 
 ## Execution approach
 
-Clear communication and structured follow-up connect global decisions with regional implementation priorities.
+Clear communication, project controls, and structured follow-up connect program decisions with implementation priorities.

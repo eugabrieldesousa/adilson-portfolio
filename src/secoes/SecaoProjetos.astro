@@ -20,9 +20,9 @@ const alturaBaseImagemCard = 500;
 
 <Secao
   id="projects"
-  titulo="Selected product and engineering programs"
+  titulo="Selected Product & Engineering Programs"
   marcador="Product portfolio"
-  descricao="Representative work across refrigeration, water purification, air conditioning, portfolio strategy, materials engineering, cost governance, and global delivery."
+  descricao="Leading complex global initiatives from concept development through commercialization, operational readiness, and value realization."
   alinhamento="centro"
   fundoSolido
 >
@@ -57,7 +57,14 @@ const alturaBaseImagemCard = 500;
               </div>
 
               <div class="projetos__texto">
-                <h3 class="projetos__titulo">{data.titulo}</h3>
+                <h3
+                  class:list={[
+                    'projetos__titulo',
+                    { 'projetos__titulo--longo': data.titulo.length > 56 }
+                  ]}
+                >
+                  {data.titulo}
+                </h3>
 
                 <button
                   class="projetos__acao"
@@ -110,22 +117,25 @@ const alturaBaseImagemCard = 500;
   }
 
   :global(#projects .secao__cabecalho) {
-    max-width: 760px;
+    max-width: 900px;
     margin-bottom: clamp(var(--espaco-10), 6vw, var(--espaco-16));
   }
 
   :global(#projects .secao__cabecalho h2) {
     margin-top: var(--espaco-4);
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    max-width: 18ch;
+    margin-inline: auto;
+    font-size: clamp(2.65rem, 5.7vw, 5.25rem);
     font-weight: 650;
-    line-height: 0.96;
+    line-height: 0.94;
     text-wrap: balance;
   }
 
   :global(#projects .secao__cabecalho > p:last-child) {
-    max-width: 56ch;
-    margin: var(--espaco-5) auto 0;
-    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    max-width: 66ch;
+    margin: var(--espaco-6) auto 0;
+    font-size: clamp(1rem, 1.5vw, 1.18rem);
+    line-height: 1.55;
   }
 
   .projetos {
@@ -150,6 +160,7 @@ const alturaBaseImagemCard = 500;
     border-radius: var(--raio-medio);
     background: var(--projeto-fundo);
     color: var(--projeto-texto);
+    box-shadow: 0 16px 42px rgba(29, 29, 31, 0.08);
     text-align: center;
   }
 
@@ -172,32 +183,40 @@ const alturaBaseImagemCard = 500;
     inset: clamp(2rem, 4.5vw, 3.5rem) var(--espaco-5) auto;
     z-index: 2;
     display: flex;
-    min-height: clamp(150px, 25%, 210px);
+    min-height: clamp(168px, 29%, 230px);
     flex-direction: column;
     align-items: center;
     justify-items: center;
-    gap: var(--espaco-2);
+    gap: var(--espaco-3);
     pointer-events: none;
   }
 
   .projetos__titulo {
     display: -webkit-box;
     width: 100%;
-    height: 2.12em;
+    height: 3.12em;
     margin: 0;
-    max-width: 22ch;
-    min-height: 2.12em;
-    max-height: 2.12em;
-    flex: 0 0 2.12em;
+    max-width: 24ch;
+    min-height: 3.12em;
+    max-height: 3.12em;
+    flex: 0 0 3.12em;
     overflow: hidden;
     font-family: var(--fonte-display);
-    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-size: clamp(1.65rem, 7vw, 2.8rem);
     font-weight: 650;
     line-height: 1.04;
     letter-spacing: var(--tracking-titulo);
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     text-wrap: balance;
+  }
+
+  .projetos__titulo--longo {
+    height: 3.25em;
+    min-height: 3.25em;
+    max-height: 3.25em;
+    flex-basis: 3.25em;
+    font-size: clamp(1.45rem, 6.2vw, 2.45rem);
   }
 
   .projetos__acao {
@@ -269,7 +288,11 @@ const alturaBaseImagemCard = 500;
     }
 
     .projetos__titulo {
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(1.65rem, 3.35vw, 2.55rem);
+    }
+
+    .projetos__titulo--longo {
+      font-size: clamp(1.45rem, 2.85vw, 2.15rem);
     }
   }
 
@@ -285,12 +308,16 @@ const alturaBaseImagemCard = 500;
     }
 
     .projetos__texto {
-      inset: var(--espaco-8) var(--espaco-5) auto;
-      min-height: 150px;
+      inset: var(--espaco-8) var(--espaco-6) auto;
+      min-height: 178px;
     }
 
     .projetos__titulo {
-      font-size: clamp(1.65rem, 2.5vw, 2.45rem);
+      font-size: clamp(1.35rem, 2.05vw, 2rem);
+    }
+
+    .projetos__titulo--longo {
+      font-size: clamp(1.2rem, 1.75vw, 1.7rem);
     }
 
   }
@@ -302,11 +329,15 @@ const alturaBaseImagemCard = 500;
 
     .projetos__texto {
       inset: var(--espaco-10) var(--espaco-8) auto;
-      min-height: 170px;
+      min-height: 198px;
     }
 
     .projetos__titulo {
-      font-size: clamp(2rem, 2.15vw, 2.8rem);
+      font-size: clamp(1.65rem, 1.85vw, 2.35rem);
+    }
+
+    .projetos__titulo--longo {
+      font-size: clamp(1.4rem, 1.58vw, 2rem);
     }
   }
 

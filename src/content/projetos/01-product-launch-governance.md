@@ -1,11 +1,11 @@
 ---
-titulo: Refrigeration Launch Governance
+titulo: Portfolio Leadership & Value Creation
 organizacao: Product Portfolio
-periodo: Launch governance
-resumo: Cross-functional governance for refrigeration launches, connecting scope, schedule, risk visibility, supplier alignment, and leadership decisions.
+periodo: Portfolio leadership
+resumo: Portfolio leadership connecting product priorities, governance, cross-functional execution, and decision visibility to support value creation.
 competencias:
-  - Refrigeration launches
-  - Supplier alignment
+  - Portfolio leadership
+  - Value creation
   - Decision governance
 tema: azul
 alturaImagemCard: 500
@@ -23,14 +23,14 @@ rascunho: false
 
 ## Program focus
 
-- Refrigeration launch governance
-- Scope, schedule, and risk visibility
-- Supplier and stakeholder alignment
+- Product portfolio priorities
+- Governance and execution visibility
+- Cross-functional stakeholder alignment
 
 ## Leadership contribution
 
-Cross-functional coordination connects technical readiness with portfolio priorities and leadership decisions.
+Portfolio leadership connects technical and business priorities with structured governance and informed leadership decisions.
 
 ## Execution approach
 
-Structured governance supports clear ownership, timely escalation, and disciplined launch reviews.
+Structured reviews support clear ownership, timely escalation, and disciplined execution across product initiatives.

@@ -1,12 +1,12 @@
 ---
-titulo: Brastemp Water Purification
-organizacao: Portfolio Strategy
-periodo: Portfolio planning
-resumo: Portfolio planning for water purification products, aligning category priorities, engineering workstreams, cost visibility, and delivery milestones.
+titulo: Cross-Category Materials & Finishing Development
+organizacao: Materials Engineering
+periodo: Cross-category development
+resumo: Cross-category materials and finishing development supporting technical requirements, product quality, manufacturing readiness, and coordinated engineering execution.
 competencias:
-  - Water purification products
-  - Portfolio planning
-  - Cost visibility
+  - Materials development
+  - Product finishing
+  - Cross-category execution
 tema: claro
 alturaImagemCard: 450
 imagemCard: ../../assets/imagens/projetos/brastemp.png
@@ -23,14 +23,14 @@ rascunho: false
 
 ## Program focus
 
-- Water purification portfolio planning
-- Category and engineering priorities
-- Cost visibility and delivery milestones
+- Materials and finishing development
+- Cross-category technical requirements
+- Product and manufacturing readiness
 
 ## Leadership contribution
 
-Portfolio coordination connects product priorities with engineering workstreams and leadership visibility.
+Technical coordination connects materials requirements with product development, quality, suppliers, and manufacturing workstreams.
 
 ## Execution approach
 
-Roadmaps and review routines provide a structured view of dependencies, decisions, and delivery progress.
+Development reviews provide visibility into technical dependencies, material decisions, implementation constraints, and delivery progress.

@@ -80,7 +80,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
   .sobre__interno {
     display: grid;
-    width: min(100%, var(--largura-conteudo));
+    width: min(100%, 1360px);
     align-items: center;
     margin-inline: auto;
     gap: var(--espaco-5);
@@ -144,7 +144,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
   .sobre__conteudo {
     min-width: 0;
-    max-width: 680px;
+    max-width: 780px;
   }
 
   .sobre__marcador,
@@ -158,7 +158,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   }
 
   h2 {
-    max-width: 16ch;
+    max-width: 21ch;
     margin: var(--espaco-3) 0 0;
     font-family: var(--fonte-display);
     font-size: 2rem;
@@ -206,8 +206,8 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     .sobre__interno {
-      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1fr);
-      gap: var(--espaco-10);
+      grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+      gap: clamp(var(--espaco-8), 5vw, var(--espaco-16));
     }
 
     .sobre__visual {
@@ -225,20 +225,20 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     h2 {
-      max-width: 16ch;
-      font-size: 2.75rem;
+      max-width: 21ch;
+      font-size: clamp(2.6rem, 4.25vw, 3.2rem);
     }
   }
 
   @media (min-width: 1120px) {
     .sobre__interno {
-      grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1fr);
-      gap: var(--espaco-16);
+      grid-template-columns: minmax(360px, 0.82fr) minmax(0, 1.18fr);
+      gap: clamp(var(--espaco-12), 5vw, var(--espaco-20));
     }
 
     h2 {
-      max-width: 16ch;
-      font-size: 3.05rem;
+      max-width: 23ch;
+      font-size: clamp(3rem, 3.35vw, 3.35rem);
     }
   }
 </style>

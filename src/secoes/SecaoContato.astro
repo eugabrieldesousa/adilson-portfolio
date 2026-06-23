@@ -1,291 +1,210 @@
 ---
 import { perfil } from '../dados/perfil';
-import LinkContato from '../componentes/base/LinkContato.astro';
+import Icone from '../componentes/base/Icone.astro';
 
-type LinkPublico = {
-  href: string;
-  rotulo: string;
-  detalhe: string;
-  tipo: 'mail' | 'phone' | 'linkedin' | 'file';
-  externo?: boolean;
-  download?: boolean | string;
-};
-
-const contatosDiretos: LinkPublico[] = [];
-const linksSecundarios: LinkPublico[] = [];
-
-if (perfil.links.email) {
-  contatosDiretos.push({
-    href: `mailto:${perfil.links.email}`,
-    rotulo: perfil.links.email,
-    detalhe: 'Email',
-    tipo: 'mail'
-  });
-}
-
-if (perfil.links.telefone) {
-  contatosDiretos.push({
-    href: `tel:${perfil.links.telefone.replace(/[^\d+]/g, '')}`,
-    rotulo: perfil.links.telefone,
-    detalhe: 'Phone',
-    tipo: 'phone'
-  });
-}
-
-if (perfil.links.linkedin) {
-  linksSecundarios.push({
-    href: perfil.links.linkedin,
+const contatos = [
+  {
+    rotulo: 'Email',
+    valor: perfil.links.email,
+    href: perfil.links.email ? `mailto:${perfil.links.email}` : undefined,
+    icone: 'mail' as const
+  },
+  {
     rotulo: 'LinkedIn',
-    detalhe: 'Professional profile',
-    tipo: 'linkedin',
+    valor: 'Professional profile',
+    href: perfil.links.linkedin || undefined,
+    icone: 'linkedin' as const,
     externo: true
-  });
-}
-
-if (perfil.links.curriculo) {
-  linksSecundarios.push({
-    href: perfil.links.curriculo,
-    rotulo: 'Resume',
-    detalhe: 'Download PDF',
-    tipo: 'file',
-    download: true
-  });
-}
+  },
+  {
+    rotulo: 'Location',
+    valor: perfil.localizacao,
+    icone: 'location' as const
+  }
+].filter((contato) => contato.valor);
 ---
 
 <section id="contact" class="contato" aria-labelledby="contact-title">
-  <span class="contato__elemento contato__elemento--esquerda" aria-hidden="true"></span>
-  <span class="contato__elemento contato__elemento--direita" aria-hidden="true"></span>
-
   <div class="contato__interno" data-aos="fade-up">
     <header class="contato__cabecalho">
       <p class="contato__marcador">Contact</p>
-      <h2 id="contact-title">Connect on product and engineering leadership.</h2>
+      <h2 id="contact-title">Building Innovation Through Leadership and Execution</h2>
       <p class="contato__descricao">
-        Professional conversations focused on product portfolio strategy, materials engineering, cost governance, technical leadership, and global execution.
+        I welcome conversations about engineering leadership, portfolio management, product innovation, materials science, and business transformation.
       </p>
     </header>
 
-    {linksSecundarios.length > 0 && (
-      <div class="contato__links">
-        {linksSecundarios.map((link) => (
-          <LinkContato {...link} variante="claro" />
-        ))}
-      </div>
-    )}
+    <div class="contato__informacoes" aria-label="Contact information">
+      {
+        contatos.map((contato) => {
+          const conteudo = (
+            <>
+              <span class="contato__icone">
+                <Icone nome={contato.icone} tamanho={20} />
+              </span>
+              <span class="contato__texto">
+                <span class="contato__rotulo">{contato.rotulo}</span>
+                <strong>{contato.valor}</strong>
+              </span>
+              {contato.href && (
+                <span class="contato__seta" aria-hidden="true">
+                  <Icone nome={contato.externo ? 'external-link' : 'arrow-right'} tamanho={18} />
+                </span>
+              )}
+            </>
+          );
 
-    {contatosDiretos.length > 0 && (
-      <div class="contato__faixa" aria-label="Direct contact details">
-        <div class="contato__faixa-cabecalho">
-          <span>Direct contact</span>
-          <strong>Email and phone</strong>
-        </div>
-
-        <div class="contato__faixa-links">
-          {contatosDiretos.map((link) => (
-            <LinkContato {...link} variante="claro" />
-          ))}
-        </div>
-      </div>
-    )}
+          return contato.href ? (
+            <a
+              class="contato__item contato__item--link"
+              href={contato.href}
+              target={contato.externo ? '_blank' : undefined}
+              rel={contato.externo ? 'noreferrer' : undefined}
+            >
+              {conteudo}
+            </a>
+          ) : (
+            <div class="contato__item">{conteudo}</div>
+          );
+        })
+      }
+    </div>
   </div>
 </section>
 
 <style>
   .contato {
     position: relative;
+    padding:
+      clamp(var(--espaco-20), 9vw, 8rem)
+      var(--espaco-5)
+      clamp(var(--espaco-20), 8vw, 7rem);
     overflow: hidden;
-    padding: clamp(var(--espaco-20), 10vw, 8rem) var(--espaco-5);
+    border-top: 1px solid var(--cor-borda-suave);
     background:
-      linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.2), transparent 30rem),
-      var(--cor-contato);
-    background-size: 64px 64px, 64px 64px, auto, auto;
-    color: var(--cor-contato-texto);
-    isolation: isolate;
-  }
-
-  .contato::after {
-    position: absolute;
-    right: -8rem;
-    bottom: -12rem;
-    width: 30rem;
-    height: 30rem;
-    border: 1px solid var(--cor-contato-borda);
-    border-radius: 50%;
-    content: "";
-    opacity: 0.55;
-    pointer-events: none;
-  }
-
-  .contato__elemento {
-    position: absolute;
-    z-index: 0;
-    width: clamp(8rem, 16vw, 14rem);
-    aspect-ratio: 1;
-    border: 1px solid var(--cor-contato-borda);
-    border-radius: var(--raio-medio);
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 60%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      0 24px 70px rgba(0, 44, 104, 0.16);
-    opacity: 0.55;
-    pointer-events: none;
-    backdrop-filter: blur(10px);
-    animation: contato-flutuar 7s ease-in-out infinite;
-  }
-
-  .contato__elemento::after {
-    position: absolute;
-    inset: 20%;
-    border: 1px solid var(--cor-contato-borda);
-    border-radius: 50%;
-    content: "";
-  }
-
-  .contato__elemento--esquerda {
-    top: 18%;
-    left: clamp(-7rem, -5vw, -3rem);
-    transform: rotate(18deg);
-  }
-
-  .contato__elemento--direita {
-    right: clamp(-6rem, -4vw, -2rem);
-    bottom: 20%;
-    animation-delay: -3.5s;
-    transform: rotate(-14deg);
+      linear-gradient(180deg, rgba(0, 102, 204, 0.035), transparent 42%),
+      var(--cor-fundo-elevado);
+    color: var(--cor-texto);
   }
 
   .contato__interno {
-    position: relative;
-    z-index: 1;
+    display: grid;
     width: min(100%, var(--largura-conteudo));
     margin-inline: auto;
+    gap: var(--espaco-12);
   }
 
   .contato__cabecalho {
-    display: grid;
-    justify-items: center;
-    text-align: center;
+    max-width: 680px;
   }
 
   .contato__marcador {
     margin: 0 0 var(--espaco-4);
-    color: var(--cor-contato-texto-suave);
+    color: var(--cor-acento);
     font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
   }
 
   h2 {
-    max-width: 13ch;
+    max-width: 18ch;
     margin: 0;
     font-family: var(--fonte-display);
-    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
     font-weight: 650;
-    line-height: 0.92;
-    letter-spacing: var(--tracking-display);
+    line-height: 0.98;
+    letter-spacing: var(--tracking-titulo);
     text-wrap: balance;
   }
 
   .contato__descricao {
-    max-width: 52ch;
-    margin: var(--espaco-8) 0 0;
-    color: var(--cor-contato-texto-suave);
-    font-size: clamp(1.05rem, 2vw, 1.35rem);
-    line-height: 1.5;
+    max-width: 57ch;
+    margin: var(--espaco-6) 0 0;
+    color: var(--cor-texto-suave);
+    font-size: clamp(1rem, 1.5vw, 1.16rem);
+    line-height: 1.65;
   }
 
-  .contato__links {
+  .contato__informacoes {
+    align-self: center;
+    border-top: 1px solid var(--cor-borda);
+  }
+
+  .contato__item {
     display: grid;
-    width: min(100%, 820px);
-    margin: var(--espaco-12) auto 0;
-    grid-template-columns: minmax(0, 1fr);
+    min-height: 92px;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: center;
     gap: var(--espaco-4);
+    border-bottom: 1px solid var(--cor-borda);
+    color: var(--cor-texto);
   }
 
-  .contato__faixa {
+  .contato__item--link {
+    text-decoration: none;
+    transition:
+      color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .contato__item--link:hover,
+  .contato__item--link:focus-visible {
+    padding-inline: var(--espaco-3);
+    color: var(--cor-acento);
+  }
+
+  .contato__icone {
     display: grid;
-    width: min(100%, 980px);
-    margin: clamp(var(--espaco-12), 7vw, var(--espaco-20)) auto 0;
-    gap: var(--espaco-6);
-    border: 1px solid var(--cor-contato-borda);
-    border-radius: var(--raio-contato);
-    padding: clamp(var(--espaco-5), 4vw, var(--espaco-8));
-    background: color-mix(in srgb, var(--cor-contato) 70%, var(--cor-contato-profunda));
-    box-shadow:
-      0 24px 70px rgba(0, 44, 104, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid var(--cor-borda);
+    border-radius: 50%;
+    color: var(--cor-acento);
   }
 
-  .contato__faixa-cabecalho {
+  .contato__texto {
     display: grid;
-    align-content: center;
-    gap: var(--espaco-2);
-    text-align: left;
+    min-width: 0;
+    gap: var(--espaco-1);
   }
 
-  .contato__faixa-cabecalho span {
-    color: var(--cor-contato-texto-suave);
-    font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+  .contato__rotulo {
+    color: var(--cor-texto-minimo);
+    font-size: 0.76rem;
     font-weight: 700;
     text-transform: uppercase;
   }
 
-  .contato__faixa-cabecalho strong {
-    max-width: 16ch;
-    font-family: var(--fonte-display);
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  .contato__texto strong {
+    overflow-wrap: anywhere;
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
     font-weight: 620;
-    line-height: 1.05;
   }
 
-  .contato__faixa-links {
+  .contato__seta {
     display: grid;
-    min-width: 0;
-    gap: var(--espaco-3);
-  }
-
-  .contato__faixa-links :global(.link-contato--claro) {
-    min-height: 96px;
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  @keyframes contato-flutuar {
-    0%,
-    100% {
-      translate: 0 -6px;
-    }
-
-    50% {
-      translate: 0 8px;
-    }
+    place-items: center;
+    color: var(--cor-texto-minimo);
   }
 
   @media (min-width: 768px) {
     .contato {
       padding-inline: var(--espaco-8);
     }
+  }
 
-    .contato__links {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .contato__faixa {
-      grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.6fr);
-      align-items: stretch;
-    }
-
-    .contato__faixa-links {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (min-width: 1024px) {
+    .contato__interno {
+      grid-template-columns: minmax(0, 1.3fr) minmax(360px, 0.7fr);
+      align-items: center;
+      gap: clamp(var(--espaco-16), 6vw, var(--espaco-24));
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .contato__elemento {
-      animation: none;
+    .contato__item--link {
+      transition: none;
     }
   }
 </style>

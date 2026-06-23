@@ -1,11 +1,11 @@
 ---
-titulo: Air Conditioning Materials
+titulo: Materials Innovation & Development
 organizacao: Materials Engineering
-periodo: Technical delivery
-resumo: Materials engineering for air conditioning products, supporting material selection, technical analysis, quality, manufacturing readiness, and product development.
+periodo: Innovation and development
+resumo: Materials innovation and development supporting material selection, technical analysis, product quality, manufacturing readiness, and engineering implementation.
 competencias:
-  - Material selection
-  - Technical analysis
+  - Materials innovation
+  - Technical development
   - Manufacturing readiness
 tema: preto
 temaModal: preto
@@ -24,14 +24,14 @@ rascunho: false
 
 ## Program focus
 
-- Material selection and development
-- Technical analysis and quality support
-- Manufacturing readiness
+- Materials innovation and selection
+- Technical development and quality support
+- Manufacturing and implementation readiness
 
 ## Leadership contribution
 
-Materials expertise supports evidence-based decisions across product development, suppliers, quality, and manufacturing.
+Materials expertise supports evidence-based decisions across product development, suppliers, quality, and manufacturing teams.
 
 ## Execution approach
 
-Technical requirements, material performance, and implementation constraints are evaluated together to support product readiness.
+Technical requirements, material performance, and implementation constraints are evaluated together to support robust product development.

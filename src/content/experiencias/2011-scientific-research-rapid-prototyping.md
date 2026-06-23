@@ -1,5 +1,5 @@
 ---
-titulo: Scientific Research, Rapid Prototyping
+titulo: Scientific Research Intern, Rapid Prototyping
 organizacao: CNPq - MCT
 periodo: Jan 2011 - Jan 2012
 localizacao: Joinville, Santa Catarina, Brazil

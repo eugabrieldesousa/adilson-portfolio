@@ -55,47 +55,46 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     min-height: 100vh;
     min-height: 100svh;
     align-items: center;
-    padding: var(--espaco-8) var(--espaco-5) calc(var(--altura-nav) + var(--espaco-6) + env(safe-area-inset-bottom));
+    padding: var(--espaco-10) var(--espaco-5) calc(var(--altura-nav) + var(--espaco-6) + env(safe-area-inset-bottom));
     overflow: hidden;
   }
 
   .hero__interno {
     display: grid;
-    width: min(100%, 1060px);
+    width: min(100%, 1260px);
     align-items: center;
     margin-inline: auto;
-    gap: var(--espaco-5);
+    gap: var(--espaco-8);
   }
 
   .hero__texto {
     min-width: 0;
-    max-width: 540px;
+    max-width: 680px;
   }
 
   .hero__marcador {
-    max-width: 28ch;
+    max-width: 34ch;
     margin: 0 0 var(--espaco-5);
     color: var(--cor-texto-minimo);
-    font-size: 0.8rem;
+    font-size: 0.74rem;
     font-weight: 600;
+    line-height: 1.45;
     text-transform: uppercase;
-    overflow-wrap: break-word;
   }
 
   h1 {
     margin: 0;
     font-family: var(--fonte-display);
-    max-width: 7.6ch;
+    max-width: 7.5ch;
     font-size: 3.05rem;
     font-weight: 680;
-    line-height: 0.98;
+    line-height: 0.92;
     letter-spacing: 0;
-    overflow-wrap: break-word;
     text-wrap: balance;
   }
 
   .hero__titulo {
-    margin: var(--espaco-5) 0 0;
+    margin: var(--espaco-6) 0 0;
     color: var(--cor-texto);
     font-size: 1.08rem;
     font-weight: 620;
@@ -104,7 +103,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   }
 
   .hero__resumo {
-    max-width: 48ch;
+    max-width: 54ch;
     margin: var(--espaco-4) 0 0;
     color: var(--cor-texto-suave);
     font-size: 1rem;
@@ -118,7 +117,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: var(--espaco-3);
-    margin-top: var(--espaco-8);
+    margin-top: var(--espaco-6);
   }
 
   .hero__acoes :global(.botao) {
@@ -128,7 +127,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
   .hero__continuidade {
     width: 72px;
     height: 1px;
-    margin-top: var(--espaco-5);
+    margin-top: var(--espaco-6);
     background: linear-gradient(90deg, var(--cor-acento), transparent);
   }
 
@@ -139,7 +138,7 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
 
   .hero__retrato {
     position: relative;
-    width: min(70vw, 240px);
+    width: min(58vw, 200px);
     z-index: 0;
     aspect-ratio: 4 / 5;
     overflow: hidden;
@@ -194,9 +193,19 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
       padding-inline: var(--espaco-8);
     }
 
+    .hero__interno {
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+      justify-content: space-between;
+      gap: var(--espaco-8);
+    }
+
+    .hero__texto {
+      max-width: 500px;
+    }
+
     h1 {
-      max-width: none;
-      font-size: 5.5rem;
+      max-width: 7ch;
+      font-size: clamp(4.35rem, 9vw, 5.2rem);
     }
 
     .hero__titulo {
@@ -208,7 +217,8 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     .hero__marcador {
-      max-width: 52ch;
+      max-width: 100%;
+      font-size: 0.78rem;
     }
 
     .hero__acoes {
@@ -221,28 +231,59 @@ const retrato = chaveRetrato ? imagens[chaveRetrato]?.default : undefined;
     }
 
     .hero__retrato {
-      width: 400px;
+      width: min(100%, 320px);
     }
   }
 
   @media (min-width: 1024px) {
     .hero__interno {
-      grid-template-columns: minmax(0, 500px) minmax(320px, 420px);
+      grid-template-columns: minmax(520px, 640px) minmax(330px, 390px);
       align-items: center;
       justify-content: center;
-      gap: var(--espaco-12);
+      gap: clamp(var(--espaco-10), 4vw, var(--espaco-16));
     }
 
     h1 {
-      font-size: 6.75rem;
+      max-width: 7.4ch;
+      font-size: clamp(5.1rem, 6.1vw, 5.9rem);
     }
 
     .hero__visual {
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     .hero__retrato {
-      width: 440px;
+      width: min(100%, 390px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hero__marcador {
+      white-space: nowrap;
+    }
+
+    h1 {
+      max-width: none;
+      font-size: clamp(5rem, 5.35vw, 5.75rem);
+      white-space: nowrap;
+    }
+
+    .hero__titulo {
+      max-width: 30ch;
+    }
+
+    .hero__resumo {
+      max-width: 60ch;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .hero__interno {
+      gap: var(--espaco-2);
+    }
+
+    .hero__retrato {
+      width: min(48vw, 160px);
     }
   }
 </style>

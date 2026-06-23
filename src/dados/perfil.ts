@@ -27,11 +27,11 @@ export const perfil: Perfil = {
   retratoHeroArquivo: 'retrato-hero.png',
   retratoArquivo: 'retrato.png',
   retratoAlt: 'Professional portrait of Adilson for his online portfolio.',
-  localizacao: '',
+  localizacao: 'Benton Harbor, Michigan, USA',
   links: {
-    email: 'adilson@example.com',
-    telefone: '+1 (202) 555-0147',
-    linkedin: '',
+    email: 'adilsonsalcher@gmail.com',
+    telefone: '',
+    linkedin: 'https://www.linkedin.com/in/adilson-salcher-90975947/',
     curriculo: ''
   }
 };
