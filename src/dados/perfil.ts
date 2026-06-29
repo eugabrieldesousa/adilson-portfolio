@@ -16,7 +16,7 @@ interface Perfil {
 }
 
 export const perfil: Perfil = {
-  nome: 'ADILSON SALCHER',
+  nome: 'Adilson Salcher',
   titulo: 'Turning Strategy into Execution',
   resumoHero:
     'Leading cross-functional teams to deliver product innovation, portfolio value creation, and cost transformation from concept through launch.',

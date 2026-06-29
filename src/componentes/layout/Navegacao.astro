@@ -140,18 +140,25 @@ import { navegacao } from '../../dados/navegacao';
     }
 
     .navegacao__lista {
-      gap: 0;
-      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 2px;
+      padding: 5px;
+    }
+
+    .navegacao__lista li {
+      min-width: 0;
     }
 
     .navegacao__link {
+      width: 100%;
       min-width: 0;
-      padding-inline: var(--espaco-2);
-      font-size: 0.68rem;
+      padding-inline: 2px;
+      font-size: 0.58rem;
     }
 
     .navegacao__link--ativo {
-      padding-inline: var(--espaco-3);
+      padding-inline: 2px;
     }
   }
 </style>
