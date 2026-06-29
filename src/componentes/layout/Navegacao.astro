@@ -1,6 +1,5 @@
 ---
 import { navegacao } from '../../dados/navegacao';
-import Icone from '../base/Icone.astro';
 ---
 
 <header class="cabecalho-site">
@@ -14,7 +13,6 @@ import Icone from '../base/Icone.astro';
             data-nav-link={item.href}
             aria-current={item.href === '#home' ? 'location' : undefined}
           >
-            {'icone' in item && item.icone && <Icone nome={item.icone} tamanho={18} />}
             <span>{item.rotulo}</span>
           </a>
         </li>
@@ -44,11 +42,11 @@ import Icone from '../base/Icone.astro';
     border-radius: var(--raio-pilula);
     background: var(--cor-nav);
     box-shadow: var(--sombra-nav);
-    color: rgba(255, 255, 255, 0.76);
+    color: var(--cor-nav-texto);
     pointer-events: auto;
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    outline: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    outline: 1px solid rgba(255, 255, 255, 0.14);
     outline-offset: -2px;
   }
 
@@ -58,8 +56,8 @@ import Icone from '../base/Icone.astro';
     content: "";
     border-radius: inherit;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 44%),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
+      linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 46%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.1));
     pointer-events: none;
   }
 
@@ -88,22 +86,25 @@ import Icone from '../base/Icone.astro';
     font-weight: 600;
     line-height: 1;
     text-decoration: none;
+    touch-action: manipulation;
     transition:
       background-color 180ms ease,
-      color 180ms ease;
+      color 180ms ease,
+      box-shadow 180ms ease;
   }
 
   .navegacao__link:hover {
     background: var(--cor-nav-hover);
-    color: var(--cor-fundo-elevado);
+    color: var(--cor-nav-hover-texto);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
   }
 
   .navegacao__link--ativo {
     background: var(--cor-nav-ativo);
     color: var(--cor-nav-ativo-texto);
     box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-      0 8px 22px rgba(0, 0, 0, 0.16);
+      inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+      0 8px 20px rgba(0, 0, 0, 0.18);
   }
 
   @media (max-width: 520px) {
@@ -130,6 +131,27 @@ import Icone from '../base/Icone.astro';
       gap: var(--espaco-1);
       padding-inline: var(--espaco-2);
       font-size: 0.76rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .cabecalho-site {
+      padding-inline: var(--espaco-2);
+    }
+
+    .navegacao__lista {
+      gap: 0;
+      padding: 6px;
+    }
+
+    .navegacao__link {
+      min-width: 0;
+      padding-inline: var(--espaco-2);
+      font-size: 0.68rem;
+    }
+
+    .navegacao__link--ativo {
+      padding-inline: var(--espaco-3);
     }
   }
 </style>

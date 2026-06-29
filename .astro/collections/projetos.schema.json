@@ -45,7 +45,8 @@
       "enum": [
         "azul",
         "claro",
-        "preto"
+        "preto",
+        "grafite"
       ]
     },
     "temaModal": {
@@ -53,7 +54,8 @@
       "enum": [
         "azul",
         "claro",
-        "preto"
+        "preto",
+        "grafite"
       ]
     },
     "imagemCard": {
@@ -136,6 +138,25 @@
     },
     "rotuloLink": {
       "type": "string"
+    },
+    "linksModal": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rotulo": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "rotulo",
+          "url"
+        ]
+      }
     },
     "$schema": {
       "type": "string"

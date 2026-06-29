@@ -3,29 +3,32 @@ titulo: Project Management & Development
 organizacao: Global Programs
 periodo: Project development
 resumo: Project management and development aligning technical teams, business stakeholders, suppliers, schedules, risks, and regional implementation priorities.
-competencias:
-  - Project management
-  - Program development
-  - Cross-functional delivery
-tema: preto
-alturaImagemCard: 500
-imagemCard: ../../assets/imagens/projetos/ar.png
-imagemCardAlt: White air conditioning unit displayed against a black studio background.
+competencias: []
+tema: grafite
+temaModal: grafite
+alturaImagemCard: 480
+imagemCard: ../../assets/imagens/projetos/imagem-grid-5.png
+imagemCardAlt: Product development and manufacturing program displayed in a graphite-toned presentation.
 midiaModal:
   tipo: imagem
-  imagem: ../../assets/imagens/projetos/ar.png
-  alt: White air conditioning unit displayed against a black studio background.
-url: "#projects"
-rotuloLink: View product
+  imagem: ../../assets/imagens/projetos/imagem-grid-5.png
+  alt: Product development and manufacturing program displayed in a graphite-toned presentation.
+linksModal:
+  - rotulo: YouTube launch video 1
+    url: https://www.youtube.com/watch?v=qj5HsFSvXpg
+  - rotulo: YouTube launch video 2
+    url: https://www.youtube.com/watch?v=0fqvTS1d5JI
+  - rotulo: YouTube launch video 3
+    url: https://www.youtube.com/watch?v=hJsF1drG1Ew
 ordem: 5
 rascunho: false
 ---
 
 ## Program focus
 
-- Project planning and development
+- Project management leader
 - Technical and business stakeholder alignment
-- Supplier and regional coordination
+- FPS execution; suppliers in India / China and Mexico
 
 ## Leadership contribution
 

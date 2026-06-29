@@ -3,20 +3,23 @@ titulo: "Project Leadership: Water Purification, Air Conditioning & Small Applia
 organizacao: Product Engineering
 periodo: Multi-category leadership
 resumo: Project leadership across water purification, air conditioning, and small appliances, connecting product development with technical and cross-functional execution.
-competencias:
-  - Multi-category projects
-  - Project leadership
-  - Cross-functional execution
-tema: azul
+competencias: []
+tema: grafite
+temaModal: grafite
 alturaImagemCard: 500
-imagemCard: ../../assets/imagens/projetos/geladeira.png
-imagemCardAlt: Open black refrigeration appliance displayed against a blue studio background.
+imagemCard: ../../assets/imagens/projetos/imagem-grid-6.png
+imagemCardAlt: Product leadership across home appliances displayed in a graphite-toned presentation.
 midiaModal:
   tipo: imagem
-  imagem: ../../assets/imagens/projetos/geladeira.png
-  alt: Open black refrigeration appliance displayed against a blue studio background.
-url: "#projects"
-rotuloLink: View product
+  imagem: ../../assets/imagens/projetos/imagem-grid-6.png
+  alt: Product leadership across home appliances displayed in a graphite-toned presentation.
+linksModal:
+  - rotulo: YouTube launch video 1
+    url: https://www.youtube.com/watch?v=cB0zMHx67Ws
+  - rotulo: YouTube launch video 2
+    url: https://www.youtube.com/watch?v=D1hsU18-dN8
+  - rotulo: YouTube launch video 3
+    url: https://www.youtube.com/watch?v=voSc8wyJqdQ
 ordem: 6
 rascunho: false
 ---

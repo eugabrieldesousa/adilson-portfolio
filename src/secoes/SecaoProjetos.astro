@@ -85,6 +85,8 @@ const alturaBaseImagemCard = 500;
               resumo={data.resumoModal ?? data.resumo}
               midia={data.midiaModal}
               tema={data.temaModal ?? data.tema}
+              badges={data.competencias}
+              links={data.linksModal}
               url={data.url}
               rotuloLink={data.rotuloLink}
             >
@@ -149,8 +151,12 @@ const alturaBaseImagemCard = 500;
   .projetos__cartao {
     --projeto-fundo: var(--cor-projeto-azul-meio);
     --projeto-texto: var(--cor-projeto-azul-texto);
+    --projeto-texto-sombra: none;
+    --projeto-cobertura:
+      linear-gradient(180deg, rgba(5, 14, 36, 0.12) 0%, rgba(5, 14, 36, 0.08) 42%, rgba(5, 14, 36, 0.08) 100%);
     --projeto-botao-fundo: var(--cor-projeto-azul-texto);
     --projeto-botao-texto: var(--cor-projeto-claro-texto);
+    --projeto-botao-borda: transparent;
     position: relative;
     display: grid;
     width: 100%;
@@ -167,6 +173,8 @@ const alturaBaseImagemCard = 500;
   .projetos__cartao--claro {
     --projeto-fundo: var(--cor-projeto-claro);
     --projeto-texto: var(--cor-projeto-claro-texto);
+    --projeto-cobertura:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
     --projeto-botao-fundo: var(--cor-projeto-claro-texto);
     --projeto-botao-texto: var(--cor-projeto-claro);
   }
@@ -174,8 +182,30 @@ const alturaBaseImagemCard = 500;
   .projetos__cartao--preto {
     --projeto-fundo: var(--cor-projeto-preto);
     --projeto-texto: var(--cor-projeto-preto-texto);
+    --projeto-cobertura:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.14) 100%);
     --projeto-botao-fundo: var(--cor-projeto-preto-texto);
     --projeto-botao-texto: var(--cor-projeto-preto);
+  }
+
+  .projetos__cartao--grafite {
+    --projeto-fundo: var(--cor-projeto-grafite-meio);
+    --projeto-texto: var(--cor-projeto-grafite-texto);
+    --projeto-texto-sombra: 0 12px 24px rgba(0, 0, 0, 0.34);
+    --projeto-cobertura:
+      linear-gradient(180deg, rgba(5, 11, 19, 0.82) 0%, rgba(8, 17, 29, 0.58) 38%, rgba(8, 17, 29, 0.18) 100%);
+    --projeto-botao-fundo: rgba(255, 255, 255, 0.14);
+    --projeto-botao-texto: #ffffff;
+    --projeto-botao-borda: rgba(255, 255, 255, 0.42);
+  }
+
+  .projetos__cartao::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    background: var(--projeto-cobertura);
+    pointer-events: none;
   }
 
   .projetos__texto {
@@ -206,6 +236,7 @@ const alturaBaseImagemCard = 500;
     font-weight: 650;
     line-height: 1.04;
     letter-spacing: var(--tracking-titulo);
+    text-shadow: var(--projeto-texto-sombra);
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     text-wrap: balance;
@@ -225,11 +256,12 @@ const alturaBaseImagemCard = 500;
     min-height: 48px;
     align-items: center;
     justify-content: center;
-    border: 0;
+    border: 1px solid var(--projeto-botao-borda);
     border-radius: var(--raio-pilula);
     padding: 0 var(--espaco-5);
     background: var(--projeto-botao-fundo);
     color: var(--projeto-botao-texto);
+    backdrop-filter: blur(12px);
     font-weight: 600;
     line-height: 1;
     cursor: pointer;

@@ -23,8 +23,8 @@ const projetos = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projetos' }),
   schema: ({ image }) =>
     camposCurriculo.extend({
-      tema: z.enum(['azul', 'claro', 'preto']).default('azul'),
-      temaModal: z.enum(['azul', 'claro', 'preto']).optional(),
+      tema: z.enum(['azul', 'claro', 'preto', 'grafite']).default('azul'),
+      temaModal: z.enum(['azul', 'claro', 'preto', 'grafite']).optional(),
       imagemCard: image(),
       imagemCardAlt: z.string(),
       alturaImagemCard: z.number().int().min(160).max(900).optional(),
@@ -46,7 +46,15 @@ const projetos = defineCollection({
       url: z
         .union([z.url(), z.string().regex(/^#[A-Za-z][\w:.-]*$/)])
         .optional(),
-      rotuloLink: z.string().optional()
+      rotuloLink: z.string().optional(),
+      linksModal: z
+        .array(
+          z.object({
+            rotulo: z.string(),
+            url: z.url()
+          })
+        )
+        .optional()
     })
 });
 

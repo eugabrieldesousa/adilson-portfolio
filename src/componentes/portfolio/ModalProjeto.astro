@@ -20,7 +20,12 @@ interface Props {
   titulo: string;
   resumo?: string;
   midia: MidiaModal;
-  tema?: 'azul' | 'claro' | 'preto';
+  tema?: 'azul' | 'claro' | 'preto' | 'grafite';
+  badges?: string[];
+  links?: Array<{
+    rotulo: string;
+    url: string;
+  }>;
   url?: string;
   rotuloLink?: string;
 }
@@ -31,6 +36,8 @@ const {
   resumo,
   midia,
   tema = 'azul',
+  badges = [],
+  links = [],
   url,
   rotuloLink = 'View product'
 } = Astro.props;
@@ -56,7 +63,7 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
       <Icone nome="close" tamanho={20} />
     </button>
 
-    <div class="modal-projeto__midia">
+    <div class:list={['modal-projeto__midia', `modal-projeto__midia--${midia.tipo}`]}>
       {
         midia.tipo === 'imagem' ? (
           <Image
@@ -92,6 +99,32 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
         {resumo && <p id={descricaoId}>{resumo}</p>}
       </div>
 
+      {(badges.length > 0 || links.length > 0) && (
+        <div class="modal-projeto__meta">
+          {badges.length > 0 && (
+            <ul class="modal-projeto__badges" aria-label="Project highlights">
+              {badges.map((badge) => <li>{badge}</li>)}
+            </ul>
+          )}
+
+          {links.length > 0 && (
+            <div class="modal-projeto__grupo-links">
+              <p class="modal-projeto__rotulo-links">Launch references</p>
+              <ul class="modal-projeto__lista-links" aria-label="Launch references">
+                {links.map((link) => (
+                  <li>
+                    <a class="modal-projeto__link-badge" href={link.url} target="_blank" rel="noreferrer" data-modal-link>
+                      <span>{link.rotulo}</span>
+                      <Icone nome="external-link" tamanho={15} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
       <div class="modal-projeto__editorial">
         <slot />
       </div>
@@ -108,11 +141,11 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
 
 <style>
   .modal-projeto {
-    --modal-fundo: var(--cor-projeto-azul-meio);
-    --modal-texto: var(--cor-projeto-azul-texto);
-    --modal-texto-suave: var(--cor-projeto-azul-suave);
-    --modal-borda: var(--cor-projeto-azul-borda);
-    --modal-superficie: var(--cor-projeto-azul-superficie);
+    --modal-fundo: #ffffff;
+    --modal-texto: #111111;
+    --modal-texto-suave: #50555c;
+    --modal-borda: rgba(17, 17, 17, 0.12);
+    --modal-superficie: #f5f6f7;
     width: calc(100vw - 32px);
     width: calc(100dvw - 32px);
     max-width: none;
@@ -124,14 +157,7 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
     border: 1px solid var(--modal-borda);
     border-radius: clamp(18px, 2vw, 28px);
     padding: 0;
-    background:
-      radial-gradient(circle at 14% 15%, rgba(92, 151, 255, 0.48), transparent 34%),
-      linear-gradient(
-        145deg,
-        var(--cor-projeto-azul-inicio) 0%,
-        var(--cor-projeto-azul-meio) 58%,
-        var(--cor-projeto-azul-fim) 100%
-      );
+    background: var(--modal-fundo);
     color: var(--modal-texto);
     box-shadow: 0 40px 120px rgba(0, 0, 0, 0.38);
     opacity: 0;
@@ -144,27 +170,28 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
   }
 
   .modal-projeto--claro {
-    --modal-fundo: var(--cor-projeto-claro);
-    --modal-texto: var(--cor-projeto-claro-texto);
-    --modal-texto-suave: var(--cor-projeto-claro-suave);
-    --modal-borda: var(--cor-projeto-claro-borda);
-    --modal-superficie: var(--cor-projeto-claro-superficie);
     background: var(--modal-fundo);
   }
 
   .modal-projeto--preto {
-    --modal-fundo: var(--cor-projeto-preto);
-    --modal-texto: var(--cor-projeto-preto-texto);
-    --modal-texto-suave: var(--cor-projeto-preto-suave);
-    --modal-borda: var(--cor-projeto-preto-borda);
-    --modal-superficie: var(--cor-projeto-preto-superficie);
+    background: var(--modal-fundo);
+  }
+
+  .modal-projeto--grafite {
     background: var(--modal-fundo);
   }
 
   .modal-projeto--preto .modal-projeto__painel,
-  .modal-projeto--preto .modal-projeto__conteudo {
-    background: var(--cor-projeto-preto);
-    color: var(--cor-projeto-preto-texto);
+  .modal-projeto--preto .modal-projeto__conteudo,
+  .modal-projeto--grafite .modal-projeto__painel,
+  .modal-projeto--grafite .modal-projeto__conteudo {
+    background: var(--modal-fundo);
+    color: var(--modal-texto);
+  }
+
+  .modal-projeto--grafite .modal-projeto__painel,
+  .modal-projeto--grafite .modal-projeto__conteudo {
+    background: var(--modal-fundo);
   }
 
   .modal-projeto[open] {
@@ -217,18 +244,20 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
     border: 1px solid var(--modal-borda);
     border-radius: 50%;
     padding: 0;
-    background: color-mix(in srgb, var(--modal-fundo) 72%, transparent);
+    background: rgba(255, 255, 255, 0.92);
     color: var(--modal-texto);
     cursor: pointer;
-    backdrop-filter: blur(18px);
+    box-shadow: 0 10px 24px rgba(17, 17, 17, 0.08);
     touch-action: manipulation;
     transition:
       background-color 180ms ease,
+      border-color 180ms ease,
       transform 180ms ease;
   }
 
   .modal-projeto__fechar:hover {
-    background: color-mix(in srgb, var(--modal-texto) 18%, var(--modal-fundo));
+    background: #ffffff;
+    border-color: rgba(17, 17, 17, 0.24);
   }
 
   .modal-projeto__fechar:active {
@@ -236,29 +265,46 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
   }
 
   .modal-projeto__midia {
-    display: grid;
+    display: block;
+    position: relative;
     min-width: 0;
     min-height: 0;
-    place-items: center;
     overflow: hidden;
     border-right: 1px solid var(--modal-borda);
-    background: color-mix(in srgb, var(--modal-fundo) 84%, #001b72);
+    background: var(--modal-superficie);
   }
 
   .modal-projeto--claro .modal-projeto__midia {
-    background: #f2f2f4;
+    background: var(--modal-superficie);
   }
 
   .modal-projeto--preto .modal-projeto__midia {
-    background: var(--cor-projeto-preto);
+    background: var(--modal-superficie);
   }
 
+  .modal-projeto--grafite .modal-projeto__midia {
+    background: var(--modal-superficie);
+  }
+
+  .modal-projeto__midia :global(picture),
   .modal-projeto__midia :global(img),
   .modal-projeto__midia video {
     display: block;
     width: 100%;
     height: 100%;
     max-width: 100%;
+  }
+
+  .modal-projeto__midia :global(picture) {
+    min-height: 100%;
+  }
+
+  .modal-projeto__midia--imagem :global(img) {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .modal-projeto__midia--video video {
     object-fit: contain;
   }
 
@@ -323,6 +369,98 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
     color: var(--modal-texto-suave);
   }
 
+  .modal-projeto__meta {
+    display: grid;
+    gap: var(--espaco-6);
+    max-width: 68ch;
+    margin-top: var(--espaco-8);
+  }
+
+  .modal-projeto__badges,
+  .modal-projeto__lista-links {
+    display: grid;
+    gap: var(--espaco-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .modal-projeto__badges {
+    grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  }
+
+  .modal-projeto__badges li {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: var(--raio-pilula);
+    padding: 0.55rem 0.9rem;
+    background: #f5f6f7;
+    color: var(--modal-texto);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .modal-projeto__grupo-links {
+    display: grid;
+    gap: var(--espaco-3);
+  }
+
+  .modal-projeto__rotulo-links {
+    margin: 0;
+    color: var(--modal-texto-suave);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .modal-projeto__lista-links li {
+    width: min(100%, 30rem);
+  }
+
+  .modal-projeto__link-badge {
+    display: grid;
+    width: 100%;
+    min-height: 52px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--espaco-3);
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(17, 17, 17, 0.05);
+    color: var(--modal-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .modal-projeto__link-badge span {
+    min-width: 0;
+  }
+
+  .modal-projeto__link-badge:hover,
+  .modal-projeto__link-badge:focus-visible {
+    background: #f7f8f9;
+    border-color: rgba(17, 17, 17, 0.24);
+    transform: translateY(-1px);
+  }
+
+  .modal-projeto__link-badge:active {
+    transform: translateY(0);
+  }
+
   .modal-projeto__editorial :global(> :first-child) {
     margin-top: 0;
   }
@@ -361,7 +499,8 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
   }
 
   .modal-projeto__editorial :global(a) {
-    color: var(--modal-texto);
+    color: #0f4c81;
+    font-weight: 600;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
   }
@@ -385,7 +524,7 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
     border-radius: var(--raio-pilula);
     padding: 0 var(--espaco-5);
     background: var(--modal-texto);
-    color: var(--modal-fundo);
+    color: #ffffff;
     font-weight: 650;
     line-height: 1;
     text-decoration: none;
@@ -396,11 +535,11 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
   }
 
   .modal-projeto--claro .modal-projeto__link {
-    color: var(--cor-projeto-claro);
+    color: #ffffff;
   }
 
   .modal-projeto--preto .modal-projeto__link {
-    color: var(--cor-projeto-preto);
+    color: #ffffff;
   }
 
   .modal-projeto__link:hover {
@@ -453,7 +592,8 @@ const descricaoId = resumo ? `${id}-descricao` : undefined;
     .modal-projeto,
     .modal-projeto::backdrop,
     .modal-projeto__fechar,
-    .modal-projeto__link {
+    .modal-projeto__link,
+    .modal-projeto__link-badge {
       transition: none;
     }
   }

@@ -7,30 +7,32 @@ competencias:
   - Portfolio leadership
   - Value creation
   - Decision governance
-tema: azul
+tema: grafite
+temaModal: claro
 alturaImagemCard: 500
-imagemCard: ../../assets/imagens/projetos/geladeira.png
-imagemCardAlt: Open black refrigeration appliance displayed against a blue studio background.
+imagemCard: ../../assets/imagens/projetos/imagem-grid-1.png
+imagemCardAlt: Modern kitchen with a stainless steel side-by-side refrigerator and matching appliances.
 midiaModal:
   tipo: imagem
-  imagem: ../../assets/imagens/projetos/geladeira.png
-  alt: Open black refrigeration appliance displayed against a blue studio background.
-url: "#projects"
-rotuloLink: View product
+  imagem: ../../assets/imagens/projetos/imagem-grid-1.png
+  alt: Modern kitchen with a stainless steel side-by-side refrigerator and matching appliances.
 ordem: 1
 rascunho: false
 ---
 
 ## Program focus
 
-- Product portfolio priorities
-- Governance and execution visibility
-- Cross-functional stakeholder alignment
+Product Portfolio Leader for Home Appliance North America  
+Product Development Budget Owner  
+People Leader  
+FPS project PMO Execution  
+Leading Cost reduction Strategy through 4 different sites
 
 ## Leadership contribution
 
-Portfolio leadership connects technical and business priorities with structured governance and informed leadership decisions.
+Translating demands from Marketing to engineering  
+Leading Refrigeration product portfolio execution
 
 ## Execution approach
 
-Structured reviews support clear ownership, timely escalation, and disciplined execution across product initiatives.
+Structured reviews support clear ownership, timely escalation, and disciplined execution across product initiatives for executive leaders.
